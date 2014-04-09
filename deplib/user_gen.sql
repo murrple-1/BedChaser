@@ -1,1 +1,0 @@
-INSERT INTO Users(Username, Password, security_group) VALUES('root', 'password', 2);
