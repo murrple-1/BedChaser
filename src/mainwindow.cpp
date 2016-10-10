@@ -19,11 +19,14 @@
 #include "regionframe.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), ui(new Ui::MainWindow)
+    QMainWindow(parent), ui(new Ui::MainWindow), currentUser(NULL)
 {
     ui->setupUi(this);
 
-    MainWindow::setCurrentUser(NULL);
+    LoginFrame *loginFrame = new LoginFrame(this);
+    setCentralWidget(loginFrame);
+
+    setCurrentUser(NULL);
 }
 
 MainWindow::~MainWindow()
@@ -31,12 +34,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setCurrentUser(User *u)
+void MainWindow::setCurrentUser(User *user)
 {
+    currentUser = user;
 
-    currUser = u;
-
-    if(currUser == NULL)
+    if(currentUser == NULL)
     {
         ui->menuTools->setDisabled(true);
         ui->actionLogout->setDisabled(true);
@@ -46,7 +48,7 @@ void MainWindow::setCurrentUser(User *u)
         ui->menuTools->setEnabled(true);
         ui->actionLogout->setEnabled(true);
 
-        switch(currUser->getUserType())
+        switch(currentUser->getUserType())
         {
         case(STAFF):
             ui->actionAdd_User->setEnabled(false);
@@ -103,11 +105,11 @@ void MainWindow::on_actionSearch_triggered()
 {
     SearchWindow s(this);
     s.exec();
-    QObject *o = s.getChosenObject();
-    if(o != NULL)
+    QObject *chosenObject = s.getChosenObject();
+    if(chosenObject != NULL)
     {
-        Region *r = dynamic_cast<Region *>(o);
-        if(r != NULL)
+        Region *region = dynamic_cast<Region *>(chosenObject);
+        if(region != NULL)
         {
             QWidget *oldCentralWidget = centralWidget();
             if(oldCentralWidget != NULL)
@@ -115,25 +117,25 @@ void MainWindow::on_actionSearch_triggered()
                 oldCentralWidget->deleteLater();
             }
 
-            RegionFrame *regF = new RegionFrame(r);
+            RegionFrame *regF = new RegionFrame(region);
             setCentralWidget(regF);
         }
-        Location *l = dynamic_cast<Location *>(o);
-        if(l != NULL)
+        Location *location = dynamic_cast<Location *>(chosenObject);
+        if(location != NULL)
         {
-            EditFacilityDialog editFac(l, this);
+            EditFacilityDialog editFac(location, this);
             editFac.exec();
         }
-        Patient * p = dynamic_cast<Patient *>(o);
-        if(p != NULL)
+        Patient *patient = dynamic_cast<Patient *>(chosenObject);
+        if(patient != NULL)
         {
-            EditPatientDialog editPat(p, this);
+            EditPatientDialog editPat(patient, this);
             editPat.exec();
         }
-        User * u = dynamic_cast<User *>(o);
-        if(u != NULL)
+        User *user = dynamic_cast<User *>(chosenObject);
+        if(user != NULL)
         {
-            EditUserDialog editUser(u, this);
+            EditUserDialog editUser(user, this);
             editUser.exec();
         }
     }
@@ -153,12 +155,12 @@ void MainWindow::on_actionLogout_triggered()
         oldCentralWidget->deleteLater();
     }
 
-    LoginFrame * lf = new LoginFrame();
-    setCentralWidget(lf);
+    LoginFrame *loginFrame = new LoginFrame(this);
+    setCentralWidget(loginFrame);
 }
 
 void MainWindow::on_actionChange_Password_triggered()
 {
-    ChangePasswordDialog chP(currUser, this);
+    ChangePasswordDialog chP(currentUser, this);
     chP.exec();
 }

@@ -29,7 +29,7 @@ SearchWindow::SearchWindow(QWidget *parent) :
 
 SearchWindow::~SearchWindow()
 {
-    foreach(QObject * object, obj)
+    foreach(QObject *object, obj)
     {
         delete object;
     }

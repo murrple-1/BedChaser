@@ -1,13 +1,15 @@
 #include "user.h"
 
-User::User(const QString &name, const QString &pw, const USERTYPE uT) :
-    username(name), password(pw), uType(uT)
+User::User(const QString &name, const QString &password, const USERTYPE uT) :
+    uType(uT)
 {
-
+    this->username = name;
+    this->password = password;
+    this->uType = uT;
 }
 
-User::User(const User &u) :
-    QObject(), username(u.username), password(u.password), uType(u.uType)
+User::User(const User &source) :
+    QObject(), username(source.username), password(source.password), uType(source.uType)
 {
 
 }

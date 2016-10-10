@@ -41,7 +41,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QSpinBox" name="xSpin"/>
+      <widget class="QSpinBox" name="xSpinBox"/>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="yLabel">
@@ -51,7 +51,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QSpinBox" name="ySpin"/>
+      <widget class="QSpinBox" name="ySpinBox"/>
      </item>
      <item row="3" column="0" colspan="2">
       <widget class="Line" name="line">
@@ -61,14 +61,14 @@
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QLabel" name="ACLabel">
+      <widget class="QLabel" name="acuteCareLabel">
        <property name="text">
         <string>Acute Care</string>
        </property>
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QSpinBox" name="ACSpin">
+      <widget class="QSpinBox" name="acuteCareSpinBox">
        <property name="minimum">
         <number>0</number>
        </property>
@@ -78,42 +78,42 @@
       </widget>
      </item>
      <item row="5" column="0">
-      <widget class="QLabel" name="CCCLabel">
+      <widget class="QLabel" name="complexContinuingCareLabel">
        <property name="text">
-        <string>Critical Complex Continuing</string>
+        <string>Complex Continuing Care</string>
        </property>
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QSpinBox" name="CCCSpin">
+      <widget class="QSpinBox" name="complexContinuingCareSpinBox">
        <property name="maximum">
         <number>16777215</number>
        </property>
       </widget>
      </item>
      <item row="6" column="0">
-      <widget class="QLabel" name="LTCLabel">
+      <widget class="QLabel" name="longTermCareLabel">
        <property name="text">
         <string>Long Term Care</string>
        </property>
       </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QSpinBox" name="LTCSpin">
+      <widget class="QSpinBox" name="longTermCareSpinBox">
        <property name="maximum">
         <number>16777215</number>
        </property>
       </widget>
      </item>
      <item row="7" column="0">
-      <widget class="QLabel" name="region">
+      <widget class="QLabel" name="regionLabel">
        <property name="text">
         <string>Region</string>
        </property>
       </widget>
      </item>
      <item row="7" column="1">
-      <widget class="QComboBox" name="regiobox">
+      <widget class="QComboBox" name="regionComboBox">
        <item>
         <property name="text">
          <string>Renfrew County</string>

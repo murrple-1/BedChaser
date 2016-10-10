@@ -13,7 +13,7 @@ RegionFrame::RegionFrame(Region *region, QWidget *parent) :
     this->r = region;
 
     QPixmap p;
-    p.load("../deplib/Map_Banner.jpg");
+    p.load("images/Map_Banner.jpg");
     ui->logoLabel->setPixmap(p);
     setFixedWidth(p.width());
 
@@ -37,7 +37,8 @@ void RegionFrame::on_back_clicked()
 
 void RegionFrame::updateFacilityList()
 {
-    QPixmap f("../deplib/FacilityLogo.jpg");
+    QPixmap f;
+    f.load("images/FacilityLogo.jpg");
 
     foreach(int locationId, r->getLocationIds())
     {
@@ -62,7 +63,7 @@ void RegionFrame::updateFacilityList()
     }
 }
 
-void RegionFrame::on_listoffacilities_itemDoubleClicked(QListWidgetItem* item)
+void RegionFrame::on_listoffacilities_itemDoubleClicked(QListWidgetItem *item)
 {
     int i = ui->listoffacilities->row(item);
 

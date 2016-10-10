@@ -20,60 +20,60 @@
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
      </property>
      <item row="0" column="0">
-      <widget class="QLabel" name="hcnLabel">
+      <widget class="QLabel" name="healthCareNumberLabel">
        <property name="text">
         <string>Health Care Number</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="hcnField"/>
+      <widget class="QLineEdit" name="healthCareNumberLineEdit"/>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="firstLabel">
+      <widget class="QLabel" name="firstNameLabel">
        <property name="text">
         <string>First Name</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="firstField"/>
+      <widget class="QLineEdit" name="firstNameLineEdit"/>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="lastLabel">
+      <widget class="QLabel" name="lastNameLabel">
        <property name="text">
         <string>Last Name</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="lastField"/>
+      <widget class="QLineEdit" name="lastNameLineEdit"/>
      </item>
      <item row="3" column="0" colspan="2">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLabel" name="careLabel">
+        <widget class="QLabel" name="typeOfCareLabel">
          <property name="text">
           <string>Type of care</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="ACRadio">
+        <widget class="QRadioButton" name="acuteCareRadioButton">
          <property name="text">
           <string>AC</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="CCCRadio">
+        <widget class="QRadioButton" name="complexContinuingCareRadioButton">
          <property name="text">
           <string>CCC</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="LTCRadio">
+        <widget class="QRadioButton" name="longTermCareRadioButton">
          <property name="text">
           <string>LTC</string>
          </property>
@@ -82,14 +82,14 @@
       </layout>
      </item>
      <item row="4" column="0" colspan="2">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="waitingListsLabel">
        <property name="text">
         <string>Waiting Lists</string>
        </property>
       </widget>
      </item>
      <item row="5" column="0" colspan="2">
-      <widget class="QListWidget" name="waitinglist">
+      <widget class="QListWidget" name="waitingListListWidget">
        <property name="selectionMode">
         <enum>QAbstractItemView::MultiSelection</enum>
        </property>

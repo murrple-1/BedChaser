@@ -6,10 +6,12 @@
 #include "region.h"
 #include "datamanager.h"
 
-WaitingListDialog::WaitingListDialog(Region * r, QWidget *parent) :
-    QDialog(parent), ui(new Ui::WaitingListDialog), reg(r)
+WaitingListDialog::WaitingListDialog(Region *region, QWidget *parent) :
+    QDialog(parent), ui(new Ui::WaitingListDialog)
 {
     ui->setupUi(this);
+
+    this->region = region;
 
     updateWaitingList();
 }
@@ -22,7 +24,7 @@ WaitingListDialog::~WaitingListDialog()
 void WaitingListDialog::updateWaitingList()
 {
     ui->listWidget->clear();
-    foreach(int patientId, reg->getWaitingListPatientIds())
+    foreach(int patientId, region->getWaitingListPatientIds())
     {
         Patient *patient = DataManager::sharedInstance().getPatient(patientId);
         ui->listWidget->addItem(QString("%1 %2").arg(patient->getFirstName()).arg(patient->getLastName()));
@@ -37,23 +39,23 @@ void WaitingListDialog::on_addPButton_clicked()
     {
         if(sw.getChosenObject() != NULL)
         {
-            Patient *p = qobject_cast<Patient *>(sw.getChosenObject());
-            DataManager::sharedInstance().addToWaitingList(*reg, *p);
-            reg->addWaitingListPatientId(p->getHealthCardNumber());
+            Patient *patient = qobject_cast<Patient *>(sw.getChosenObject());
+            DataManager::sharedInstance().addToWaitingList(*region, *patient);
+            region->addWaitingListPatientId(patient->getHealthCardNumber());
 
             updateWaitingList();
         }
     }
 }
 
-void WaitingListDialog::on_listWidget_itemDoubleClicked(QListWidgetItem* item)
+void WaitingListDialog::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
     int i = ui->listWidget->row(item);
-    int patientId = reg->getWaitingListPatientIds().at(i);
-    reg->removeWaitingListPatientId(i);
+    int patientId = region->getWaitingListPatientIds().at(i);
+    region->removeWaitingListPatientId(i);
 
     Patient *patient = DataManager::sharedInstance().getPatient(patientId);
-    DataManager::sharedInstance().removeFromWaitingList(*reg, *patient);
+    DataManager::sharedInstance().removeFromWaitingList(*region, *patient);
     delete patient;
 
     updateWaitingList();

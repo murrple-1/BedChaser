@@ -9,23 +9,23 @@
 
 typedef enum
 {
-    NONE,
-    CCC,
-    LTC,
-    AC
-} CARETYPE;
+    CareTypeNone,
+    CareTypeComplexContinuingCare,
+    CareTypeLongTermCare,
+    CareTypeAcuteCare
+} CareType;
 
 class Patient : public QObject
 {
     Q_OBJECT
 public:
-    Patient(int HCN, const QString &first, const QString &last, CARETYPE req);
+    Patient(int HCN, const QString &first, const QString &last, CareType req);
 
     int getHealthCardNumber() const;
     const QString & getFirstName() const;
     const QString & getLastName() const;
-    CARETYPE getReqCareType() const;
-    CARETYPE getRecCareType() const;
+    CareType getReqCareType() const;
+    CareType getRecCareType() const;
     int getCareLocationId(bool *ok = 0) const;
     const QList<int> & getWaitingRegions() const;
     const QDateTime & getDateAdmitted() const;
@@ -33,8 +33,8 @@ public:
 
     void setFirstName(const QString &);
     void setLastName(const QString &);
-    void setRequiredCareType(CARETYPE);
-    void setReceivedCareType(CARETYPE);
+    void setRequiredCareType(CareType);
+    void setReceivedCareType(CareType);
     void setCareLocationId(const QVariant &);
     void addWaitingRegionId(int);
     void removeWaitingRegionId(int);
@@ -44,8 +44,8 @@ private:
     int healthCardNumber;
     QString firstName;
     QString lastName;
-    CARETYPE requiredCare;
-    CARETYPE receivedCare;
+    CareType requiredCare;
+    CareType receivedCare;
     QVariant careLocationId;
     QList<int> waitingRegionIds;
     QDateTime dateAdmitted;

@@ -20,7 +20,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    User *currUser;
+    User *currentUser;
 private slots:
     void on_actionChange_Password_triggered();
     void on_actionSearch_triggered();

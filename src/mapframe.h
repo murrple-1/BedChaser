@@ -17,8 +17,6 @@ public:
     ~MapFrame();
 private:
     Ui::MapFrame *ui;
-
-    QPixmap p;
 private slots:
     void on_o_centre_clicked();
     void on_easternc_clicked();

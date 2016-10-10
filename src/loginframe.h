@@ -15,8 +15,6 @@ public:
     LoginFrame(QWidget *parent = 0);
     ~LoginFrame();
 private:
-    void checkPass();
-
     Ui::LoginFrame *ui;
 public slots:
     void checkLogin();

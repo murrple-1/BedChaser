@@ -1,7 +1,7 @@
 #include "patient.h"
 
-Patient::Patient(int HCN, const QString &first, const QString &last, CARETYPE req) :
-    healthCardNumber(HCN), firstName(first), lastName(last), requiredCare(req), receivedCare(NONE), careLocationId(), dateAdmitted(), dateAddedToWaitingList()
+Patient::Patient(int HCN, const QString &first, const QString &last, CareType req) :
+    healthCardNumber(HCN), firstName(first), lastName(last), requiredCare(req), receivedCare(CareTypeNone), careLocationId(), dateAdmitted(), dateAddedToWaitingList()
 {
 
 }
@@ -31,22 +31,22 @@ void Patient::setLastName(const QString &last)
     lastName = last;
 }
 
-CARETYPE Patient::getReqCareType() const
+CareType Patient::getReqCareType() const
 {
     return requiredCare;
 }
 
-void Patient::setRequiredCareType(CARETYPE req)
+void Patient::setRequiredCareType(CareType req)
 {
     requiredCare = req;
 }
 
-CARETYPE Patient::getRecCareType() const
+CareType Patient::getRecCareType() const
 {
     return receivedCare;
 }
 
-void Patient::setReceivedCareType(const CARETYPE rec)
+void Patient::setReceivedCareType(const CareType rec)
 {
     receivedCare = rec;
 }

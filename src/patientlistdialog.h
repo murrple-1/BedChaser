@@ -23,7 +23,7 @@ public:
 private:
     Ui::PatientListDialog *ui;
 
-    Location *loc;
+    Location *location;
 private slots:
     void on_addPatient_clicked();
     void on_patientList_itemDoubleClicked(QListWidgetItem *item);

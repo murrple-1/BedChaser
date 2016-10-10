@@ -3,11 +3,12 @@
 
 #include <QObject>
 
-enum USERTYPE {
+typedef enum
+{
     STAFF,
     ADMIN,
     SYSADMIN
-};
+} USERTYPE;
 
 class User : public QObject
 {

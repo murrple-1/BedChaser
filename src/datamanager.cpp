@@ -27,18 +27,18 @@ DataManager::DataManager()
     }
 }
 
-void DataManager::addPatient(const Patient &p)
+void DataManager::addPatient(const Patient &patient)
 {
-    int HCN = p.getHealthCardNumber();
-    QVariant first_name = p.getFirstName();
-    QVariant last_name = p.getLastName();
-    int rec_care = p.getRecCareType();
-    int req_care = p.getReqCareType();
-    const QDateTime &WL_Date = p.getDateAddedToWaitingList();
-    const QDateTime &admit_date = p.getDateAdmitted();
+    int HCN = patient.getHealthCardNumber();
+    QVariant first_name = patient.getFirstName();
+    QVariant last_name = patient.getLastName();
+    int rec_care = patient.getRecCareType();
+    int req_care = patient.getReqCareType();
+    const QDateTime &WL_Date = patient.getDateAddedToWaitingList();
+    const QDateTime &admit_date = patient.getDateAdmitted();
 
     bool success;
-    QVariant locationId = p.getCareLocationId(&success);
+    QVariant locationId = patient.getCareLocationId(&success);
     if(!success)
     {
         locationId = QVariant();
@@ -72,11 +72,11 @@ void DataManager::addPatient(const Patient &p)
     }
 }
 
-void DataManager::addUser(const User &u)
+void DataManager::addUser(const User &user)
 {
-    const QString &username = u.getUserName();
-    const QString &password = u.getPassword();
-    USERTYPE usertype = u.getUserType();
+    const QString &username = user.getUserName();
+    const QString &password = user.getPassword();
+    USERTYPE usertype = user.getUserType();
 
     QSqlQuery query(database);
 
@@ -100,18 +100,18 @@ void DataManager::addUser(const User &u)
     }
 }
 
-void DataManager::addLocation(const Location &l)
+void DataManager::addLocation(const Location &location)
 {
-    int id = l.getID();
-    const QString &name = l.getName();
-    int x = l.getX();
-    int y = l.getY();
-    int AC = l.getACBeds();
-    int CCC = l.getCCCBeds();
-    int LTC = l.getLTCBeds();
+    int id = location.getID();
+    const QString &name = location.getName();
+    int x = location.getX();
+    int y = location.getY();
+    int AC = location.getACBeds();
+    int CCC = location.getCCCBeds();
+    int LTC = location.getLTCBeds();
 
     bool success;
-    QVariant regionId = l.getRegionId(&success);
+    QVariant regionId = location.getRegionId(&success);
     if(!success)
     {
         regionId = QVariant();
@@ -144,7 +144,7 @@ void DataManager::addLocation(const Location &l)
     }
 }
 
-void DataManager::addToWaitingList(const Region &r, const Patient &p)
+void DataManager::addToWaitingList(const Region &region, const Patient &patient)
 {
     QSqlQuery query(database);
 
@@ -152,8 +152,8 @@ void DataManager::addToWaitingList(const Region &r, const Patient &p)
 
     database.transaction();
     query.prepare("INSERT INTO WaitingList (Patient, Region, Timestamp) VALUES (:pat, :reg, :ts)");
-    query.bindValue(":pat", p.getHealthCardNumber());
-    query.bindValue(":reg", r.getID());
+    query.bindValue(":pat", patient.getHealthCardNumber());
+    query.bindValue(":reg", region.getID());
     query.bindValue(":ts", QDateTime::currentDateTime());
     if(query.exec())
     {
@@ -168,7 +168,7 @@ void DataManager::addToWaitingList(const Region &r, const Patient &p)
     }
 }
 
-void DataManager::removeFromWaitingList(const Region &r, const Patient &p)
+void DataManager::removeFromWaitingList(const Region &region, const Patient &patient)
 {
     QSqlQuery query(database);
 
@@ -176,8 +176,8 @@ void DataManager::removeFromWaitingList(const Region &r, const Patient &p)
 
     database.transaction();
     query.prepare("DELETE FROM WaitingList WHERE Patient = :pat AND Region = :reg");
-    query.bindValue(":pat", p.getHealthCardNumber());
-    query.bindValue(":reg", r.getID());
+    query.bindValue(":pat", patient.getHealthCardNumber());
+    query.bindValue(":reg", region.getID());
     if(query.exec())
     {
         database.commit();
@@ -191,18 +191,18 @@ void DataManager::removeFromWaitingList(const Region &r, const Patient &p)
     }
 }
 
-void DataManager::updatePatient(const Patient &p)
+void DataManager::updatePatient(const Patient &patient)
 {
-    int hcn = p.getHealthCardNumber();
-    const QString &first_name = p.getFirstName();
-    const QString &last_name = p.getLastName();
-    int care_req = p.getReqCareType();
-    int care_rec = p.getRecCareType();
-    const QDateTime &wl_date = p.getDateAddedToWaitingList();
-    const QDateTime &admit_date = p.getDateAdmitted();
+    int hcn = patient.getHealthCardNumber();
+    const QString &first_name = patient.getFirstName();
+    const QString &last_name = patient.getLastName();
+    int care_req = patient.getReqCareType();
+    int care_rec = patient.getRecCareType();
+    const QDateTime &wl_date = patient.getDateAddedToWaitingList();
+    const QDateTime &admit_date = patient.getDateAdmitted();
 
     bool success;
-    QVariant locationId = p.getCareLocationId(&success);
+    QVariant locationId = patient.getCareLocationId(&success);
     if(!success)
     {
         locationId = QVariant();
@@ -235,11 +235,11 @@ void DataManager::updatePatient(const Patient &p)
     }
 }
 
-void DataManager::updateUser(const User &u)
+void DataManager::updateUser(const User &user)
 {
-    const QString &username = u.getUserName();
-    const QString &password = u.getPassword();
-    USERTYPE security_group = u.getUserType();
+    const QString &username = user.getUserName();
+    const QString &password = user.getPassword();
+    USERTYPE security_group = user.getUserType();
 
     QSqlQuery query(database);
 
@@ -263,19 +263,19 @@ void DataManager::updateUser(const User &u)
     }
 }
 
-void DataManager::updateLocation(const Location &l)
+void DataManager::updateLocation(const Location &location)
 {
-    int ID = l.getID();
+    int ID = location.getID();
 
-    const QString &name = l.getName();
-    int x = l.getX();
-    int y = l.getY();
-    int ac = l.getACBeds();
-    int ccc = l.getCCCBeds();
-    int ltc = l.getLTCBeds();
+    const QString &name = location.getName();
+    int x = location.getX();
+    int y = location.getY();
+    int ac = location.getACBeds();
+    int ccc = location.getCCCBeds();
+    int ltc = location.getLTCBeds();
 
     bool success;
-    QVariant regionId = l.getRegionId(&success);
+    QVariant regionId = location.getRegionId(&success);
     if(!success)
     {
         regionId = QVariant();
@@ -339,16 +339,16 @@ void DataManager::deleteUser(const QString &username)
     database.transaction();
     query.prepare("DELETE FROM Users WHERE Username = :user");
     query.bindValue(":user", username);
-    if(!query.exec())
+    if(query.exec())
+    {
+        database.commit();
+        mutex.unlock();
+    }
+    else
     {
         database.rollback();
         mutex.unlock();
         throw Exception("deleting the user failed");
-    }
-    else
-    {
-        database.commit();
-        mutex.unlock();
     }
 }
 
@@ -361,37 +361,39 @@ void DataManager::deleteLocation(int ID)
     database.transaction();
     query.prepare("DELETE FROM Location WHERE Username = :id");
     query.bindValue(":id", ID);
-    if(!query.exec())
+    if(query.exec())
+    {
+        database.commit();
+        mutex.unlock();
+    }
+    else
     {
         database.rollback();
         mutex.unlock();
         throw Exception("deleting the location failed");
     }
-    else
-    {
-        database.commit();
-        mutex.unlock();
-    }
 }
 
 Map * DataManager::getMap()
 {
-    Map *m = new Map();
+    Map *map = new Map();
 
     QSqlQuery query(database);
 
     query.prepare("SELECT ID FROM Region");
-    if(!query.exec())
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            int ID = query.value(0).toInt();
+            map->addRegionId(ID);
+        }
+        return map;
+    }
+    else
     {
         throw Exception("SQL statement error");
     }
-
-    while(query.next())
-    {
-        int ID = query.value(0).toInt();
-        m->addRegionId(ID);
-    }
-    return m;
 }
 
 Region * DataManager::getRegion(int ID)
@@ -409,7 +411,7 @@ Region * DataManager::getRegion(int ID)
     }
 
     QString name = query.value(0).toString();
-    Region *reg = new Region(ID, name);
+    Region *region = new Region(ID, name);
 
     query.prepare("SELECT ID FROM Location WHERE Region = :reg");
     query.bindValue(":reg", ID);
@@ -419,7 +421,7 @@ Region * DataManager::getRegion(int ID)
     }
     while(query.next())
     {
-        reg->addLocationId(query.value(0).toInt());
+        region->addLocationId(query.value(0).toInt());
     }
 
     query.prepare("SELECT Patient FROM WaitingList WHERE Region = :reg");
@@ -430,10 +432,10 @@ Region * DataManager::getRegion(int ID)
     }
     while(query.next())
     {
-        reg->addWaitingListPatientId(query.value(0).toInt());
+        region->addWaitingListPatientId(query.value(0).toInt());
     }
 
-    return reg;
+    return region;
 }
 
 Location * DataManager::getLocation(int fID)
@@ -442,7 +444,7 @@ Location * DataManager::getLocation(int fID)
 
     query.prepare("SELECT ID, Name, X, Y, AC, CCC, LTC, Region FROM Location WHERE ID = :lid");
     query.bindValue(":lid", fID);
-    if(!query.exec())
+    if(query.exec())
     {
         if(!query.first())
         {
@@ -455,12 +457,12 @@ Location * DataManager::getLocation(int fID)
         int AC = query.value(4).toInt();
         int CCC = query.value(5).toInt();
         int LTC = query.value(6).toInt();
-        Location *loc = new Location(fID, Name, X, Y, AC, CCC, LTC);
+        Location *location = new Location(fID, Name, X, Y, AC, CCC, LTC);
 
         if(!query.value(7).isNull())
         {
-            int regionId = query.value(7).toInt();
-            loc->setRegionId(regionId);
+            QVariant regionId = query.value(7).toInt();
+            location->setRegionId(regionId);
         }
 
         query.prepare("SELECT HCN FROM Patients WHERE Location = :id");
@@ -471,9 +473,9 @@ Location * DataManager::getLocation(int fID)
         }
         while(query.next())
         {
-            loc->addPatientInCareId(query.value(0).toInt());
+            location->addPatientInCareId(query.value(0).toInt());
         }
-        return loc;
+        return location;
     }
     else
     {
@@ -497,28 +499,28 @@ Patient * DataManager::getPatient(int HCN)
 
     QString fname = query.value(1).toString();
     QString lname = query.value(2).toString();
-    CARETYPE req_care = CARETYPE(query.value(3).toString().toInt());
-    Patient *pat = new Patient(HCN, fname, lname, req_care);
+    CareType req_care = CareType(query.value(3).toString().toInt());
+    Patient *patient = new Patient(HCN, fname, lname, req_care);
 
-    CARETYPE rec_care = CARETYPE(query.value(4).toString().toInt());
-    pat->setReceivedCareType(rec_care);
+    CareType rec_care = CareType(query.value(4).toString().toInt());
+    patient->setReceivedCareType(rec_care);
 
     if(!query.value(5).isNull())
     {
         QDateTime admitDate = query.value(5).toDateTime();
-        pat->setDateAdmitted(admitDate);
+        patient->setDateAdmitted(admitDate);
     }
 
     if(!query.value(6).isNull())
     {
         QDateTime wlDate = query.value(6).toDateTime();
-        pat->setDateAddedToWaitingList(wlDate);
+        patient->setDateAddedToWaitingList(wlDate);
     }
 
     if(!query.value(7).isNull())
     {
         int locationId = query.value(7).toInt();
-        pat->setCareLocationId(locationId);
+        patient->setCareLocationId(locationId);
     }
 
     query.prepare("SELECT Region FROM WaitingList WHERE Patient = :pat");
@@ -527,10 +529,10 @@ Patient * DataManager::getPatient(int HCN)
     {
         while(query.next())
         {
-            pat->addWaitingRegionId(query.value(0).toInt());
+            patient->addWaitingRegionId(query.value(0).toInt());
         }
 
-        return pat;
+        return patient;
     }
     else
     {

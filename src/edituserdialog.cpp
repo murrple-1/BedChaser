@@ -5,10 +5,12 @@
 #include "datamanager.h"
 #include "exception.h"
 
-EditUserDialog::EditUserDialog(User *u, QWidget *parent) :
-    QDialog(parent), ui(new Ui::EditUserDialog), user(u)
+EditUserDialog::EditUserDialog(User *user, QWidget *parent) :
+    QDialog(parent), ui(new Ui::EditUserDialog)
 {
     ui->setupUi(this);
+
+    this->user = user;
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditUserDialog::updateUser);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditUserDialog::close);
@@ -57,7 +59,7 @@ void EditUserDialog::updateUser()
 
         DataManager::sharedInstance().updateUser(*user);
     }
-    catch(Exception & e)
+    catch(Exception &e)
     {
         // TODO
     }

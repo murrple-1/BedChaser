@@ -5,7 +5,11 @@ Exception::Exception(const QByteArray &message)
     this->message = message;
 }
 
+#ifdef _GLIBCXX_USE_NOEXCEPT
 Exception::~Exception() _GLIBCXX_USE_NOEXCEPT
+#else
+Exception::~Exception()
+#endif
 {
     // do nothing
 }
@@ -20,7 +24,11 @@ Exception * Exception::clone() const
     return new Exception(*this);
 }
 
-const char* Exception::what() const _GLIBCXX_USE_NOEXCEPT
+#ifdef _GLIBCXX_USE_NOEXCEPT
+const char * Exception::what() const _GLIBCXX_USE_NOEXCEPT
+#else
+const char * Exception::what() const
+#endif
 {
     return message.data();
 }

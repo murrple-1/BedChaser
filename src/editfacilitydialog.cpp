@@ -6,10 +6,12 @@
 #include "datamanager.h"
 #include "exception.h"
 
-EditFacilityDialog::EditFacilityDialog(Location *l, QWidget *parent) :
-    QDialog(parent), ui(new Ui::EditFacilityDialog), location(l)
+EditFacilityDialog::EditFacilityDialog(Location *location, QWidget *parent) :
+    QDialog(parent), ui(new Ui::EditFacilityDialog)
 {
     ui->setupUi(this);
+
+    this->location = location;
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditFacilityDialog::updateFacility);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditFacilityDialog::close);
@@ -40,7 +42,7 @@ void EditFacilityDialog::updateFacility()
 
         DataManager::sharedInstance().updateLocation(*location);
     }
-    catch(Exception & e)
+    catch(Exception &e)
     {
         // TODO
     }

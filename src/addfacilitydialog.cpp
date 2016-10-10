@@ -20,9 +20,9 @@ AddFacilityDialog::~AddFacilityDialog()
 
 void AddFacilityDialog::addFacility()
 {
-    Location l(ui->nameField->text(), ui->nameField->text(), ui->xSpin->value(), ui->ySpin->value(), ui->ACSpin->value(), ui->CCCSpin->value(), ui->LTCSpin->value());
-    l.setRegionId(ui->regiobox->currentIndex());
+    Location location(ui->nameField->text(), ui->nameField->text(), ui->xSpinBox->value(), ui->ySpinBox->value(), ui->acuteCareSpinBox->value(), ui->complexContinuingCareSpinBox->value(), ui->longTermCareSpinBox->value());
+    location.setRegionId(ui->regionComboBox->currentIndex());
 
-    DataManager::sharedInstance().addLocation(l);
+    DataManager::sharedInstance().addLocation(location);
     close();
 }

@@ -8,13 +8,16 @@ MapFrame::MapFrame(QWidget *parent) :
         ui(new Ui::MapFrame)
 {
     ui->setupUi(this);
-    p.load("../deplib/Map_Banner.jpg");
-    ui->logoLabel->setPixmap(p);
-    setFixedWidth(p.width());
 
-    p.load("../deplib/map.jpg");
-    ui->mapLabel->setPixmap(p);
-    ui->mapLabel->setFixedSize(p.size());
+    QPixmap bannerPixmap;
+    bannerPixmap.load("images/Map_Banner.jpg");
+    ui->logoLabel->setPixmap(bannerPixmap);
+    setFixedWidth(bannerPixmap.width());
+
+    QPixmap mapPixmap;
+    mapPixmap.load("images/map.jpg");
+    ui->mapLabel->setPixmap(bannerPixmap);
+    ui->mapLabel->setFixedSize(bannerPixmap.size());
 }
 
 MapFrame::~MapFrame()

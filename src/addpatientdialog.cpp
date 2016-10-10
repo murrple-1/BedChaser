@@ -9,8 +9,8 @@ AddPatientDialog::AddPatientDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(addPatient()));
-    connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &AddPatientDialog::addPatient);
+    connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &AddPatientDialog::close);
 }
 
 AddPatientDialog::~AddPatientDialog()
@@ -20,29 +20,29 @@ AddPatientDialog::~AddPatientDialog()
 
 void AddPatientDialog::addPatient()
 {
-    QList<QListWidgetItem *> items = ui->waitinglist->selectedItems();
+    QList<QListWidgetItem *> items = ui->waitingListListWidget->selectedItems();
 
-    Patient p(ui->hcnField->text().toInt(), ui->firstField->text(),ui->lastField->text(), NONE);
+    Patient p(ui->healthCareNumberLineEdit->text().toInt(), ui->firstNameLineEdit->text(),ui->lastNameLineEdit->text(), CareTypeNone);
 
-    if(ui->ACRadio->isChecked())
+    if(ui->acuteCareRadioButton->isChecked())
     {
-        p.setRequiredCareType(AC);
+        p.setRequiredCareType(CareTypeAcuteCare);
     }
-    else if(ui->CCCRadio->isChecked())
+    else if(ui->complexContinuingCareRadioButton->isChecked())
     {
-        p.setRequiredCareType(CCC);
+        p.setRequiredCareType(CareTypeComplexContinuingCare);
     }
-    else if(ui->LTCRadio->isChecked())
+    else if(ui->longTermCareRadioButton->isChecked())
     {
-        p.setRequiredCareType(LTC);
+        p.setRequiredCareType(CareTypeLongTermCare);
     }
 
     DataManager::sharedInstance().addPatient(p);
     for(int i = 0; i < items.size(); i++)
     {
-        Region *r = DataManager::sharedInstance().getRegion(ui->waitinglist->row(items.at(i)));
-        p.addWaitingRegionId(r->getID());
-        DataManager::sharedInstance().addToWaitingList(*r, p);
+        Region *region = DataManager::sharedInstance().getRegion(ui->waitingListListWidget->row(items.at(i)));
+        p.addWaitingRegionId(region->getID());
+        DataManager::sharedInstance().addToWaitingList(*region, p);
     }
     close();
 }

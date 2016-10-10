@@ -22,7 +22,7 @@ public:
 private:
     Ui::WaitingListDialog *ui;
 
-    Region * reg;
+    Region * region;
 private slots:
     void on_listWidget_itemDoubleClicked(QListWidgetItem* item);
     void on_addPButton_clicked();

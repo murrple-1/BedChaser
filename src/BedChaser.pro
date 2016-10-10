@@ -76,4 +76,20 @@ FORMS    += \
     searchwindow.ui \
     waitinglistdialog.ui
 
+CONFIG(debug, debug|release) {
+imageFiles.path = $$OUT_PWD/images
+imageFiles.files = $$PWD/images/*
+
+INSTALLS += \
+    imageFiles
+}
+
+CONFIG(release, debug|release) {
+imageFiles.path = $$OUT_PWD/images
+imageFiles.files = $$PWD/images/*
+
+INSTALLS += \
+    imageFiles
+}
+
 QMAKE_CXXFLAGS += -Werror

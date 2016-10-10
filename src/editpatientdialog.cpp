@@ -4,10 +4,12 @@
 #include "patient.h"
 #include "datamanager.h"
 
-EditPatientDialog::EditPatientDialog(Patient *p, QWidget *parent) :
-    QDialog(parent), ui(new Ui::EditPatientDialog), patient(p)
+EditPatientDialog::EditPatientDialog(Patient *patient, QWidget *parent) :
+    QDialog(parent), ui(new Ui::EditPatientDialog)
 {
     ui->setupUi(this);
+
+    this->patient = patient;
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditPatientDialog::updatePatient);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditPatientDialog::close);
@@ -16,15 +18,15 @@ EditPatientDialog::EditPatientDialog(Patient *p, QWidget *parent) :
     ui->firstField->setText(patient->getFirstName());
     ui->lastField->setText(patient->getLastName());
 
-    switch(p->getReqCareType())
+    switch(patient->getReqCareType())
     {
-    case AC:
+    case CareTypeAcuteCare:
         ui->ACRadio->setChecked(true);
         break;
-    case CCC:
+    case CareTypeComplexContinuingCare:
         ui->CCCRadio->setChecked(true);
         break;
-    case LTC:
+    case CareTypeLongTermCare:
         ui->LTCRadio->setChecked(true);
         break;
     default:
@@ -44,15 +46,15 @@ void EditPatientDialog::updatePatient()
 
     if(ui->ACRadio->isChecked())
     {
-        patient->setRequiredCareType(AC);
+        patient->setRequiredCareType(CareTypeAcuteCare);
     }
     else if(ui->CCCRadio->isChecked())
     {
-        patient->setRequiredCareType(CCC);
+        patient->setRequiredCareType(CareTypeComplexContinuingCare);
     }
     else if(ui->LTCRadio->isChecked())
     {
-        patient->setRequiredCareType(LTC);
+        patient->setRequiredCareType(CareTypeLongTermCare);
     }
 
     DataManager::sharedInstance().updatePatient(*patient);

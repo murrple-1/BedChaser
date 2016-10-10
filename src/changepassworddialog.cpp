@@ -4,8 +4,8 @@
 #include "user.h"
 #include "datamanager.h"
 
-ChangePasswordDialog::ChangePasswordDialog(User * u, QWidget *parent) :
-    QDialog(parent), ui(new Ui::ChangePasswordDialog), user(u)
+ChangePasswordDialog::ChangePasswordDialog(User *user, QWidget *parent) :
+    QDialog(parent), ui(new Ui::ChangePasswordDialog), user(user)
 {
     ui->setupUi(this);
 
