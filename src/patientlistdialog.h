@@ -7,6 +7,8 @@ namespace Ui {
     class PatientListDialog;
 }
 
+#include <QSharedPointer>
+
 class QListWidgetItem;
 
 class Location;
@@ -14,16 +16,15 @@ class Location;
 class PatientListDialog : public QDialog
 {
     Q_OBJECT
-
 public:
-    PatientListDialog(Location *, QWidget *parent = 0);
+    PatientListDialog(const QSharedPointer<Location> &, QWidget *parent = 0);
     ~PatientListDialog();
-
-    void updatePatientList();
 private:
+    void updatePatientList();
+
     Ui::PatientListDialog *ui;
 
-    Location *location;
+    QSharedPointer<Location> location;
 private slots:
     void on_addPatient_clicked();
     void on_patientList_itemDoubleClicked(QListWidgetItem *item);

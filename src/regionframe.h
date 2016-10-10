@@ -7,6 +7,8 @@ namespace Ui {
     class RegionFrame;
 }
 
+#include <QSharedPointer>
+
 class QListWidgetItem;
 
 class Region;
@@ -15,14 +17,14 @@ class RegionFrame : public QFrame
 {
     Q_OBJECT
 public:
-    RegionFrame(Region *, QWidget *parent = 0);
+    RegionFrame(const QSharedPointer<Region> &, QWidget *parent = 0);
     ~RegionFrame();
-
-    void updateFacilityList();
 private:
+    void updateFacilityList();
+
     Ui::RegionFrame *ui;
 
-    Region * r;
+    QSharedPointer<Region> region;
 private slots:
     void on_waitinglist_clicked();
     void on_back_clicked();

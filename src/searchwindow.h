@@ -3,12 +3,13 @@
 
 #include <QDialog>
 
-#include <QList>
-#include <QMap>
-
 namespace Ui {
     class SearchWindow;
 }
+
+#include <QList>
+#include <QMap>
+#include <QSharedPointer>
 
 class SearchWindow : public QDialog
 {
@@ -17,12 +18,12 @@ public:
     SearchWindow(QWidget *parent = 0);
     ~SearchWindow();
 
-    QObject * getChosenObject() const;
+    const QSharedPointer<QObject> & getChosenObject() const;
 private:
     Ui::SearchWindow *ui;
 
-    QMap<QString, QObject *> obj;
-    QObject *chosenObject;
+    QMap<QString, QSharedPointer<QObject> > objects;
+    QSharedPointer<QObject> chosenObject;
 public slots:
     void updateSearchResults();
     void choseObject(const QModelIndex &);

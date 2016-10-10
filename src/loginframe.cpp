@@ -28,9 +28,9 @@ void LoginFrame::checkLogin()
     QString username = ui->usernameField->text();
     QString password = ui->passwordField->text();
 
-    User *user = DataManager::sharedInstance().getUser(username);
+    QSharedPointer<User> user = DataManager::sharedInstance().getUser(username);
 
-    if(user != NULL && user->getPassword() == password)
+    if(!user.isNull() && user->getPassword() == password)
     {
         // TODO
     }
@@ -38,5 +38,4 @@ void LoginFrame::checkLogin()
     {
         ui->errorLabel->setText("Error logging on, username incorrect");
     }
-    delete user;
 }

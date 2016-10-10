@@ -5,6 +5,7 @@
 
 #include <QSqlDatabase>
 #include <QMutex>
+#include <QSharedPointer>
 
 #include "map.h"
 #include "location.h"
@@ -32,11 +33,11 @@ public:
     void deleteUser(const QString &username);
     void deleteLocation(int fID);
 
-    Map * getMap();
-    Region * getRegion(int id);
-    Location * getLocation(int fID);
-    Patient * getPatient(int HCN);
-    User * getUser(const QString &userName);
+    QSharedPointer<Map> getMap();
+    QSharedPointer<Region> getRegion(int id);
+    QSharedPointer<Location> getLocation(int id);
+    QSharedPointer<Patient> getPatient(int HCN);
+    QSharedPointer<User> getUser(const QString &userName);
 private:
     DataManager();
 

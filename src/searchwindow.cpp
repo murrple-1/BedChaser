@@ -29,22 +29,17 @@ SearchWindow::SearchWindow(QWidget *parent) :
 
 SearchWindow::~SearchWindow()
 {
-    foreach(QObject *object, obj)
-    {
-        delete object;
-    }
-
     delete ui;
 }
 
-QObject * SearchWindow::getChosenObject() const
+const QSharedPointer<QObject> & SearchWindow::getChosenObject() const
 {
     return chosenObject;
 }
 
 void SearchWindow::choseObject(const QModelIndex &i)
 {
-    chosenObject = obj.value(i.data().toString(), NULL);
+    chosenObject = objects.value(i.data().toString());
 
     accept();
 }

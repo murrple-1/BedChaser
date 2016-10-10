@@ -40,7 +40,7 @@ void AddPatientDialog::addPatient()
     DataManager::sharedInstance().addPatient(p);
     for(int i = 0; i < items.size(); i++)
     {
-        Region *region = DataManager::sharedInstance().getRegion(ui->waitingListListWidget->row(items.at(i)));
+        QSharedPointer<Region> region = DataManager::sharedInstance().getRegion(ui->waitingListListWidget->row(items.at(i)));
         p.addWaitingRegionId(region->getID());
         DataManager::sharedInstance().addToWaitingList(*region, p);
     }

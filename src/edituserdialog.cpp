@@ -5,7 +5,7 @@
 #include "datamanager.h"
 #include "exception.h"
 
-EditUserDialog::EditUserDialog(User *user, QWidget *parent) :
+EditUserDialog::EditUserDialog(const QSharedPointer<User> &user, QWidget *parent) :
     QDialog(parent), ui(new Ui::EditUserDialog)
 {
     ui->setupUi(this);

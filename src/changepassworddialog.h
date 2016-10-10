@@ -7,18 +7,20 @@ namespace Ui {
     class ChangePasswordDialog;
 }
 
+#include <QSharedPointer>
+
 class User;
 
 class ChangePasswordDialog : public QDialog
 {
     Q_OBJECT
 public:
-    ChangePasswordDialog(User *, QWidget *parent = 0);
+    ChangePasswordDialog(const QSharedPointer<User> &, QWidget *parent = 0);
     ~ChangePasswordDialog();
 private:
     Ui::ChangePasswordDialog *ui;
 
-    User *user;
+    QSharedPointer<User> user;
 public slots:
     void updateUser();
 };

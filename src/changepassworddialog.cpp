@@ -4,10 +4,12 @@
 #include "user.h"
 #include "datamanager.h"
 
-ChangePasswordDialog::ChangePasswordDialog(User *user, QWidget *parent) :
-    QDialog(parent), ui(new Ui::ChangePasswordDialog), user(user)
+ChangePasswordDialog::ChangePasswordDialog(const QSharedPointer<User> &user, QWidget *parent) :
+    QDialog(parent), ui(new Ui::ChangePasswordDialog)
 {
     ui->setupUi(this);
+
+    this->user = user;
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &ChangePasswordDialog::updateUser);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &ChangePasswordDialog::close);

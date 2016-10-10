@@ -27,50 +27,43 @@ MapFrame::~MapFrame()
 
 void MapFrame::on_renfrew_clicked()
 {
-    Region *region = DataManager::sharedInstance().getRegion(0);
+    QSharedPointer<Region> region = DataManager::sharedInstance().getRegion(0);
     emit regionClicked(*region);
-    delete region;
 }
 
 void MapFrame::on_Lanark_clicked()
 {
-    Region *region = DataManager::sharedInstance().getRegion(1);
+    QSharedPointer<Region> region = DataManager::sharedInstance().getRegion(1);
     emit regionClicked(*region);
-    delete region;
 }
 
 void MapFrame::on_o_west_clicked()
 {
-    Region *region = DataManager::sharedInstance().getRegion(2);
+    QSharedPointer<Region> region = DataManager::sharedInstance().getRegion(2);
     emit regionClicked(*region);
-    delete region;
 }
 
 void MapFrame::on_grenville_clicked()
 {
-    Region *region = DataManager::sharedInstance().getRegion(3);
+    QSharedPointer<Region> region = DataManager::sharedInstance().getRegion(3);
     emit regionClicked(*region);
-    delete region;
 }
 
 void MapFrame::on_o_east_clicked()
 {
-    Region *region = DataManager::sharedInstance().getRegion(4);
+    QSharedPointer<Region> region = DataManager::sharedInstance().getRegion(4);
     emit regionClicked(*region);
-    delete region;
 }
 
 void MapFrame::on_easternc_clicked()
 {
-    Region *region = DataManager::sharedInstance().getRegion(5);
+    QSharedPointer<Region> region = DataManager::sharedInstance().getRegion(5);
     emit regionClicked(*region);
-    delete region;
 }
 
 void MapFrame::on_o_centre_clicked()
 {
-    Region *region = DataManager::sharedInstance().getRegion(6);
+    QSharedPointer<Region> region = DataManager::sharedInstance().getRegion(6);
     emit regionClicked(*region);
-    delete region;
 }
 

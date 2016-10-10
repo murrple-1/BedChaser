@@ -7,6 +7,8 @@ namespace Ui {
     class WaitingListDialog;
 }
 
+#include <QSharedPointer>
+
 class QListWidgetItem;
 
 class Region;
@@ -15,14 +17,14 @@ class WaitingListDialog : public QDialog
 {
     Q_OBJECT
 public:
-    WaitingListDialog(Region *, QWidget *parent = 0);
+    WaitingListDialog(const QSharedPointer<Region> &, QWidget *parent = 0);
     ~WaitingListDialog();
-
-    void updateWaitingList();
 private:
+    void updateWaitingList();
+
     Ui::WaitingListDialog *ui;
 
-    Region * region;
+    QSharedPointer<Region> region;
 private slots:
     void on_listWidget_itemDoubleClicked(QListWidgetItem* item);
     void on_addPButton_clicked();

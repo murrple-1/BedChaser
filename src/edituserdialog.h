@@ -7,17 +7,20 @@ namespace Ui {
     class EditUserDialog;
 }
 
+#include <QSharedPointer>
+
 class User;
 
 class EditUserDialog : public QDialog
 {
     Q_OBJECT
 public:
-    EditUserDialog(User *, QWidget *parent = 0);
+    EditUserDialog(const QSharedPointer<User> &, QWidget *parent = 0);
     ~EditUserDialog();
 private:
     Ui::EditUserDialog *ui;
-    User *user;
+
+    QSharedPointer<User> user;
 public slots:
     void updateUser();
 };

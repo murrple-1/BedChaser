@@ -38,7 +38,7 @@
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QLabel" name="listLabel">
+  <widget class="QLabel" name="listOfFacilitiesLabel">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -51,7 +51,7 @@
     <string>List of facilities:</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="listoffacilities">
+  <widget class="QListWidget" name="facilitiesListListWidget">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -61,7 +61,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="back">
+  <widget class="QPushButton" name="backPushButton">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -102,7 +102,7 @@
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="waitinglist">
+  <widget class="QPushButton" name="waitingListPushButton">
    <property name="geometry">
     <rect>
      <x>140</x>

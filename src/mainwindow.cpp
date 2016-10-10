@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     LoginFrame *loginFrame = new LoginFrame(this);
     setCentralWidget(loginFrame);
 
-    setCurrentUser(NULL);
+    setCurrentUser(QSharedPointer<User>());
 }
 
 MainWindow::~MainWindow()
@@ -34,7 +34,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setCurrentUser(User *user)
+void MainWindow::setCurrentUser(const QSharedPointer<User> &user)
 {
     currentUser = user;
 
@@ -105,11 +105,11 @@ void MainWindow::on_actionSearch_triggered()
 {
     SearchWindow s(this);
     s.exec();
-    QObject *chosenObject = s.getChosenObject();
-    if(chosenObject != NULL)
+    const QSharedPointer<QObject> &chosenObject = s.getChosenObject();
+    if(!chosenObject.isNull())
     {
-        Region *region = dynamic_cast<Region *>(chosenObject);
-        if(region != NULL)
+        QSharedPointer<Region> region = chosenObject.dynamicCast<Region>();
+        if(!region.isNull())
         {
             QWidget *oldCentralWidget = centralWidget();
             if(oldCentralWidget != NULL)
@@ -117,23 +117,23 @@ void MainWindow::on_actionSearch_triggered()
                 oldCentralWidget->deleteLater();
             }
 
-            RegionFrame *regF = new RegionFrame(region);
+            RegionFrame *regF = new RegionFrame(region, this);
             setCentralWidget(regF);
         }
-        Location *location = dynamic_cast<Location *>(chosenObject);
-        if(location != NULL)
+        QSharedPointer<Location> location = chosenObject.dynamicCast<Location>();
+        if(!location.isNull())
         {
             EditFacilityDialog editFac(location, this);
             editFac.exec();
         }
-        Patient *patient = dynamic_cast<Patient *>(chosenObject);
-        if(patient != NULL)
+        QSharedPointer<Patient> patient = chosenObject.dynamicCast<Patient>();
+        if(!patient.isNull())
         {
             EditPatientDialog editPat(patient, this);
             editPat.exec();
         }
-        User *user = dynamic_cast<User *>(chosenObject);
-        if(user != NULL)
+        QSharedPointer<User> user = chosenObject.dynamicCast<User>();
+        if(!user.isNull())
         {
             EditUserDialog editUser(user, this);
             editUser.exec();
@@ -148,7 +148,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionLogout_triggered()
 {
-    MainWindow::setCurrentUser(NULL);
+    MainWindow::setCurrentUser(QSharedPointer<User>());
     QWidget *oldCentralWidget = centralWidget();
     if(oldCentralWidget != NULL)
     {

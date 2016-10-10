@@ -10,7 +10,6 @@ namespace Ui {
 class LoginFrame : public QFrame
 {
     Q_OBJECT
-
 public:
     LoginFrame(QWidget *parent = 0);
     ~LoginFrame();

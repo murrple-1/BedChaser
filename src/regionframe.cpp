@@ -5,12 +5,12 @@
 #include "editfacilitydialog.h"
 #include "waitinglistdialog.h"
 
-RegionFrame::RegionFrame(Region *region, QWidget *parent) :
+RegionFrame::RegionFrame(const QSharedPointer<Region> &region, QWidget *parent) :
     QFrame(parent), ui(new Ui::RegionFrame)
 {
     ui->setupUi(this);
 
-    this->r = region;
+    this->region = region;
 
     QPixmap p;
     p.load("images/Map_Banner.jpg");
@@ -40,10 +40,10 @@ void RegionFrame::updateFacilityList()
     QPixmap f;
     f.load("images/FacilityLogo.jpg");
 
-    foreach(int locationId, r->getLocationIds())
+    foreach(int locationId, region->getLocationIds())
     {
-        Location *location = DataManager::sharedInstance().getLocation(locationId);
-        ui->listoffacilities->addItem(location->getName());
+        QSharedPointer<Location> location = DataManager::sharedInstance().getLocation(locationId);
+        ui->facilitiesListListWidget->addItem(location->getName());
 
         QLabel *newlogo = new QLabel(this);
         QLabel *newlogoname = new QLabel(this);
@@ -58,16 +58,14 @@ void RegionFrame::updateFacilityList()
         newlogo->setPixmap(f);
         newlogoname->setGeometry(X + 15, Y, 170, 17);
         newlogoname->setText(location->getName());
-
-        delete location;
     }
 }
 
 void RegionFrame::on_listoffacilities_itemDoubleClicked(QListWidgetItem *item)
 {
-    int i = ui->listoffacilities->row(item);
+    int i = ui->facilitiesListListWidget->row(item);
 
-    Location *location = DataManager::sharedInstance().getLocation(i);
+    QSharedPointer<Location> location = DataManager::sharedInstance().getLocation(i);
 
     EditFacilityDialog ef(location, this);
     ef.exec();
@@ -75,6 +73,6 @@ void RegionFrame::on_listoffacilities_itemDoubleClicked(QListWidgetItem *item)
 
 void RegionFrame::on_waitinglist_clicked()
 {
-    WaitingListDialog wf(r, this);
+    WaitingListDialog wf(region, this);
     wf.exec();
 }

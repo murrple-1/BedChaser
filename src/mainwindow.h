@@ -7,6 +7,8 @@ namespace Ui {
 class MainWindow;
 }
 
+#include <QSharedPointer>
+
 class User;
 
 class MainWindow : public QMainWindow
@@ -16,11 +18,11 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setCurrentUser(User *);
+    void setCurrentUser(const QSharedPointer<User> &);
 private:
     Ui::MainWindow *ui;
 
-    User *currentUser;
+    QSharedPointer<User> currentUser;
 private slots:
     void on_actionChange_Password_triggered();
     void on_actionSearch_triggered();

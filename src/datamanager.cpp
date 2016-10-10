@@ -374,7 +374,7 @@ void DataManager::deleteLocation(int ID)
     }
 }
 
-Map * DataManager::getMap()
+QSharedPointer<Map> DataManager::getMap()
 {
     Map *map = new Map();
 
@@ -388,7 +388,7 @@ Map * DataManager::getMap()
             int ID = query.value(0).toInt();
             map->addRegionId(ID);
         }
-        return map;
+        return QSharedPointer<Map>(map);
     }
     else
     {
@@ -396,7 +396,7 @@ Map * DataManager::getMap()
     }
 }
 
-Region * DataManager::getRegion(int ID)
+QSharedPointer<Region> DataManager::getRegion(int ID)
 {
     QSqlQuery query(database);
     query.prepare("SELECT Name FROM Region WHERE ID = :id");
@@ -407,7 +407,7 @@ Region * DataManager::getRegion(int ID)
     }
     if(!query.first())
     {
-        return NULL;
+        return QSharedPointer<Region>();
     }
 
     QString name = query.value(0).toString();
@@ -435,10 +435,10 @@ Region * DataManager::getRegion(int ID)
         region->addWaitingListPatientId(query.value(0).toInt());
     }
 
-    return region;
+    return QSharedPointer<Region>(region);
 }
 
-Location * DataManager::getLocation(int fID)
+QSharedPointer<Location> DataManager::getLocation(int fID)
 {
     QSqlQuery query(database);
 
@@ -448,7 +448,7 @@ Location * DataManager::getLocation(int fID)
     {
         if(!query.first())
         {
-            return NULL;
+            return QSharedPointer<Location>();
         }
 
         QString Name = query.value(1).toString();
@@ -475,7 +475,7 @@ Location * DataManager::getLocation(int fID)
         {
             location->addPatientInCareId(query.value(0).toInt());
         }
-        return location;
+        return QSharedPointer<Location>(location);
     }
     else
     {
@@ -483,7 +483,7 @@ Location * DataManager::getLocation(int fID)
     }
 }
 
-Patient * DataManager::getPatient(int HCN)
+QSharedPointer<Patient> DataManager::getPatient(int HCN)
 {
     QSqlQuery query(database);
     query.prepare("SELECT HCN, First_Name, Last_Name, Care_Req, Care_Rec, Admit_Date, WL_Date, Location FROM Patients WHERE HCN = :hcn");
@@ -494,7 +494,7 @@ Patient * DataManager::getPatient(int HCN)
     }
     if(!query.first())
     {
-        return NULL;
+        return QSharedPointer<Patient>();
     }
 
     QString fname = query.value(1).toString();
@@ -532,7 +532,7 @@ Patient * DataManager::getPatient(int HCN)
             patient->addWaitingRegionId(query.value(0).toInt());
         }
 
-        return patient;
+        return QSharedPointer<Patient>(patient);
     }
     else
     {
@@ -540,7 +540,7 @@ Patient * DataManager::getPatient(int HCN)
     }
 }
 
-User * DataManager::getUser(const QString &userName)
+QSharedPointer<User> DataManager::getUser(const QString &userName)
 {
     QSqlQuery query(database);
     query.prepare("SELECT Username, Password, security_group FROM Users WHERE Username = :user");
@@ -553,11 +553,11 @@ User * DataManager::getUser(const QString &userName)
             int sec_group = query.value(2).toInt();
             User *user = new User(userName, pass, USERTYPE(sec_group));
 
-            return user;
+            return QSharedPointer<User>(user);
         }
         else
         {
-            return NULL;
+            return QSharedPointer<User>();
         }
     }
     else
