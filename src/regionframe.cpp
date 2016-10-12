@@ -40,16 +40,16 @@ void RegionFrame::updateFacilityList()
     QPixmap f;
     f.load("images/FacilityLogo.jpg");
 
-    foreach(int locationId, region->getLocationIds())
+    foreach(int facilityId, region->getFacilityIds())
     {
-        QSharedPointer<Location> location = DataManager::sharedInstance().getLocation(locationId);
-        ui->facilitiesListListWidget->addItem(location->getName());
+        QSharedPointer<Facility> facility = DataManager::sharedInstance().getFacility(facilityId);
+        ui->facilitiesListListWidget->addItem(facility->getName());
 
         QLabel *newlogo = new QLabel(this);
         QLabel *newlogoname = new QLabel(this);
 
-        float xPer = location->getX() / 100.0f;
-        float yPer = location->getY() / 100.0f;
+        float xPer = facility->getX() / 100.0f;
+        float yPer = facility->getY() / 100.0f;
 
         int X = (xPer * ui->mapLabel->width()) + ui->mapLabel->x();
         int Y = (yPer * ui->mapLabel->height()) + ui->mapLabel->y();
@@ -57,7 +57,7 @@ void RegionFrame::updateFacilityList()
         newlogo->setGeometry(X, Y, 60, 17);
         newlogo->setPixmap(f);
         newlogoname->setGeometry(X + 15, Y, 170, 17);
-        newlogoname->setText(location->getName());
+        newlogoname->setText(facility->getName());
     }
 }
 
@@ -65,9 +65,9 @@ void RegionFrame::on_listoffacilities_itemDoubleClicked(QListWidgetItem *item)
 {
     int i = ui->facilitiesListListWidget->row(item);
 
-    QSharedPointer<Location> location = DataManager::sharedInstance().getLocation(i);
+    QSharedPointer<Facility> facility = DataManager::sharedInstance().getFacility(i);
 
-    EditFacilityDialog ef(location, this);
+    EditFacilityDialog ef(facility, this);
     ef.exec();
 }
 

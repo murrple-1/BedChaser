@@ -4,12 +4,12 @@
 #include "searchwindow.h"
 #include "datamanager.h"
 
-PatientListDialog::PatientListDialog(const QSharedPointer<Location> &location, QWidget *parent) :
+PatientListDialog::PatientListDialog(const QSharedPointer<Facility> &facility, QWidget *parent) :
     QDialog(parent), ui(new Ui::PatientListDialog)
 {
     ui->setupUi(this);
 
-    this->location = location;
+    this->facility = facility;
 
     updatePatientList();
 }
@@ -23,7 +23,7 @@ void PatientListDialog::updatePatientList()
 {
     ui->patientList->clear();
 
-    foreach(int patientId, location->getPatientsInCareIds())
+    foreach(int patientId, facility->getPatientsInCareIds())
     {
         QSharedPointer<Patient> patient = DataManager::sharedInstance().getPatient(patientId);
         QString name = QString("%1 %2").arg(patient->getFirstName()).arg(patient->getLastName());
@@ -39,9 +39,9 @@ void PatientListDialog::on_addPatient_clicked()
         if(!sw.getChosenObject().isNull())
         {
             QSharedPointer<Patient> patient = sw.getChosenObject().dynamicCast<Patient>();
-            patient->setCareLocationId(location->getID());
+            patient->setCareFacilityId(facility->getID());
             DataManager::sharedInstance().updatePatient(*patient);
-            location->addPatientInCareId(patient->getHealthCardNumber());
+            facility->addPatientInCareId(patient->getHealthCardNumber());
 
             updatePatientList();
         }
@@ -51,8 +51,8 @@ void PatientListDialog::on_addPatient_clicked()
 void PatientListDialog::on_patientList_itemDoubleClicked(QListWidgetItem *item)
 {
     int i = ui->patientList->row(item);
-    location->removePatientInCareId(i);
-    DataManager::sharedInstance().updateLocation(*location);
+    facility->removePatientInCareId(i);
+    DataManager::sharedInstance().updateFacility(*facility);
 
     updatePatientList();
 }

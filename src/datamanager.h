@@ -8,7 +8,7 @@
 #include <QSharedPointer>
 
 #include "map.h"
-#include "location.h"
+#include "facility.h"
 #include "patient.h"
 #include "region.h"
 #include "user.h"
@@ -20,26 +20,28 @@ public:
 
     void addPatient(const Patient &);
     void addUser(const User &);
-    void addLocation(const Location &);
+    void addFacility(const Facility &);
 
     void addToWaitingList(const Region &, const Patient &);
     void removeFromWaitingList(const Region &, const Patient &);
 
     void updatePatient(const Patient &);
     void updateUser(const User &);
-    void updateLocation(const Location &);
+    void updateFacility(const Facility &);
 
     void deletePatient(int HCN);
     void deleteUser(const QString &username);
-    void deleteLocation(int fID);
+    void deleteFacility(int fID);
 
     QSharedPointer<Map> getMap();
     QSharedPointer<Region> getRegion(int id);
-    QSharedPointer<Location> getLocation(int id);
+    QSharedPointer<Facility> getFacility(int id);
     QSharedPointer<Patient> getPatient(int HCN);
     QSharedPointer<User> getUser(const QString &userName);
 private:
     DataManager();
+    \
+    void setupTables();
 
     QSqlDatabase database;
     QMutex mutex;

@@ -1,7 +1,7 @@
 #include "patient.h"
 
 Patient::Patient(int HCN, const QString &first, const QString &last, CareType req) :
-    healthCardNumber(HCN), firstName(first), lastName(last), requiredCare(req), receivedCare(CareTypeNone), careLocationId(), dateAdmitted(), dateAddedToWaitingList()
+    healthCardNumber(HCN), firstName(first), lastName(last), requiredCare(req), receivedCare(CareTypeNone), careFacilityId(), dateAdmitted(), dateAddedToWaitingList()
 {
 
 }
@@ -51,14 +51,14 @@ void Patient::setReceivedCareType(const CareType rec)
     receivedCare = rec;
 }
 
-int Patient::getCareLocationId(bool *ok) const
+int Patient::getCareFacilityId(bool *ok) const
 {
-    return careLocationId.toInt(ok);
+    return careFacilityId.toInt(ok);
 }
 
-void Patient::setCareLocationId(const QVariant &careLocationId)
+void Patient::setCareFacilityId(const QVariant &careFacilityId)
 {
-    this->careLocationId = careLocationId;
+    this->careFacilityId = careFacilityId;
 }
 
 const QList<int> & Patient::getWaitingRegions() const

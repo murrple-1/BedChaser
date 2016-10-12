@@ -17,22 +17,22 @@ const QString & Region::getName() const
     return name;
 }
 
-const QList<int> & Region::getLocationIds() const
+const QList<int> & Region::getFacilityIds() const
 {
-    return locationIds;
+    return facilityIds;
 }
 
-void Region::addLocationId(int locationId)
+void Region::addFacilityId(int facilityId)
 {
-    if(!locationIds.contains(locationId))
+    if(!facilityIds.contains(facilityId))
     {
-        locationIds.append(locationId);
+        facilityIds.append(facilityId);
     }
 }
 
-void Region::removeLocationId(int index)
+void Region::removeFacilityId(int index)
 {
-    locationIds.removeAt(index);
+    facilityIds.removeAt(index);
 }
 
 const QList<int> & Region::getWaitingListPatientIds() const

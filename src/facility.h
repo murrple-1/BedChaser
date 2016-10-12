@@ -1,16 +1,16 @@
-#ifndef LOCATION_H
-#define LOCATION_H
+#ifndef FACILITY_H
+#define FACILITY_H
 
 #include <QObject>
 
 #include <QList>
 #include <QVariant>
 
-class Location : public QObject
+class Facility : public QObject
 {
     Q_OBJECT
 public:
-    Location(const QVariant &id, const QString &name, int x, int y, int AC, int CCC, int LTC);
+    Facility(const QVariant &id, const QString &name, int x, int y, int AC, int CCC, int LTC);
 
     int getID(bool *ok = 0) const;
     const QString & getName() const;
@@ -44,4 +44,4 @@ private:
     QVariant regionId;
 };
 
-#endif // LOCATION_H
+#endif // FACILITY_H

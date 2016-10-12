@@ -2,26 +2,26 @@
 #include "ui_editfacilitydialog.h"
 
 #include "patientlistdialog.h"
-#include "location.h"
+#include "facility.h"
 #include "datamanager.h"
 #include "exception.h"
 
-EditFacilityDialog::EditFacilityDialog(const QSharedPointer<Location> &location, QWidget *parent) :
+EditFacilityDialog::EditFacilityDialog(const QSharedPointer<Facility> &facility, QWidget *parent) :
     QDialog(parent), ui(new Ui::EditFacilityDialog)
 {
     ui->setupUi(this);
 
-    this->location = location;
+    this->facility = facility;
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditFacilityDialog::updateFacility);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditFacilityDialog::close);
 
-    ui->ACSpin->setValue(location->getACBeds());
-    ui->LTCSpin->setValue(location->getLTCBeds());
-    ui->CCCSpin->setValue(location->getCCCBeds());
-    ui->name->setText(location->getName());
-    ui->x->setNum(location->getX());
-    ui->y->setNum(location->getY());
+    ui->ACSpin->setValue(facility->getACBeds());
+    ui->LTCSpin->setValue(facility->getLTCBeds());
+    ui->CCCSpin->setValue(facility->getCCCBeds());
+    ui->name->setText(facility->getName());
+    ui->x->setNum(facility->getX());
+    ui->y->setNum(facility->getY());
 }
 
 EditFacilityDialog::~EditFacilityDialog()
@@ -33,14 +33,14 @@ void EditFacilityDialog::updateFacility()
 {
     try
     {
-        location->setACBeds(ui->ACSpin->value());
-        location->setCCCBeds(ui->CCCSpin->value());
-        location->setLTCBeds(ui->LTCSpin->value());
-        location->setName(ui->name->text());
-        location->setX(ui->x->text().toInt());
-        location->setY(ui->y->text().toInt());
+        facility->setACBeds(ui->ACSpin->value());
+        facility->setCCCBeds(ui->CCCSpin->value());
+        facility->setLTCBeds(ui->LTCSpin->value());
+        facility->setName(ui->name->text());
+        facility->setX(ui->x->text().toInt());
+        facility->setY(ui->y->text().toInt());
 
-        DataManager::sharedInstance().updateLocation(*location);
+        DataManager::sharedInstance().updateFacility(*facility);
     }
     catch(Exception &e)
     {
@@ -52,6 +52,6 @@ void EditFacilityDialog::updateFacility()
 
 void EditFacilityDialog::on_patientlist_clicked()
 {
-    PatientListDialog wf(location, this);
+    PatientListDialog wf(facility, this);
     wf.exec();
 }

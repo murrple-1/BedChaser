@@ -26,7 +26,7 @@ public:
     const QString & getLastName() const;
     CareType getReqCareType() const;
     CareType getRecCareType() const;
-    int getCareLocationId(bool *ok = 0) const;
+    int getCareFacilityId(bool *ok = 0) const;
     const QList<int> & getWaitingRegions() const;
     const QDateTime & getDateAdmitted() const;
     const QDateTime & getDateAddedToWaitingList() const;
@@ -35,7 +35,7 @@ public:
     void setLastName(const QString &);
     void setRequiredCareType(CareType);
     void setReceivedCareType(CareType);
-    void setCareLocationId(const QVariant &);
+    void setCareFacilityId(const QVariant &);
     void addWaitingRegionId(int);
     void removeWaitingRegionId(int);
     void setDateAdmitted(const QDateTime &);
@@ -46,7 +46,7 @@ private:
     QString lastName;
     CareType requiredCare;
     CareType receivedCare;
-    QVariant careLocationId;
+    QVariant careFacilityId;
     QList<int> waitingRegionIds;
     QDateTime dateAdmitted;
     QDateTime dateAddedToWaitingList;

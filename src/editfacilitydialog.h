@@ -9,18 +9,18 @@ namespace Ui {
 
 #include <QSharedPointer>
 
-class Location;
+class Facility;
 
 class EditFacilityDialog : public QDialog
 {
     Q_OBJECT
 public:
-    EditFacilityDialog(const QSharedPointer<Location> &, QWidget *parent = 0);
+    EditFacilityDialog(const QSharedPointer<Facility> &, QWidget *parent = 0);
     ~EditFacilityDialog();
 private:
     Ui::EditFacilityDialog *ui;
 
-    QSharedPointer<Location> location;
+    QSharedPointer<Facility> facility;
 public slots:
     void updateFacility();
 private slots:

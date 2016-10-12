@@ -3,7 +3,7 @@
 
 #include "user.h"
 #include "patient.h"
-#include "location.h"
+#include "facility.h"
 #include "region.h"
 #include "addfacilitydialog.h"
 #include "addpatientdialog.h"
@@ -120,10 +120,10 @@ void MainWindow::on_actionSearch_triggered()
             RegionFrame *regF = new RegionFrame(region, this);
             setCentralWidget(regF);
         }
-        QSharedPointer<Location> location = chosenObject.dynamicCast<Location>();
-        if(!location.isNull())
+        QSharedPointer<Facility> facility = chosenObject.dynamicCast<Facility>();
+        if(!facility.isNull())
         {
-            EditFacilityDialog editFac(location, this);
+            EditFacilityDialog editFac(facility, this);
             editFac.exec();
         }
         QSharedPointer<Patient> patient = chosenObject.dynamicCast<Patient>();
