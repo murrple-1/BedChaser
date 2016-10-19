@@ -18,7 +18,6 @@ SOURCES += \
     facilityreportdisplay.cpp \
     loginframe.cpp \
     mainwindow.cpp \
-    map.cpp \
     mapframe.cpp \
     patientlistdialog.cpp \
     patientreportdialog.cpp \
@@ -45,7 +44,6 @@ HEADERS  += \
     facilityreportdisplay.h \
     loginframe.h \
     mainwindow.h \
-    map.h \
     mapframe.h \
     patientlistdialog.h \
     patientreportdialog.h \

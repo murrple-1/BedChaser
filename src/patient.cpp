@@ -1,7 +1,13 @@
 #include "patient.h"
 
-Patient::Patient(int HCN, const QString &first, const QString &last, CareType req) :
-    healthCardNumber(HCN), firstName(first), lastName(last), requiredCare(req), receivedCare(CareTypeNone), careFacilityId(), dateAdmitted(), dateAddedToWaitingList()
+Patient::Patient(const QVariant &id, int healthCardNumber, const QString &name, CareType requiredCareType, CareType receivedCareType, const QVariant &careFacilityId, const QDateTime &dateAdmitted) :
+    id(id),
+    healthCardNumber(healthCardNumber),
+    name(name),
+    requiredCareType(requiredCareType),
+    receivedCareType(receivedCareType),
+    careFacilityId(careFacilityId),
+    dateAdmitted(dateAdmitted)
 {
 
 }
@@ -11,72 +17,47 @@ int Patient::getHealthCardNumber() const
     return healthCardNumber;
 }
 
-const QString & Patient::getFirstName() const
+const QString & Patient::getName() const
 {
-    return firstName;
+    return name;
 }
 
-void Patient::setFirstName(const QString &first)
+void Patient::setName(const QString &first)
 {
-    firstName = first;
+    name = first;
 }
 
-const QString & Patient::getLastName() const
+CareType Patient::getRequiredCareType() const
 {
-    return lastName;
-}
-
-void Patient::setLastName(const QString &last)
-{
-    lastName = last;
-}
-
-CareType Patient::getReqCareType() const
-{
-    return requiredCare;
+    return requiredCareType;
 }
 
 void Patient::setRequiredCareType(CareType req)
 {
-    requiredCare = req;
+    requiredCareType = req;
 }
 
-CareType Patient::getRecCareType() const
+CareType Patient::getReceivingCareType() const
 {
-    return receivedCare;
+    return receivedCareType;
 }
 
-void Patient::setReceivedCareType(const CareType rec)
+void Patient::setReceivingCareType(const CareType rec)
 {
-    receivedCare = rec;
+    receivedCareType = rec;
 }
 
-int Patient::getCareFacilityId(bool *ok) const
+int Patient::getReceivingCareFacilityId(bool *ok) const
 {
     return careFacilityId.toInt(ok);
 }
 
-void Patient::setCareFacilityId(const QVariant &careFacilityId)
+void Patient::setReceivingCareFacilityId(const QVariant &careFacilityId)
 {
     this->careFacilityId = careFacilityId;
 }
 
-const QList<int> & Patient::getWaitingRegions() const
-{
-    return waitingRegionIds;
-}
-
-void Patient::addWaitingRegionId(int waitingRegionId)
-{
-    waitingRegionIds.append(waitingRegionId);
-}
-
-void Patient::removeWaitingRegionId(int index)
-{
-    waitingRegionIds.removeAt(index);
-}
-
-const QDateTime & Patient::getDateAdmitted() const
+const QDateTime & Patient::getReceivingCareDateAdmitted() const
 {
     return dateAdmitted;
 }
@@ -84,14 +65,4 @@ const QDateTime & Patient::getDateAdmitted() const
 void Patient::setDateAdmitted(const QDateTime &dateAdmitted)
 {
     this->dateAdmitted = dateAdmitted;
-}
-
-const QDateTime & Patient::getDateAddedToWaitingList() const
-{
-    return dateAddedToWaitingList;
-}
-
-void Patient::setDateAddedToWaitingList(const QDateTime &dateAddedToWaitingList)
-{
-    this->dateAddedToWaitingList = dateAddedToWaitingList;
 }

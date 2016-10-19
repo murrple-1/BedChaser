@@ -50,17 +50,17 @@ void MainWindow::setCurrentUser(const QSharedPointer<User> &user)
 
         switch(currentUser->getUserType())
         {
-        case(STAFF):
+        case(UserTypeStaff):
             ui->actionAdd_User->setEnabled(false);
             ui->menuReports->setEnabled(false);
             ui->actionAdd_Facility->setEnabled(false);
             break;
-        case(ADMIN):
+        case(UserTypeAdmin):
             ui->actionAdd_User->setEnabled(false);
             ui->menuReports->setEnabled(true);
             ui->actionAdd_Facility->setEnabled(false);
             break;
-        case(SYSADMIN):
+        case(UserTypeSystemAdmin):
             ui->actionAdd_User->setEnabled(true);
             ui->menuReports->setEnabled(true);
             ui->actionAdd_Facility->setEnabled(true);

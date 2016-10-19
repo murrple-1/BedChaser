@@ -24,11 +24,8 @@ WaitingListDialog::~WaitingListDialog()
 void WaitingListDialog::updateWaitingList()
 {
     ui->listWidget->clear();
-    foreach(int patientId, region->getWaitingListPatientIds())
-    {
-        QSharedPointer<Patient> patient = DataManager::sharedInstance().getPatient(patientId);
-        ui->listWidget->addItem(QString("%1 %2").arg(patient->getFirstName()).arg(patient->getLastName()));
-    }
+
+    // TODO foreach patient in region, add to list
 }
 
 void WaitingListDialog::on_addPButton_clicked()
@@ -38,9 +35,9 @@ void WaitingListDialog::on_addPButton_clicked()
     {
         if(!sw.getChosenObject().isNull())
         {
+
             QSharedPointer<Patient> patient = sw.getChosenObject().dynamicCast<Patient>();
-            DataManager::sharedInstance().addToWaitingList(*region, *patient);
-            region->addWaitingListPatientId(patient->getHealthCardNumber());
+            // TODO add patient to waiting list
 
             updateWaitingList();
         }
@@ -49,12 +46,9 @@ void WaitingListDialog::on_addPButton_clicked()
 
 void WaitingListDialog::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
-    int i = ui->listWidget->row(item);
-    int patientId = region->getWaitingListPatientIds().at(i);
-    region->removeWaitingListPatientId(i);
+    Q_UNUSED(item)
 
-    QSharedPointer<Patient> patient = DataManager::sharedInstance().getPatient(patientId);
-    DataManager::sharedInstance().removeFromWaitingList(*region, *patient);
+    // TODO
 
     updateWaitingList();
 }

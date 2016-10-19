@@ -31,19 +31,19 @@ AddUserDialog::~AddUserDialog()
 
 void AddUserDialog::addUser()
 {
-    User u(ui->nameField->text(), ui->passField->text(), STAFF);
+    User u(QVariant(), ui->nameField->text(), ui->passField->text(), UserTypeStaff);
     QString text = ui->typeCombo->currentText();
     if(text == staffStr)
     {
-        u.setUserType(STAFF);
+        u.setUserType(UserTypeStaff);
     }
     else if(text == adminStr)
     {
-        u.setUserType(ADMIN);
+        u.setUserType(UserTypeAdmin);
     }
     else
     {
-        u.setUserType(SYSADMIN);
+        u.setUserType(UserTypeSystemAdmin);
     }
 
     DataManager::sharedInstance().addUser(u);

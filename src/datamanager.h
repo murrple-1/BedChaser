@@ -7,7 +7,6 @@
 #include <QMutex>
 #include <QSharedPointer>
 
-#include "map.h"
 #include "facility.h"
 #include "patient.h"
 #include "region.h"
@@ -18,26 +17,18 @@ class DataManager
 public:
     static DataManager & sharedInstance();
 
-    void addPatient(const Patient &);
-    void addUser(const User &);
-    void addFacility(const Facility &);
-
-    void addToWaitingList(const Region &, const Patient &);
-    void removeFromWaitingList(const Region &, const Patient &);
-
-    void updatePatient(const Patient &);
-    void updateUser(const User &);
-    void updateFacility(const Facility &);
-
-    void deletePatient(int HCN);
-    void deleteUser(const QString &username);
-    void deleteFacility(int fID);
-
-    QSharedPointer<Map> getMap();
     QSharedPointer<Region> getRegion(int id);
     QSharedPointer<Facility> getFacility(int id);
     QSharedPointer<Patient> getPatient(int HCN);
     QSharedPointer<User> getUser(const QString &userName);
+
+    void addPatient(const Patient &);
+    void addUser(const User &);
+    void addFacility(const Facility &);
+
+    void updatePatient(const Patient &);
+    void updateUser(const User &);
+    void updateFacility(const Facility &);
 private:
     DataManager();
     \

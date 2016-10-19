@@ -23,12 +23,7 @@ void PatientListDialog::updatePatientList()
 {
     ui->patientList->clear();
 
-    foreach(int patientId, facility->getPatientsInCareIds())
-    {
-        QSharedPointer<Patient> patient = DataManager::sharedInstance().getPatient(patientId);
-        QString name = QString("%1 %2").arg(patient->getFirstName()).arg(patient->getLastName());
-        ui->patientList->addItem(name);
-    }
+    // TODO
 }
 
 void PatientListDialog::on_addPatient_clicked()
@@ -39,9 +34,8 @@ void PatientListDialog::on_addPatient_clicked()
         if(!sw.getChosenObject().isNull())
         {
             QSharedPointer<Patient> patient = sw.getChosenObject().dynamicCast<Patient>();
-            patient->setCareFacilityId(facility->getID());
+            patient->setReceivingCareFacilityId(facility->getID());
             DataManager::sharedInstance().updatePatient(*patient);
-            facility->addPatientInCareId(patient->getHealthCardNumber());
 
             updatePatientList();
         }
@@ -50,9 +44,8 @@ void PatientListDialog::on_addPatient_clicked()
 
 void PatientListDialog::on_patientList_itemDoubleClicked(QListWidgetItem *item)
 {
-    int i = ui->patientList->row(item);
-    facility->removePatientInCareId(i);
-    DataManager::sharedInstance().updateFacility(*facility);
+    Q_UNUSED(item)
+    // TODO
 
     updatePatientList();
 }

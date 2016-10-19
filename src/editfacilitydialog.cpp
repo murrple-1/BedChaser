@@ -16,9 +16,9 @@ EditFacilityDialog::EditFacilityDialog(const QSharedPointer<Facility> &facility,
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditFacilityDialog::updateFacility);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditFacilityDialog::close);
 
-    ui->ACSpin->setValue(facility->getACBeds());
-    ui->LTCSpin->setValue(facility->getLTCBeds());
-    ui->CCCSpin->setValue(facility->getCCCBeds());
+    ui->ACSpin->setValue(facility->getNumberOfAcuteCareBeds());
+    ui->LTCSpin->setValue(facility->getNumberOfLongTermCareBeds());
+    ui->CCCSpin->setValue(facility->getNumberOfComplexContinuingCareBeds());
     ui->name->setText(facility->getName());
     ui->x->setNum(facility->getX());
     ui->y->setNum(facility->getY());
@@ -33,9 +33,9 @@ void EditFacilityDialog::updateFacility()
 {
     try
     {
-        facility->setACBeds(ui->ACSpin->value());
-        facility->setCCCBeds(ui->CCCSpin->value());
-        facility->setLTCBeds(ui->LTCSpin->value());
+        facility->setNumberOfAcuteCareBeds(ui->ACSpin->value());
+        facility->setNumberOfComplexContinuingCareBeds(ui->CCCSpin->value());
+        facility->setNumberOfLongTermCareBeds(ui->LTCSpin->value());
         facility->setName(ui->name->text());
         facility->setX(ui->x->text().toInt());
         facility->setY(ui->y->text().toInt());

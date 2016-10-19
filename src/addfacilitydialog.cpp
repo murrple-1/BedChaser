@@ -20,7 +20,7 @@ AddFacilityDialog::~AddFacilityDialog()
 
 void AddFacilityDialog::addFacility()
 {
-    Facility facility(ui->nameField->text(), ui->nameField->text(), ui->xSpinBox->value(), ui->ySpinBox->value(), ui->acuteCareSpinBox->value(), ui->complexContinuingCareSpinBox->value(), ui->longTermCareSpinBox->value());
+    Facility facility(ui->nameField->text(), ui->nameField->text(), ui->xSpinBox->value(), ui->ySpinBox->value(), ui->acuteCareSpinBox->value(), ui->complexContinuingCareSpinBox->value(), ui->longTermCareSpinBox->value(), QVariant());
     facility.setRegionId(ui->regionComboBox->currentIndex());
 
     DataManager::sharedInstance().addFacility(facility);

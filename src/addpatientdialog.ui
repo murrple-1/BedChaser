@@ -30,26 +30,16 @@
       <widget class="QLineEdit" name="healthCareNumberLineEdit"/>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="firstNameLabel">
+      <widget class="QLabel" name="nameLabel">
        <property name="text">
-        <string>First Name</string>
+        <string>Name</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="firstNameLineEdit"/>
+      <widget class="QLineEdit" name="nameLineEdit"/>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="lastNameLabel">
-       <property name="text">
-        <string>Last Name</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="lastNameLineEdit"/>
-     </item>
-     <item row="3" column="0" colspan="2">
+     <item row="2" column="0" colspan="2">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QLabel" name="typeOfCareLabel">
@@ -81,14 +71,14 @@
        </item>
       </layout>
      </item>
-     <item row="4" column="0" colspan="2">
+     <item row="3" column="0" colspan="2">
       <widget class="QLabel" name="waitingListsLabel">
        <property name="text">
         <string>Waiting Lists</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0" colspan="2">
+     <item row="4" column="0" colspan="2">
       <widget class="QListWidget" name="waitingListListWidget">
        <property name="selectionMode">
         <enum>QAbstractItemView::MultiSelection</enum>

@@ -22,7 +22,7 @@ void AddPatientDialog::addPatient()
 {
     QList<QListWidgetItem *> items = ui->waitingListListWidget->selectedItems();
 
-    Patient p(ui->healthCareNumberLineEdit->text().toInt(), ui->firstNameLineEdit->text(),ui->lastNameLineEdit->text(), CareTypeNone);
+    Patient p(QVariant(), ui->healthCareNumberLineEdit->text().toInt(), ui->nameLineEdit->text(), CareTypeNone, CareTypeNone, QVariant(), QDateTime());
 
     if(ui->acuteCareRadioButton->isChecked())
     {
@@ -38,11 +38,7 @@ void AddPatientDialog::addPatient()
     }
 
     DataManager::sharedInstance().addPatient(p);
-    for(int i = 0; i < items.size(); i++)
-    {
-        QSharedPointer<Region> region = DataManager::sharedInstance().getRegion(ui->waitingListListWidget->row(items.at(i)));
-        p.addWaitingRegionId(region->getID());
-        DataManager::sharedInstance().addToWaitingList(*region, p);
-    }
+
+    // TODO add patient to region waiting lists
     close();
 }

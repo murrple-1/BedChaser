@@ -19,37 +19,29 @@ class Patient : public QObject
 {
     Q_OBJECT
 public:
-    Patient(int HCN, const QString &first, const QString &last, CareType req);
+    Patient(const QVariant &id, int healthCardNumber, const QString &name, CareType requiredCareType, CareType receivedCareType, const QVariant &careFacilityId, const QDateTime &dateAdmitted);
 
+    int getId(bool *success = 0) const;
     int getHealthCardNumber() const;
-    const QString & getFirstName() const;
-    const QString & getLastName() const;
-    CareType getReqCareType() const;
-    CareType getRecCareType() const;
-    int getCareFacilityId(bool *ok = 0) const;
-    const QList<int> & getWaitingRegions() const;
-    const QDateTime & getDateAdmitted() const;
-    const QDateTime & getDateAddedToWaitingList() const;
+    const QString & getName() const;
+    CareType getRequiredCareType() const;
+    CareType getReceivingCareType() const;
+    int getReceivingCareFacilityId(bool *ok = 0) const;
+    const QDateTime & getReceivingCareDateAdmitted() const;
 
-    void setFirstName(const QString &);
-    void setLastName(const QString &);
+    void setName(const QString &);
     void setRequiredCareType(CareType);
-    void setReceivedCareType(CareType);
-    void setCareFacilityId(const QVariant &);
-    void addWaitingRegionId(int);
-    void removeWaitingRegionId(int);
+    void setReceivingCareType(CareType);
+    void setReceivingCareFacilityId(const QVariant &);
     void setDateAdmitted(const QDateTime &);
-    void setDateAddedToWaitingList(const QDateTime &);
 private:
+    QVariant id;
     int healthCardNumber;
-    QString firstName;
-    QString lastName;
-    CareType requiredCare;
-    CareType receivedCare;
+    QString name;
+    CareType requiredCareType;
+    CareType receivedCareType;
     QVariant careFacilityId;
-    QList<int> waitingRegionIds;
     QDateTime dateAdmitted;
-    QDateTime dateAddedToWaitingList;
 };
 
 #endif // PATIENT_H

@@ -1,15 +1,15 @@
 #include "user.h"
 
-User::User(const QString &name, const QString &password, const USERTYPE uT) :
-    uType(uT)
+User::User(const QVariant &id, const QString &name, const QString &password, const UserType userType)
 {
+    this->id = id;
     this->username = name;
     this->password = password;
-    this->uType = uT;
+    this->userType = userType;
 }
 
 User::User(const User &source) :
-    QObject(), username(source.username), password(source.password), uType(source.uType)
+    QObject(), username(source.username), password(source.password), userType(source.userType)
 {
 
 }
@@ -19,9 +19,9 @@ void User::setPassword(const QString &password)
     this->password = password;
 }
 
-void User::setUserType(const USERTYPE uT)
+void User::setUserType(const UserType uT)
 {
-    uType = uT;
+    userType = uT;
 }
 
 const QString & User::getUserName() const
@@ -34,7 +34,7 @@ const QString & User::getPassword() const
     return password;
 }
 
-USERTYPE User::getUserType() const
+UserType User::getUserType() const
 {
-    return uType;
+    return userType;
 }

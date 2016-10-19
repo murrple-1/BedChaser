@@ -1,12 +1,16 @@
 #include "facility.h"
 
-Facility::Facility(const QVariant &id, const QString &name, int x, int y, int AC, int CCC, int LTC) :
-    ACBeds(AC), CCCBeds(CCC), LTCBeds(LTC), regionId()
+Facility::Facility(const QVariant &id, const QString &name, int x, int y, int numberOfAcuteCareBeds, int numberOfComlexContinuingCareBeds, int numberOfLongTermCare, const QVariant &regionId) :
+    id(id),
+    name(name),
+    x(x),
+    y(y),
+    numberOfAcuteCareBeds(numberOfAcuteCareBeds),
+    numberOfComplexContinuingCareBeds(numberOfComlexContinuingCareBeds),
+    numberOfLongTermCareBeds(numberOfLongTermCare),
+    regionId(regionId)
 {
-    this->id = id;
-    this->name = name;
-    this->x = x;
-    this->y = y;
+
 }
 
 int Facility::getID(bool *ok) const
@@ -44,52 +48,34 @@ void Facility::setY(const int y)
     this->y = y;
 }
 
-int Facility::getACBeds() const
+int Facility::getNumberOfAcuteCareBeds() const
 {
-    return ACBeds;
+    return numberOfAcuteCareBeds;
 }
 
-void Facility::setACBeds(const int AC)
+void Facility::setNumberOfAcuteCareBeds(const int AC)
 {
-    ACBeds = AC;
+    numberOfAcuteCareBeds = AC;
 }
 
-int Facility::getCCCBeds() const
+int Facility::getNumberOfComplexContinuingCareBeds() const
 {
-    return CCCBeds;
+    return numberOfComplexContinuingCareBeds;
 }
 
-void Facility::setCCCBeds(const int CCC)
+void Facility::setNumberOfComplexContinuingCareBeds(const int CCC)
 {
-    CCCBeds = CCC;
+    numberOfComplexContinuingCareBeds = CCC;
 }
 
-int Facility::getLTCBeds() const
+int Facility::getNumberOfLongTermCareBeds() const
 {
-    return LTCBeds;
+    return numberOfLongTermCareBeds;
 }
 
-void Facility::setLTCBeds(const int LTC)
+void Facility::setNumberOfLongTermCareBeds(const int LTC)
 {
-    LTCBeds = LTC;
-}
-
-const QList<int> & Facility::getPatientsInCareIds() const
-{
-    return patientsInCare;
-}
-
-void Facility::addPatientInCareId(int id)
-{
-    if(!patientsInCare.contains(id))
-    {
-        patientsInCare.append(id);
-    }
-}
-
-void Facility::removePatientInCareId(int index)
-{
-    patientsInCare.removeAt(index);
+    numberOfLongTermCareBeds = LTC;
 }
 
 int Facility::getRegionId(bool *ok) const

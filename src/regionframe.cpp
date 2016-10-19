@@ -40,25 +40,7 @@ void RegionFrame::updateFacilityList()
     QPixmap f;
     f.load("images/FacilityLogo.jpg");
 
-    foreach(int facilityId, region->getFacilityIds())
-    {
-        QSharedPointer<Facility> facility = DataManager::sharedInstance().getFacility(facilityId);
-        ui->facilitiesListListWidget->addItem(facility->getName());
-
-        QLabel *newlogo = new QLabel(this);
-        QLabel *newlogoname = new QLabel(this);
-
-        float xPer = facility->getX() / 100.0f;
-        float yPer = facility->getY() / 100.0f;
-
-        int X = (xPer * ui->mapLabel->width()) + ui->mapLabel->x();
-        int Y = (yPer * ui->mapLabel->height()) + ui->mapLabel->y();
-
-        newlogo->setGeometry(X, Y, 60, 17);
-        newlogo->setPixmap(f);
-        newlogoname->setGeometry(X + 15, Y, 170, 17);
-        newlogoname->setText(facility->getName());
-    }
+    // TODO foreach facility in region, add a little label to the map
 }
 
 void RegionFrame::on_listoffacilities_itemDoubleClicked(QListWidgetItem *item)

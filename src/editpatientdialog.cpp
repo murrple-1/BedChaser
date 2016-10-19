@@ -14,11 +14,10 @@ EditPatientDialog::EditPatientDialog(const QSharedPointer<Patient> &patient, QWi
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditPatientDialog::updatePatient);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditPatientDialog::close);
 
-    ui->HCN->setText(QString::number(patient->getHealthCardNumber()));
-    ui->firstField->setText(patient->getFirstName());
-    ui->lastField->setText(patient->getLastName());
+    ui->healthCardNumberValueLabel->setText(QString::number(patient->getHealthCardNumber()));
+    ui->nameField->setText(patient->getName());
 
-    switch(patient->getReqCareType())
+    switch(patient->getRequiredCareType())
     {
     case CareTypeAcuteCare:
         ui->ACRadio->setChecked(true);
@@ -41,8 +40,7 @@ EditPatientDialog::~EditPatientDialog()
 
 void EditPatientDialog::updatePatient()
 {
-    patient->setFirstName(ui->firstField->text());
-    patient->setLastName(ui->lastField->text());
+    patient->setName(ui->nameField->text());
 
     if(ui->ACRadio->isChecked())
     {
