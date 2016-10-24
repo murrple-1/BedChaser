@@ -7,7 +7,8 @@
 #include "exception.h"
 
 EditFacilityDialog::EditFacilityDialog(const QSharedPointer<Facility> &facility, QWidget *parent) :
-    QDialog(parent), ui(new Ui::EditFacilityDialog)
+    QDialog(parent),
+    ui(new Ui::EditFacilityDialog)
 {
     ui->setupUi(this);
 

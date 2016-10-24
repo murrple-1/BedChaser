@@ -1,11 +1,12 @@
 #include "user.h"
 
-User::User(const QVariant &id, const QString &name, const QString &password, const UserType userType)
+User::User(const QVariant &id, const QString &username, const QString &passwordHash, const UserType userType) :
+    id(id),
+    username(username),
+    passwordHash(passwordHash),
+    userType(userType)
 {
-    this->id = id;
-    this->username = name;
-    this->passwordHash = password;
-    this->userType = userType;
+
 }
 
 User::User(const User &source) :
@@ -30,7 +31,7 @@ void User::setUserType(const UserType uT)
     userType = uT;
 }
 
-const QString & User::getUserName() const
+const QString & User::getUsername() const
 {
     return username;
 }

@@ -5,7 +5,8 @@
 #include "facility.h"
 
 AddFacilityDialog::AddFacilityDialog(QWidget *parent) :
-    QDialog(parent), ui(new Ui::AddFacilityDialog)
+    QDialog(parent),
+    ui(new Ui::AddFacilityDialog)
 {
     ui->setupUi(this);
 
@@ -20,7 +21,7 @@ AddFacilityDialog::~AddFacilityDialog()
 
 void AddFacilityDialog::addFacility()
 {
-    Facility facility(ui->nameField->text(), ui->nameField->text(), ui->xSpinBox->value(), ui->ySpinBox->value(), ui->acuteCareSpinBox->value(), ui->complexContinuingCareSpinBox->value(), ui->longTermCareSpinBox->value(), ui->regionComboBox->currentIndex());
+    Facility facility(QVariant(), ui->nameField->text(), ui->xSpinBox->value(), ui->ySpinBox->value(), ui->acuteCareSpinBox->value(), ui->complexContinuingCareSpinBox->value(), ui->longTermCareSpinBox->value(), ui->regionComboBox->currentIndex());
     DataManager::sharedInstance().addFacility(facility);
     close();
 }

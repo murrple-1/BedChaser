@@ -223,7 +223,7 @@ void DataManager::addUser(const User &user)
 
     database.transaction();
     query.prepare("INSERT INTO Users (Username, Password, security_group) VALUES (:uname, :password, :type)");
-    query.bindValue(":uname", user.getUserName());
+    query.bindValue(":uname", user.getUsername());
     query.bindValue(":password", user.getPasswordHash());
     query.bindValue(":type", user.getUserType());
     if(query.exec())
@@ -319,7 +319,7 @@ void DataManager::updateUser(const User &user)
 
     database.transaction();
     query.prepare("UPDATE Users SET Password = :pword, security_group = :sgroup WHERE Username = :uname");
-    query.bindValue(":uname", user.getUserName());
+    query.bindValue(":uname", user.getUsername());
     query.bindValue(":pword", user.getPasswordHash());
     query.bindValue(":sgroup", user.getUserType());
 

@@ -4,12 +4,13 @@
 #include "user.h"
 #include "datamanager.h"
 
-const QString staffStr = "Staff";
-const QString adminStr = "Administator";
-const QString sysAdStr = "SysAdmin";
+static const QString StaffString = "Staff";
+static const QString AdminString = "Administator";
+static const QString SystemAdminString = "SysAdmin";
 
 AddUserDialog::AddUserDialog(QWidget *parent) :
-    QDialog(parent), ui(new Ui::AddUserDialog)
+    QDialog(parent),
+    ui(new Ui::AddUserDialog)
 {
     ui->setupUi(this);
 
@@ -17,9 +18,9 @@ AddUserDialog::AddUserDialog(QWidget *parent) :
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &AddUserDialog::close);
 
     QStringList ls;
-    ls.append(staffStr);
-    ls.append(adminStr);
-    ls.append(sysAdStr);
+    ls.append(StaffString);
+    ls.append(AdminString);
+    ls.append(SystemAdminString);
 
     ui->typeCombo->addItems(ls);
 }
@@ -31,20 +32,21 @@ AddUserDialog::~AddUserDialog()
 
 void AddUserDialog::addUser()
 {
-    User u(QVariant(), ui->nameField->text(), ui->passField->text(), UserTypeStaff);
+    UserType userType;
     QString text = ui->typeCombo->currentText();
-    if(text == staffStr)
+    if(text == AdminString)
     {
-        u.setUserType(UserTypeStaff);
+        userType = UserTypeAdmin;
     }
-    else if(text == adminStr)
+    else if(text == SystemAdminString)
     {
-        u.setUserType(UserTypeAdmin);
+        userType = UserTypeSystemAdmin;
     }
     else
     {
-        u.setUserType(UserTypeSystemAdmin);
+        userType = UserTypeStaff;
     }
 
+    User u(QVariant(), ui->nameField->text(), ui->passField->text(), userType);
     DataManager::sharedInstance().addUser(u);
 }

@@ -16,11 +16,11 @@ class User : public QObject
 {
     Q_OBJECT
 public:
-    User(const QVariant &id, const QString &name, const QString &passwordHash, UserType userType);
+    User(const QVariant &id, const QString &username, const QString &passwordHash, UserType userType);
     User(const User &);
 
     int getId() const;
-    const QString & getUserName() const;
+    const QString & getUsername() const;
     const QString & getPasswordHash() const;
     UserType getUserType() const;
 

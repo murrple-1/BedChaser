@@ -5,7 +5,8 @@
 #include "patient.h"
 
 AddPatientDialog::AddPatientDialog(QWidget *parent) :
-    QDialog(parent), ui(new Ui::AddPatientDialog)
+    QDialog(parent),
+    ui(new Ui::AddPatientDialog)
 {
     ui->setupUi(this);
 
@@ -20,25 +21,25 @@ AddPatientDialog::~AddPatientDialog()
 
 void AddPatientDialog::addPatient()
 {
-    QList<QListWidgetItem *> items = ui->waitingListListWidget->selectedItems();
-
-    Patient p(QVariant(), ui->healthCareNumberLineEdit->text().toInt(), ui->nameLineEdit->text(), CareTypeNone, CareTypeNone, QVariant(), QDateTime());
-
+    CareType requiredCare = CareTypeNone;
     if(ui->acuteCareRadioButton->isChecked())
     {
-        p.setRequiredCareType(CareTypeAcuteCare);
+        requiredCare = CareTypeAcuteCare;
     }
     else if(ui->complexContinuingCareRadioButton->isChecked())
     {
-        p.setRequiredCareType(CareTypeComplexContinuingCare);
+        requiredCare = CareTypeComplexContinuingCare;
     }
     else if(ui->longTermCareRadioButton->isChecked())
     {
-        p.setRequiredCareType(CareTypeLongTermCare);
+        requiredCare = CareTypeLongTermCare;
     }
+
+    Patient p(QVariant(), ui->healthCareNumberLineEdit->text().toInt(), ui->nameLineEdit->text(), requiredCare, CareTypeNone, QVariant(), QDateTime());
 
     DataManager::sharedInstance().addPatient(p);
 
+    QList<QListWidgetItem *> items = ui->waitingListListWidget->selectedItems();
     // TODO add patient to region waiting lists
     close();
 }

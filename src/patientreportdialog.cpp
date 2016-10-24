@@ -2,8 +2,8 @@
 #include "ui_patientreportdialog.h"
 
 PatientReportDialog::PatientReportDialog(QWidget *parent) :
-        QDialog(parent),
-        ui(new Ui::PatientReportDialog)
+    QDialog(parent),
+    ui(new Ui::PatientReportDialog)
 {
     ui->setupUi(this);
 

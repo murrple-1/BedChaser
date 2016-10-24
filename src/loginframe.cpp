@@ -4,7 +4,8 @@
 #include "datamanager.h"
 
 LoginFrame::LoginFrame(QWidget *parent) :
-    QFrame(parent), ui(new Ui::LoginFrame)
+    QFrame(parent),
+    ui(new Ui::LoginFrame)
 {
     ui->setupUi(this);
 

@@ -6,7 +6,8 @@
 #include "waitinglistdialog.h"
 
 RegionFrame::RegionFrame(const QSharedPointer<Region> &region, QWidget *parent) :
-    QFrame(parent), ui(new Ui::RegionFrame)
+    QFrame(parent),
+    ui(new Ui::RegionFrame)
 {
     ui->setupUi(this);
 

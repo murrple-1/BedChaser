@@ -6,7 +6,8 @@
 #include "exception.h"
 
 EditUserDialog::EditUserDialog(const QSharedPointer<User> &user, QWidget *parent) :
-    QDialog(parent), ui(new Ui::EditUserDialog)
+    QDialog(parent),
+    ui(new Ui::EditUserDialog)
 {
     ui->setupUi(this);
 
@@ -15,7 +16,7 @@ EditUserDialog::EditUserDialog(const QSharedPointer<User> &user, QWidget *parent
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditUserDialog::updateUser);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditUserDialog::close);
 
-    ui->name->setText(user->getUserName());
+    ui->name->setText(user->getUsername());
 
     if(user->getUserType() == UserTypeSystemAdmin)
     {

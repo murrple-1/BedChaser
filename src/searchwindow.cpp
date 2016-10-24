@@ -6,7 +6,9 @@
 #include "datamanager.h"
 
 SearchWindow::SearchWindow(QWidget *parent) :
-    QDialog(parent), ui(new Ui::SearchWindow), chosenObject(NULL)
+    QDialog(parent),
+    ui(new Ui::SearchWindow),
+    chosenObject(NULL)
 {
     ui->setupUi(this);
 
