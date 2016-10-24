@@ -10,7 +10,7 @@ class Facility : public QObject
 {
     Q_OBJECT
 public:
-    Facility(const QVariant &id, const QString &name, int x, int y, int AC, int CCC, int LTC, const QVariant &regionId);
+    Facility(const QVariant &id, const QString &name, int x, int y, int numberOfAcuteCareBeds, int numberOfComplexContinuingCareBeds, int numberOfLongTermCareBeds, const QVariant &regionId);
 
     int getID(bool *ok = 0) const;
     const QString & getName() const;

@@ -26,8 +26,8 @@ CREATE TABLE "patients" (
 	`health_care_number` INTEGER NOT NULL,
 	`name` TEXT NOT NULL,
 	`required_care_type` INTEGER NOT NULL,
-	`receiving_care_facilities_id` INTEGER DEFAULT NULL,
 	`receiving_care_type` INTEGER NOT NULL,
+	`receiving_care_facilities_id` INTEGER DEFAULT NULL,
 	`receiving_care_date_admitted` INTEGER DEFAULT NULL
 );
 

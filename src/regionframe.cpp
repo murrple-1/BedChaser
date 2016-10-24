@@ -47,7 +47,9 @@ void RegionFrame::on_listoffacilities_itemDoubleClicked(QListWidgetItem *item)
 {
     int i = ui->facilitiesListListWidget->row(item);
 
-    QSharedPointer<Facility> facility = DataManager::sharedInstance().getFacility(i);
+    QMap<QString, QString> whereParams;
+    whereParams.insert(":id", QString::number(i));
+    QSharedPointer<Facility> facility = DataManager::sharedInstance().getFacilities("`id` = :id", whereParams, QString(), 1, 0).first();
 
     EditFacilityDialog ef(facility, this);
     ef.exec();

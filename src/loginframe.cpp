@@ -28,9 +28,21 @@ void LoginFrame::checkLogin()
     QString username = ui->usernameField->text();
     QString password = ui->passwordField->text();
 
-    QSharedPointer<User> user = DataManager::sharedInstance().getUser(username);
+    // TODO hash the password
+    QString passwordHash = password;
 
-    if(!user.isNull() && user->getPassword() == password)
+    QSharedPointer<User> user;
+    {
+        QMap<QString, QString> whereParams;
+        whereParams.insert(":login", username);
+        QList<QSharedPointer<User> > _users = DataManager::sharedInstance().getUsers("`login` = :login", whereParams, QString(), 1, 0);
+        if(_users.length() == 1)
+        {
+            user = _users.at(0);
+        }
+    }
+
+    if(!user.isNull() && user->getPasswordHash() == passwordHash)
     {
         // TODO
     }

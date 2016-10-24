@@ -5,7 +5,7 @@ Patient::Patient(const QVariant &id, int healthCardNumber, const QString &name, 
     healthCardNumber(healthCardNumber),
     name(name),
     requiredCareType(requiredCareType),
-    receivedCareType(receivedCareType),
+    receivingCareType(receivedCareType),
     careFacilityId(careFacilityId),
     dateAdmitted(dateAdmitted)
 {
@@ -39,12 +39,12 @@ void Patient::setRequiredCareType(CareType req)
 
 CareType Patient::getReceivingCareType() const
 {
-    return receivedCareType;
+    return receivingCareType;
 }
 
 void Patient::setReceivingCareType(const CareType rec)
 {
-    receivedCareType = rec;
+    receivingCareType = rec;
 }
 
 int Patient::getReceivingCareFacilityId(bool *ok) const

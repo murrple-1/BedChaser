@@ -24,7 +24,7 @@ ChangePasswordDialog::~ChangePasswordDialog()
 
 void ChangePasswordDialog::updateUser()
 {
-    if(ui->passField->text() == user->getPassword())
+    if(ui->passField->text() == user->getPasswordHash())
     {
         user->setPassword(ui->newpassField->text());
         DataManager::sharedInstance().updateUser(*user);
