@@ -11,7 +11,7 @@ stored data using SQLite and communicating via P2P techniques.
 It was never completed, but the included code is a proof of concept.  
 It is recommended you read the source code to see exactly what the code is
 doing.  
-Please visit my portfolio at http://people.scs.carleton.ca/~mchristo/
+Please visit my portfolio at http://murraychristopherson.com/
 
 If you discover any bugs or unclear/inconsistent documentation, please contact me
 at murraychristopherson@gmail.com with a description of what happened, and I
