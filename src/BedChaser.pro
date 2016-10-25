@@ -78,16 +78,28 @@ CONFIG(debug, debug|release) {
 imageFiles.path = $$OUT_PWD/images
 imageFiles.files = $$PWD/images/*
 
+sqlFiles.path = $$OUT_PWD
+sqlFiles.files = \
+    $$PWD/sqlschema.sql \
+    $$PWD/sqlcreate.sql
+
 INSTALLS += \
-    imageFiles
+    imageFiles \
+    sqlFiles
 }
 
 CONFIG(release, debug|release) {
 imageFiles.path = $$OUT_PWD/images
 imageFiles.files = $$PWD/images/*
 
+sqlFiles.path = $$OUT_PWD
+sqlFiles.files = \
+    $$PWD/sqlschema.sql \
+    $$PWD/sqlcreate.sql
+
 INSTALLS += \
-    imageFiles
+    imageFiles \
+    sqlFiles
 }
 
 QMAKE_CXXFLAGS += -Werror

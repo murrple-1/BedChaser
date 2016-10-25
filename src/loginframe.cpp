@@ -34,7 +34,7 @@ void LoginFrame::checkLogin()
 
     QSharedPointer<User> user;
     {
-        QMap<QString, QString> whereParams;
+        QMap<QString, QVariant> whereParams;
         whereParams.insert(":login", username);
         QList<QSharedPointer<User> > _users = DataManager::sharedInstance().getUsers("`login` = :login", whereParams, QString(), 1, 0);
         if(_users.length() == 1)

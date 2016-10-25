@@ -3,6 +3,8 @@
 #include <QDateTime>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QFile>
+#include <QSqlError>
 
 #include "region.h"
 #include "facility.h"
@@ -25,14 +27,59 @@ DataManager::DataManager()
         // TODO better messages
         throw Exception("Database failed to open");
     }
+
+    setupTables();
 }
 
 void DataManager::setupTables()
 {
+    QSqlQuery query(database);
 
+    if(query.exec("SELECT `id` FROM \"users\" LIMIT 1"))
+    {
+        return;
+    }
+
+    QFile sqlSchemaFile("sqlschema.sql");
+    if(!sqlSchemaFile.open(QFile::ReadOnly | QFile::Text))
+    {
+        throw Exception("SQL Schema file failed to open");
+    }
+    QString sqlSchema = sqlSchemaFile.readAll();
+    sqlSchemaFile.close();
+    foreach(const QString &statement, sqlSchema.split(';'))
+    {
+        QString _statement = statement.trimmed();
+        if(!_statement.isEmpty())
+        {
+            if(!query.exec(_statement))
+            {
+                throw Exception(QString("SQL Schema execution failed: %1").arg(query.lastError().text()).toLatin1());
+            }
+        }
+    }
+
+    QFile sqlCreateFile("sqlcreate.sql");
+    if(!sqlCreateFile.open(QFile::ReadOnly | QFile::Text))
+    {
+        throw Exception("SQL Create file failed to open");
+    }
+    QString sqlCreate = sqlCreateFile.readAll();
+    sqlCreateFile.close();
+    foreach(const QString &statement, sqlCreate.split(';'))
+    {
+        QString _statement = statement.trimmed();
+        if(!_statement.isEmpty())
+        {
+            if(!query.exec(statement))
+            {
+                throw Exception(QString("SQL Create execution failed: %1").arg(query.lastError().text()).toLatin1());
+            }
+        }
+    }
 }
 
-void DataManager::buildSelectQuery(QSqlQuery &query, const QString &selectClause, const QString &whereClause, const QMap<QString, QString> &whereParams, const QString &sortClause, int limit, int offset)
+void DataManager::buildSelectQuery(QSqlQuery &query, const QString &selectClause, const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
 {
     QString queryString = QString("%1 ").arg(selectClause);
 
@@ -64,7 +111,7 @@ void DataManager::buildSelectQuery(QSqlQuery &query, const QString &selectClause
     }
 }
 
-QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClause, const QMap<QString, QString> &whereParams, const QString &sortClause, int limit, int offset)
+QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
 {
     static QString selectClause = "SELECT `id`, `name` FROM \"regions\"";
 
@@ -74,7 +121,7 @@ QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClaus
     if(query.exec())
     {
         QList<QSharedPointer<Region> > results;
-        while(!query.next())
+        while(query.next())
         {
             int id = query.value(0).toInt();
             QString name = query.value(1).toString();
@@ -88,7 +135,7 @@ QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClaus
     }
 }
 
-QList<QSharedPointer<Facility> > DataManager::getFacilities(const QString &whereClause, const QMap<QString, QString> &whereParams, const QString &sortClause, int limit, int offset)
+QList<QSharedPointer<Facility> > DataManager::getFacilities(const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
 {
     static QString selectClause = "SELECT `id`, `name`, `regions_id`, `x`, `y`, `number_of_acute_care_beds`, `number_of_complex_continuing_care_beds`, `number_of_long_term_care_beds` FROM \"facilities\"";
 
@@ -98,7 +145,7 @@ QList<QSharedPointer<Facility> > DataManager::getFacilities(const QString &where
     if(query.exec())
     {
         QList<QSharedPointer<Facility> > results;
-        while(!query.next())
+        while(query.next())
         {
             int id = query.value(0).toInt();
             QString name = query.value(1).toString();
@@ -118,7 +165,7 @@ QList<QSharedPointer<Facility> > DataManager::getFacilities(const QString &where
     }
 }
 
-QList<QSharedPointer<Patient> > DataManager::getPatients(const QString &whereClause, const QMap<QString, QString> &whereParams, const QString &sortClause, int limit, int offset)
+QList<QSharedPointer<Patient> > DataManager::getPatients(const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
 {
     static QString selectClause = "SELECT `id`, `health_care_number`, `name`, `required_care_type`, `receiving_care_type`, `receiving_care_facilities_id`, `receiving_care_date_admitted` FROM \"patients\"";
 
@@ -128,7 +175,7 @@ QList<QSharedPointer<Patient> > DataManager::getPatients(const QString &whereCla
     if(query.exec())
     {
         QList<QSharedPointer<Patient> > results;
-        while(!query.next())
+        while(query.next())
         {
             int id = query.value(0).toInt();
             int healthCareNumber = query.value(1).toInt();
@@ -155,7 +202,7 @@ QList<QSharedPointer<Patient> > DataManager::getPatients(const QString &whereCla
     }
 }
 
-QList<QSharedPointer<User> > DataManager::getUsers(const QString &whereClause, const QMap<QString, QString> &whereParams, const QString &sortClause, int limit, int offset)
+QList<QSharedPointer<User> > DataManager::getUsers(const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
 {
     static QString selectClause = "SELECT `id`, `login`, `password_hash`, `type` FROM \"users\"";
 
@@ -165,7 +212,7 @@ QList<QSharedPointer<User> > DataManager::getUsers(const QString &whereClause, c
     if(query.exec())
     {
         QList<QSharedPointer<User> > results;
-        while(!query.next())
+        while(query.next())
         {
             int id = query.value(0).toInt();
             QString login = query.value(1).toString();
@@ -188,19 +235,19 @@ void DataManager::addPatient(const Patient &patient)
     mutex.lock();
 
     database.transaction();
-    query.prepare("INSERT INTO Patients (HCN, Name, Care_Req, Care_Rec, WL_Date, Admit_Date, Facility) VALUES (:hcn, :name, :reqcare, :reccare, :admitDate, :loc)");
-    query.bindValue(":hcn", patient.getHealthCardNumber());
+    query.prepare("INSERT INTO \"patients\" (`health_care_number`, `name`, `required_care_type`, `receiving_care_type`, `receiving_care_facilities_id`, `receiving_care_date_admitted`) VALUES "
+                  "(:health_care_number, :name, :required_care_type, :receiving_care_type, :receiving_care_facilities_id, :receiving_care_date_admitted)");
+    query.bindValue(":health_care_number", patient.getHealthCardNumber());
     query.bindValue(":name", patient.getName());
-    query.bindValue(":reqcare", patient.getRequiredCareType());
-    query.bindValue(":reccare", patient.getReceivingCareType());
-    query.bindValue(":admitDate", patient.getReceivingCareDateAdmitted());
-    bool success;
+    query.bindValue(":required_care_type", patient.getRequiredCareType());
+    query.bindValue(":receiving_care_type", patient.getReceivingCareType());bool success;
     QVariant facilityId = patient.getReceivingCareFacilityId(&success);
     if(!success)
     {
         facilityId = QVariant();
     }
-    query.bindValue(":loc", facilityId);
+    query.bindValue(":receiving_care_facilities_id", facilityId);
+    query.bindValue(":receiving_care_date_admitted", patient.getReceivingCareDateAdmitted());
 
     if(query.exec())
     {
@@ -222,9 +269,10 @@ void DataManager::addUser(const User &user)
     mutex.lock();
 
     database.transaction();
-    query.prepare("INSERT INTO Users (Username, Password, security_group) VALUES (:uname, :password, :type)");
-    query.bindValue(":uname", user.getUsername());
-    query.bindValue(":password", user.getPasswordHash());
+    query.prepare("INSERT INTO \"users\" (`login`, `password_hash`, `type`) VALUES "
+                  "(:login, :password_hash, :type)");
+    query.bindValue(":login", user.getUsername());
+    query.bindValue(":password_hash", user.getPasswordHash());
     query.bindValue(":type", user.getUserType());
     if(query.exec())
     {
@@ -246,21 +294,21 @@ void DataManager::addFacility(const Facility &facility)
     mutex.lock();
 
     database.transaction();
-    query.prepare("INSERT INTO Facility (ID, Name, X, Y, AC, CCC, LTC, Region) VALUES (:id, :name, :x, :y, :ac, :ccc, :ltc, :region)");
-    query.bindValue(":id", facility.getID());
+    query.prepare("INSERT INTO \"facilities\" (`name`, `regions_id`, `x`, `y`, `number_of_acute_care_beds`, `number_of_complex_continuing_care_beds`, `number_of_long_term_care_beds`) VALUES "
+                  "(:name, :regions_id, :x, :y, :number_of_acute_care_beds, :number_of_complex_continuing_care_beds, :number_of_long_term_care_beds)");
     query.bindValue(":name", facility.getName());
-    query.bindValue(":x", facility.getX());
-    query.bindValue(":y", facility.getY());
-    query.bindValue(":ac", facility.getNumberOfAcuteCareBeds());
-    query.bindValue(":ccc", facility.getNumberOfComplexContinuingCareBeds());
-    query.bindValue(":ltc", facility.getNumberOfLongTermCareBeds());
     bool success;
     QVariant regionId = facility.getRegionId(&success);
     if(!success)
     {
         regionId = QVariant();
     }
-    query.bindValue(":region", regionId);
+    query.bindValue(":regions_id", regionId);
+    query.bindValue(":x", facility.getX());
+    query.bindValue(":y", facility.getY());
+    query.bindValue(":number_of_acute_care_beds", facility.getNumberOfAcuteCareBeds());
+    query.bindValue(":number_of_complex_continuing_care_beds", facility.getNumberOfComplexContinuingCareBeds());
+    query.bindValue(":number_of_long_term_care_beds", facility.getNumberOfLongTermCareBeds());
 
     if(query.exec())
     {
@@ -277,26 +325,26 @@ void DataManager::addFacility(const Facility &facility)
 
 void DataManager::updatePatient(const Patient &patient)
 {
-
-
     QSqlQuery query(database);
 
     mutex.lock();
 
     database.transaction();
-    query.prepare("UPDATE Patients SET Name = :name, Care_Req = :reqcare, Care_Rec = :reccare, Admit_Date = :ad, Facility = :loc WHERE HCN = :hcn");
-    query.bindValue(":hcn", patient.getHealthCardNumber());
+    query.prepare("UPDATE \"patients\" "
+                  "SET `name` = :name, `required_care_type` = :required_care_type, `receiving_care_type` = :receiving_care_type, `receiving_care_facilities_id` = :receiving_care_facilities_id, `receiving_care_date_admitted` = :receiving_care_date_admitted"
+                  "WHERE `id` = :id");
     query.bindValue(":name", patient.getName());
-    query.bindValue(":reqcare", patient.getRequiredCareType());
-    query.bindValue(":reccare", patient.getReceivingCareType());
-    query.bindValue(":ad", patient.getReceivingCareDateAdmitted());
+    query.bindValue(":required_care_type", patient.getRequiredCareType());
+    query.bindValue(":receiving_care_type", patient.getReceivingCareType());
     bool success;
     QVariant facilityId = patient.getReceivingCareFacilityId(&success);
     if(!success)
     {
         facilityId = QVariant();
     }
-    query.bindValue(":loc", facilityId);
+    query.bindValue(":receiving_care_facilities_id", facilityId);
+    query.bindValue(":receiving_care_date_admitted", patient.getReceivingCareDateAdmitted());
+
 
     if(query.exec())
     {
@@ -318,10 +366,12 @@ void DataManager::updateUser(const User &user)
     mutex.lock();
 
     database.transaction();
-    query.prepare("UPDATE Users SET Password = :pword, security_group = :sgroup WHERE Username = :uname");
-    query.bindValue(":uname", user.getUsername());
-    query.bindValue(":pword", user.getPasswordHash());
-    query.bindValue(":sgroup", user.getUserType());
+    query.prepare("UPDATE \"users\" "
+                  "SET `password_hash` = :password_hash, `type` = :type "
+                  "WHERE `id` = :id");
+    query.bindValue(":password_hash", user.getPasswordHash());
+    query.bindValue(":type", user.getUserType());
+    query.bindValue(":id", user.getId(NULL));
 
     if(query.exec())
     {
@@ -343,21 +393,23 @@ void DataManager::updateFacility(const Facility &facility)
     mutex.lock();
 
     database.transaction();
-    query.prepare("UPDATE Facility SET name = :name, X = :x, Y = :y, AC = :ac, CCC = :ccc, LTC = :ltc, region = :reg WHERE ID = :id");
-    query.bindValue(":id", facility.getID());
+    query.prepare("UPDATE \"facilities\" "
+                  "SET `name` = :name, `regions_id` = :regions_id, `x` = :x, `y` = :y, `number_of_acute_care_beds` = :number_of_acute_care_beds, `number_of_complex_continuing_care_beds` = :number_of_complex_continuing_care_beds, `number_of_long_term_care_beds` = :number_of_long_term_care_beds "
+                  "WHERE ID = :id");
     query.bindValue(":name", facility.getName());
-    query.bindValue(":x", facility.getX());
-    query.bindValue(":y", facility.getY());
-    query.bindValue(":ac", facility.getNumberOfAcuteCareBeds());
-    query.bindValue(":ccc", facility.getNumberOfComplexContinuingCareBeds());
-    query.bindValue(":ltc", facility.getNumberOfLongTermCareBeds());
     bool success;
     QVariant regionId = facility.getRegionId(&success);
     if(!success)
     {
         regionId = QVariant();
     }
-    query.bindValue(":reg", regionId);
+    query.bindValue(":regions_id", regionId);
+    query.bindValue(":x", facility.getX());
+    query.bindValue(":y", facility.getY());
+    query.bindValue(":number_of_acute_care_beds", facility.getNumberOfAcuteCareBeds());
+    query.bindValue(":number_of_complex_continuing_care_beds", facility.getNumberOfComplexContinuingCareBeds());
+    query.bindValue(":number_of_long_term_care_beds", facility.getNumberOfLongTermCareBeds());
+    query.bindValue(":id", facility.getID());
 
     if(query.exec())
     {

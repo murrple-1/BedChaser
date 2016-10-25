@@ -19,7 +19,7 @@ public:
     User(const QVariant &id, const QString &username, const QString &passwordHash, UserType userType);
     User(const User &);
 
-    int getId() const;
+    int getId(bool *success = 0) const;
     const QString & getUsername() const;
     const QString & getPasswordHash() const;
     UserType getUserType() const;

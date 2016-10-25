@@ -27,7 +27,7 @@ MapFrame::~MapFrame()
 
 void MapFrame::on_renfrew_clicked()
 {
-    QMap<QString, QString> whereParams;
+    QMap<QString, QVariant> whereParams;
     whereParams.insert(":id", "0");
     QSharedPointer<Region> region = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1, 0).first();
     emit regionClicked(*region);
@@ -35,7 +35,7 @@ void MapFrame::on_renfrew_clicked()
 
 void MapFrame::on_Lanark_clicked()
 {
-    QMap<QString, QString> whereParams;
+    QMap<QString, QVariant> whereParams;
     whereParams.insert(":id", "1");
     QSharedPointer<Region> region = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1, 0).first();
     emit regionClicked(*region);
@@ -43,7 +43,7 @@ void MapFrame::on_Lanark_clicked()
 
 void MapFrame::on_o_west_clicked()
 {
-    QMap<QString, QString> whereParams;
+    QMap<QString, QVariant> whereParams;
     whereParams.insert(":id", "2");
     QSharedPointer<Region> region = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1, 0).first();
     emit regionClicked(*region);
@@ -51,7 +51,7 @@ void MapFrame::on_o_west_clicked()
 
 void MapFrame::on_grenville_clicked()
 {
-    QMap<QString, QString> whereParams;
+    QMap<QString, QVariant> whereParams;
     whereParams.insert(":id", "3");
     QSharedPointer<Region> region = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1, 0).first();
     emit regionClicked(*region);
@@ -59,7 +59,7 @@ void MapFrame::on_grenville_clicked()
 
 void MapFrame::on_o_east_clicked()
 {
-    QMap<QString, QString> whereParams;
+    QMap<QString, QVariant> whereParams;
     whereParams.insert(":id", "4");
     QSharedPointer<Region> region = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1, 0).first();
     emit regionClicked(*region);
@@ -67,7 +67,7 @@ void MapFrame::on_o_east_clicked()
 
 void MapFrame::on_easternc_clicked()
 {
-    QMap<QString, QString> whereParams;
+    QMap<QString, QVariant> whereParams;
     whereParams.insert(":id", "5");
     QSharedPointer<Region> region = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1, 0).first();
     emit regionClicked(*region);
@@ -75,7 +75,7 @@ void MapFrame::on_easternc_clicked()
 
 void MapFrame::on_o_centre_clicked()
 {
-    QMap<QString, QString> whereParams;
+    QMap<QString, QVariant> whereParams;
     whereParams.insert(":id", "6");
     QSharedPointer<Region> region = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1, 0).first();
     emit regionClicked(*region);

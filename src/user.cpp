@@ -15,6 +15,11 @@ User::User(const User &source) :
 
 }
 
+int User::getId(bool *success) const
+{
+    return id.toInt(success);
+}
+
 void User::setPassword(const QString &password)
 {
     // TODO hash the password first
