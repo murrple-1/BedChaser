@@ -28,7 +28,8 @@ SOURCES += \
     main.cpp \
     region.cpp \
     patient.cpp \
-    facility.cpp
+    facility.cpp \
+    waitinglistentry.cpp
 
 HEADERS  += \
     addfacilitydialog.h \
@@ -53,7 +54,8 @@ HEADERS  += \
     waitinglistdialog.h \
     patient.h \
     region.h \
-    facility.h
+    facility.h \
+    waitinglistentry.h
 
 FORMS    += \
     addfacilitydialog.ui \

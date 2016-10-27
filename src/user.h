@@ -16,7 +16,7 @@ class User : public QObject
 {
     Q_OBJECT
 public:
-    User(const QVariant &id, const QString &username, const QString &passwordHash, UserType userType);
+    User(const QVariant &id, const QString &username, const QString &passwordHash, UserType userType, QObject *parent = 0);
     User(const User &);
 
     int getId(bool *success = 0) const;

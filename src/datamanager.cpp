@@ -228,6 +228,31 @@ QList<QSharedPointer<User> > DataManager::getUsers(const QString &whereClause, c
     }
 }
 
+QList<QSharedPointer<WaitingListEntry> > DataManager::getWaitingListEntries(const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
+{
+    static QString selectClause = "SELECT `regions_id`, `patients_id`, `date_added` FROM \"waiting_list_regions_patients_mappings\"";
+
+    QSqlQuery query(database);
+    buildSelectQuery(query, selectClause, whereClause, whereParams, sortClause, limit, offset);
+
+    if(query.exec())
+    {
+        QList<QSharedPointer<WaitingListEntry> > results;
+        while(query.next())
+        {
+            int regionId = query.value(0).toInt();
+            int patientId = query.value(1).toInt();
+            QDateTime dateAdded = query.value(2).toDateTime();
+            results.append(QSharedPointer<WaitingListEntry>(new WaitingListEntry(regionId, patientId, dateAdded)));
+        }
+        return results;
+    }
+    else
+    {
+        throw Exception("SQL statement error");
+    }
+}
+
 void DataManager::addPatient(const Patient &patient)
 {
     QSqlQuery query(database);
@@ -310,6 +335,31 @@ void DataManager::addFacility(const Facility &facility)
     query.bindValue(":number_of_complex_continuing_care_beds", facility.getNumberOfComplexContinuingCareBeds());
     query.bindValue(":number_of_long_term_care_beds", facility.getNumberOfLongTermCareBeds());
 
+    if(query.exec())
+    {
+        database.commit();
+        mutex.unlock();
+    }
+    else
+    {
+        database.rollback();
+        mutex.unlock();
+        throw Exception("SQL query failed");
+    }
+}
+
+void DataManager::addWaitingListEntry(const WaitingListEntry &waitingListEntry)
+{
+    QSqlQuery query(database);
+
+    mutex.lock();
+
+    database.transaction();
+    query.prepare("INSERT INTO \"waiting_list_regions_patients_mappings\" (`regions_id`, `patients_id`, `date_added`) VALUES "
+                  "(:regions_id, :patients_id, :date_added)");
+    query.bindValue(":regions_id", waitingListEntry.getRegionId());
+    query.bindValue(":patients_id", waitingListEntry.getPatientId());
+    query.bindValue(":date_added", waitingListEntry.getDateAdded());
     if(query.exec())
     {
         database.commit();
@@ -421,5 +471,30 @@ void DataManager::updateFacility(const Facility &facility)
         database.rollback();
         mutex.unlock();
         throw Exception("updating the facility failed");
+    }
+}
+
+void DataManager::deleteWaitingListEntry(const WaitingListEntry &waitingListEntry)
+{
+    QSqlQuery query(database);
+
+    mutex.lock();
+
+    database.transaction();
+    query.prepare("DELETE FROM \"users\" "
+                  "WHERE `regions_id` = :regions_id AND `patients_id` = :patients_id");
+    query.bindValue(":regions_id", waitingListEntry.getRegionId());
+    query.bindValue(":patients_id", waitingListEntry.getPatientId());
+
+    if(query.exec())
+    {
+        database.commit();
+        mutex.unlock();
+    }
+    else
+    {
+        database.rollback();
+        mutex.unlock();
+        throw Exception("updating the user failed");
     }
 }

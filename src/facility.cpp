@@ -1,6 +1,7 @@
 #include "facility.h"
 
-Facility::Facility(const QVariant &id, const QString &name, int x, int y, int numberOfAcuteCareBeds, int numberOfComlexContinuingCareBeds, int numberOfLongTermCare, const QVariant &regionId) :
+Facility::Facility(const QVariant &id, const QString &name, int x, int y, int numberOfAcuteCareBeds, int numberOfComlexContinuingCareBeds, int numberOfLongTermCare, const QVariant &regionId, QObject *parent) :
+    QObject(parent),
     id(id),
     name(name),
     x(x),

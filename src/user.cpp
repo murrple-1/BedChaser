@@ -1,6 +1,7 @@
 #include "user.h"
 
-User::User(const QVariant &id, const QString &username, const QString &passwordHash, const UserType userType) :
+User::User(const QVariant &id, const QString &username, const QString &passwordHash, const UserType userType, QObject *parent) :
+    QObject(parent),
     id(id),
     username(username),
     passwordHash(passwordHash),

@@ -1,6 +1,7 @@
 #include "patient.h"
 
-Patient::Patient(const QVariant &id, int healthCardNumber, const QString &name, CareType requiredCareType, CareType receivedCareType, const QVariant &careFacilityId, const QDateTime &dateAdmitted) :
+Patient::Patient(const QVariant &id, int healthCardNumber, const QString &name, CareType requiredCareType, CareType receivedCareType, const QVariant &careFacilityId, const QDateTime &dateAdmitted, QObject *parent) :
+    QObject(parent),
     id(id),
     healthCardNumber(healthCardNumber),
     name(name),
