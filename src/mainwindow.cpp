@@ -17,6 +17,7 @@
 #include "changepassworddialog.h"
 #include "loginframe.h"
 #include "regionframe.h"
+#include "mapframe.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     LoginFrame *loginFrame = new LoginFrame(this);
+    connect(loginFrame, &LoginFrame::loginSuccess, this, &MainWindow::loginSuccess);
     setCentralWidget(loginFrame);
 
     setCurrentUser(QSharedPointer<User>());
@@ -39,7 +41,7 @@ void MainWindow::setCurrentUser(const QSharedPointer<User> &user)
 {
     currentUser = user;
 
-    if(currentUser == NULL)
+    if(currentUser.isNull())
     {
         ui->menuTools->setDisabled(true);
         ui->actionLogout->setDisabled(true);
@@ -70,6 +72,16 @@ void MainWindow::setCurrentUser(const QSharedPointer<User> &user)
             break;
         }
     }
+}
+
+void MainWindow::loginSuccess(const QSharedPointer<User> &user)
+{
+    centralWidget()->deleteLater();
+
+    MapFrame *mapFrame = new MapFrame(this);
+    setCentralWidget(mapFrame);
+
+    setCurrentUser(user);
 }
 
 void MainWindow::on_actionAdd_Facility_triggered()

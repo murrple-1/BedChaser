@@ -33,6 +33,8 @@ private slots:
     void on_actionAdd_User_triggered();
     void on_actionExit_triggered();
     void on_actionLogout_triggered();
+
+    void loginSuccess(const QSharedPointer<User> &);
 };
 
 #endif // MAINWINDOW_H

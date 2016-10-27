@@ -45,7 +45,7 @@ void LoginFrame::checkLogin()
 
     if(!user.isNull() && user->getPasswordHash() == passwordHash)
     {
-        // TODO
+        emit loginSuccess(user);
     }
     else
     {

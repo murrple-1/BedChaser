@@ -7,6 +7,10 @@ namespace Ui {
     class LoginFrame;
 }
 
+#include <QSharedPointer>
+
+class User;
+
 class LoginFrame : public QFrame
 {
     Q_OBJECT
@@ -17,6 +21,8 @@ private:
     Ui::LoginFrame *ui;
 public slots:
     void checkLogin();
+signals:
+    void loginSuccess(const QSharedPointer<User> &);
 };
 
 #endif // LOGINFRAME_H
