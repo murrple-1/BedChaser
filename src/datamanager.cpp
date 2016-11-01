@@ -10,6 +10,9 @@
 #include "facility.h"
 #include "patient.h"
 #include "exception.h"
+#include "passwordhasher.h"
+
+static const QString DEFAULT_ROOT_PASSWORD = "password";
 
 DataManager & DataManager::sharedInstance()
 {
@@ -57,6 +60,23 @@ void DataManager::setupTables()
                 throw Exception(QString("SQL Schema execution failed: %1").arg(query.lastError().text()).toLatin1());
             }
         }
+    }
+
+    QString sqlCreateUser = "INSERT INTO \"users\" (`login`, `password_hash`, `type`) VALUES "
+            "('root', :password_hash, 2);";
+
+    if(query.prepare(sqlCreateUser))
+    {
+        QString passwordHash = PasswordHasher::sharedInstance().createHash(DEFAULT_ROOT_PASSWORD);
+        query.bindValue(":password_hash", passwordHash);
+        if(!query.exec())
+        {
+            throw Exception("SQL Create User failed");
+        }
+    }
+    else
+    {
+        throw Exception("SQL Create User failed to prepare");
     }
 
     QFile sqlCreateFile("sqlcreate.sql");

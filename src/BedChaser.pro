@@ -29,7 +29,8 @@ SOURCES += \
     region.cpp \
     patient.cpp \
     facility.cpp \
-    waitinglistentry.cpp
+    waitinglistentry.cpp \
+    passwordhasher.cpp
 
 HEADERS  += \
     addfacilitydialog.h \
@@ -55,7 +56,8 @@ HEADERS  += \
     patient.h \
     region.h \
     facility.h \
-    waitinglistentry.h
+    waitinglistentry.h \
+    passwordhasher.h
 
 FORMS    += \
     addfacilitydialog.ui \
@@ -76,6 +78,22 @@ FORMS    += \
     searchwindow.ui \
     waitinglistdialog.ui
 
+LIBSODIUM32_DIR = $$(LIBSODIUM32_DIR)
+isEmpty(LIBSODIUM32_DIR): error("'LIBSODIUM32_DIR' environment variable not set")
+
+INCLUDEPATH += \
+    $${LIBSODIUM32_DIR}/include
+
+LIBS += \
+    -L$${LIBSODIUM32_DIR}/lib -lsodium
+
+libFiles_sodium.path = $$OUT_PWD
+libFiles_sodium.files = \
+    $${LIBSODIUM32_DIR}/bin/libsodium-18.dll
+
+INSTALLS += \
+    libFiles_sodium
+
 CONFIG(debug, debug|release) {
 imageFiles.path = $$OUT_PWD/images
 imageFiles.files = $$PWD/images/*
@@ -89,6 +107,7 @@ INSTALLS += \
     imageFiles \
     sqlFiles
 }
+
 
 CONFIG(release, debug|release) {
 imageFiles.path = $$OUT_PWD/images

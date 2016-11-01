@@ -2,6 +2,7 @@
 #include "ui_loginframe.h"
 
 #include "datamanager.h"
+#include "passwordhasher.h"
 
 LoginFrame::LoginFrame(QWidget *parent) :
     QFrame(parent),
@@ -29,9 +30,6 @@ void LoginFrame::checkLogin()
     QString username = ui->usernameField->text();
     QString password = ui->passwordField->text();
 
-    // TODO hash the password
-    QString passwordHash = password;
-
     QSharedPointer<User> user;
     {
         QMap<QString, QVariant> whereParams;
@@ -43,7 +41,7 @@ void LoginFrame::checkLogin()
         }
     }
 
-    if(!user.isNull() && user->getPasswordHash() == passwordHash)
+    if(!user.isNull() && PasswordHasher::sharedInstance().validatePassword(password, user->getPasswordHash()))
     {
         emit loginSuccess(user);
     }

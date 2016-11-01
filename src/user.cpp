@@ -1,5 +1,7 @@
 #include "user.h"
 
+#include "passwordhasher.h"
+
 User::User(const QVariant &id, const QString &username, const QString &passwordHash, const UserType userType, QObject *parent) :
     QObject(parent),
     id(id),
@@ -23,8 +25,7 @@ int User::getId(bool *success) const
 
 void User::setPassword(const QString &password)
 {
-    // TODO hash the password first
-    this->passwordHash = password;
+    this->passwordHash = PasswordHasher::sharedInstance().createHash(password);
 }
 
 void User::setPasswordHash(const QString &passwordHash)

@@ -1,6 +1,3 @@
-INSERT INTO "users" (`login`, `password_hash`, `type`) VALUES
-	('root', 'password', 2);
-
 INSERT INTO "regions" (`name`) VALUES
 	('Renfrew County'),
 	('North Lanark/North Grenville'),
