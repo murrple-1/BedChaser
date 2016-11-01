@@ -3,7 +3,6 @@ QT += widgets sql
 TARGET = BedChaser
 TEMPLATE = app
 
-
 SOURCES += \
     addfacilitydialog.cpp \
     addpatientdialog.cpp \
@@ -78,6 +77,7 @@ FORMS    += \
     searchwindow.ui \
     waitinglistdialog.ui
 
+# recommended: download the most recent precompiled library here: https://download.libsodium.org/libsodium/releases/
 LIBSODIUM32_DIR = $$(LIBSODIUM32_DIR)
 isEmpty(LIBSODIUM32_DIR): error("'LIBSODIUM32_DIR' environment variable not set")
 
