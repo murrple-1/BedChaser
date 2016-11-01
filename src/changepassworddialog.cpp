@@ -3,6 +3,7 @@
 
 #include "user.h"
 #include "datamanager.h"
+#include "passwordhasher.h"
 
 ChangePasswordDialog::ChangePasswordDialog(const QSharedPointer<User> &user, QWidget *parent) :
     QDialog(parent),
@@ -25,7 +26,7 @@ ChangePasswordDialog::~ChangePasswordDialog()
 
 void ChangePasswordDialog::updateUser()
 {
-    if(ui->passField->text() == user->getPasswordHash())
+    if(PasswordHasher::sharedInstance().validatePassword(ui->passField->text(), user->getPasswordHash()))
     {
         user->setPassword(ui->newpassField->text());
         DataManager::sharedInstance().updateUser(*user);
