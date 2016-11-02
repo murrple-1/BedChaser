@@ -116,11 +116,11 @@ void DataManager::buildSelectQuery(QSqlQuery &query, const QString &selectClause
     if(limit >= 0)
     {
         queryString.append(QString("LIMIT %1 ").arg(limit));
-    }
 
-    if(offset >= 0)
-    {
-        queryString.append(QString("OFFSET %1 ").arg(offset));
+        if(offset >= 0)
+        {
+            queryString.append(QString("OFFSET %1 ").arg(offset));
+        }
     }
 
     query.prepare(queryString);
@@ -133,7 +133,7 @@ void DataManager::buildSelectQuery(QSqlQuery &query, const QString &selectClause
 
 QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
 {
-    static QString selectClause = "SELECT `id`, `name` FROM \"regions\"";
+    static QString selectClause = "SELECT `id`, `name`, `x`, `y` FROM \"regions\"";
 
     QSqlQuery query(database);
     buildSelectQuery(query, selectClause, whereClause, whereParams, sortClause, limit, offset);
@@ -145,7 +145,9 @@ QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClaus
         {
             int id = query.value(0).toInt();
             QString name = query.value(1).toString();
-            results.append(QSharedPointer<Region>(new Region(id, name)));
+            int x = query.value(2).toInt();
+            int y = query.value(3).toInt();
+            results.append(QSharedPointer<Region>(new Region(id, name, x, y)));
         }
         return results;
     }

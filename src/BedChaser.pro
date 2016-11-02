@@ -70,7 +70,6 @@ FORMS    += \
     facilityreportdisplay.ui \
     loginframe.ui \
     mainwindow.ui \
-    mapframe.ui \
     patientlistdialog.ui \
     patientreportdialog.ui \
     regionframe.ui \

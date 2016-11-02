@@ -1,10 +1,10 @@
-INSERT INTO "regions" (`name`) VALUES
-	('Renfrew County'),
-	('North Lanark/North Grenville'),
-	('Ottawa West'),
-	('Ottawa Center'),
-	('Ottawa East'),
-	('Eastern Counties');
+INSERT INTO "regions" (`name`, `x`, `y`) VALUES
+	('Renfrew County', 150, 150),
+	('North Lanark/North Grenville', 275, 275),
+	('Ottawa West', 320, 200),
+	('Ottawa Center', 400, 220),
+	('Ottawa East', 415, 180),
+	('Eastern Counties', 490, 225);
 
 INSERT INTO "facilities" (`name`, `x`, `y`, `number_of_acute_care_beds`, `number_of_complex_continuing_care_beds`, `number_of_long_term_care_beds`, `regions_id`) VALUES
 	('POgl9xd', 15, 40, 3, 6, 22, (SELECT `id` FROM "regions" WHERE `name` = 'Ottawa East')),
