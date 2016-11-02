@@ -5,17 +5,17 @@
 
 #include <QList>
 #include <QVariant>
+#include <QPoint>
 
 class Facility : public QObject
 {
     Q_OBJECT
 public:
-    Facility(const QVariant &id, const QString &name, int x, int y, int numberOfAcuteCareBeds, int numberOfComplexContinuingCareBeds, int numberOfLongTermCareBeds, const QVariant &regionId, QObject *parent = 0);
+    Facility(const QVariant &id, const QString &name, const QPoint &mapOffset, int numberOfAcuteCareBeds, int numberOfComplexContinuingCareBeds, int numberOfLongTermCareBeds, const QVariant &regionId, QObject *parent = 0);
 
     int getID(bool *ok = 0) const;
     const QString & getName() const;
-    int getX() const;
-    int getY() const;
+    const QPoint & getMapOffset() const;
     int getNumberOfAcuteCareBeds() const;
     int getNumberOfComplexContinuingCareBeds() const;
     int getNumberOfLongTermCareBeds() const;
@@ -23,8 +23,7 @@ public:
 
     void setId(const QVariant &);
     void setName(const QString &);
-    void setX(int);
-    void setY(int);
+    void setMapOffset(const QPoint &);
     void setNumberOfAcuteCareBeds(int);
     void setNumberOfComplexContinuingCareBeds(int);
     void setNumberOfLongTermCareBeds(int);
@@ -32,8 +31,7 @@ public:
 private:
     QVariant id;
     QString name;
-    int x;
-    int y;
+    QPoint mapOffset;
     int numberOfAcuteCareBeds;
     int numberOfComplexContinuingCareBeds;
     int numberOfLongTermCareBeds;

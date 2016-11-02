@@ -21,8 +21,8 @@ EditFacilityDialog::EditFacilityDialog(const QSharedPointer<Facility> &facility,
     ui->LTCSpin->setValue(facility->getNumberOfLongTermCareBeds());
     ui->CCCSpin->setValue(facility->getNumberOfComplexContinuingCareBeds());
     ui->name->setText(facility->getName());
-    ui->x->setNum(facility->getX());
-    ui->y->setNum(facility->getY());
+    ui->x->setNum(facility->getMapOffset().x());
+    ui->y->setNum(facility->getMapOffset().y());
 }
 
 EditFacilityDialog::~EditFacilityDialog()
@@ -37,9 +37,8 @@ void EditFacilityDialog::updateFacility()
         facility->setNumberOfAcuteCareBeds(ui->ACSpin->value());
         facility->setNumberOfComplexContinuingCareBeds(ui->CCCSpin->value());
         facility->setNumberOfLongTermCareBeds(ui->LTCSpin->value());
-        facility->setName(ui->name->text());
-        facility->setX(ui->x->text().toInt());
-        facility->setY(ui->y->text().toInt());
+        facility->setName(ui->name->text());\
+        facility->setMapOffset(QPoint(ui->x->text().toInt(), ui->y->text().toInt()));
 
         DataManager::sharedInstance().updateFacility(*facility);
     }

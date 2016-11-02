@@ -133,7 +133,7 @@ void DataManager::buildSelectQuery(QSqlQuery &query, const QString &selectClause
 
 QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
 {
-    static QString selectClause = "SELECT `id`, `name`, `x`, `y` FROM \"regions\"";
+    static QString selectClause = "SELECT `id`, `name`, `map_x_offset`, `map_y_offset` FROM \"regions\"";
 
     QSqlQuery query(database);
     buildSelectQuery(query, selectClause, whereClause, whereParams, sortClause, limit, offset);
@@ -145,9 +145,9 @@ QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClaus
         {
             int id = query.value(0).toInt();
             QString name = query.value(1).toString();
-            int x = query.value(2).toInt();
-            int y = query.value(3).toInt();
-            results.append(QSharedPointer<Region>(new Region(id, name, x, y)));
+            int mapXOffset = query.value(2).toInt();
+            int mapYOffset = query.value(3).toInt();
+            results.append(QSharedPointer<Region>(new Region(id, name, QPoint(mapXOffset, mapYOffset))));
         }
         return results;
     }
@@ -159,7 +159,7 @@ QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClaus
 
 QList<QSharedPointer<Facility> > DataManager::getFacilities(const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
 {
-    static QString selectClause = "SELECT `id`, `name`, `regions_id`, `x`, `y`, `number_of_acute_care_beds`, `number_of_complex_continuing_care_beds`, `number_of_long_term_care_beds` FROM \"facilities\"";
+    static QString selectClause = "SELECT `id`, `name`, `regions_id`, `map_x_offset`, `map_y_offset`, `number_of_acute_care_beds`, `number_of_complex_continuing_care_beds`, `number_of_long_term_care_beds` FROM \"facilities\"";
 
     QSqlQuery query(database);
     buildSelectQuery(query, selectClause, whereClause, whereParams, sortClause, limit, offset);
@@ -171,13 +171,13 @@ QList<QSharedPointer<Facility> > DataManager::getFacilities(const QString &where
         {
             int id = query.value(0).toInt();
             QString name = query.value(1).toString();
-            int x = query.value(2).toInt();\
-            int y = query.value(3).toInt();
+            int mapXOffset = query.value(2).toInt();\
+            int mapYOffset = query.value(3).toInt();
             int numberOfAcuteCareBeds = query.value(4).toInt();
             int numberOfComplexContinuingCareBeds = query.value(5).toInt();
             int numberOfLongTermCareBeds = query.value(6).toInt();
             QVariant regionId = query.value(7);
-            results.append(QSharedPointer<Facility>(new Facility(id, name, x, y, numberOfAcuteCareBeds, numberOfComplexContinuingCareBeds, numberOfLongTermCareBeds, regionId)));
+            results.append(QSharedPointer<Facility>(new Facility(id, name, QPoint(mapXOffset, mapYOffset), numberOfAcuteCareBeds, numberOfComplexContinuingCareBeds, numberOfLongTermCareBeds, regionId)));
         }
         return results;
     }
@@ -341,8 +341,8 @@ void DataManager::addFacility(const Facility &facility)
     mutex.lock();
 
     database.transaction();
-    query.prepare("INSERT INTO \"facilities\" (`name`, `regions_id`, `x`, `y`, `number_of_acute_care_beds`, `number_of_complex_continuing_care_beds`, `number_of_long_term_care_beds`) VALUES "
-                  "(:name, :regions_id, :x, :y, :number_of_acute_care_beds, :number_of_complex_continuing_care_beds, :number_of_long_term_care_beds)");
+    query.prepare("INSERT INTO \"facilities\" (`name`, `regions_id`, `map_x_offset`, `map_y_offset`, `number_of_acute_care_beds`, `number_of_complex_continuing_care_beds`, `number_of_long_term_care_beds`) VALUES "
+                  "(:name, :regions_id, :map_x_offset, :map_y_offset, :number_of_acute_care_beds, :number_of_complex_continuing_care_beds, :number_of_long_term_care_beds)");
     query.bindValue(":name", facility.getName());
     bool success;
     QVariant regionId = facility.getRegionId(&success);
@@ -351,8 +351,9 @@ void DataManager::addFacility(const Facility &facility)
         regionId = QVariant();
     }
     query.bindValue(":regions_id", regionId);
-    query.bindValue(":x", facility.getX());
-    query.bindValue(":y", facility.getY());
+    const QPoint &mapOffset = facility.getMapOffset();
+    query.bindValue(":map_x_offset", mapOffset.x());
+    query.bindValue(":map_y_offset", mapOffset.y());
     query.bindValue(":number_of_acute_care_beds", facility.getNumberOfAcuteCareBeds());
     query.bindValue(":number_of_complex_continuing_care_beds", facility.getNumberOfComplexContinuingCareBeds());
     query.bindValue(":number_of_long_term_care_beds", facility.getNumberOfLongTermCareBeds());
@@ -466,7 +467,7 @@ void DataManager::updateFacility(const Facility &facility)
 
     database.transaction();
     query.prepare("UPDATE \"facilities\" "
-                  "SET `name` = :name, `regions_id` = :regions_id, `x` = :x, `y` = :y, `number_of_acute_care_beds` = :number_of_acute_care_beds, `number_of_complex_continuing_care_beds` = :number_of_complex_continuing_care_beds, `number_of_long_term_care_beds` = :number_of_long_term_care_beds "
+                  "SET `name` = :name, `regions_id` = :regions_id, `map_x_offset` = :map_x_offset, `map_y_offset` = :map_y_offset, `number_of_acute_care_beds` = :number_of_acute_care_beds, `number_of_complex_continuing_care_beds` = :number_of_complex_continuing_care_beds, `number_of_long_term_care_beds` = :number_of_long_term_care_beds "
                   "WHERE ID = :id");
     query.bindValue(":name", facility.getName());
     bool success;
@@ -476,8 +477,9 @@ void DataManager::updateFacility(const Facility &facility)
         regionId = QVariant();
     }
     query.bindValue(":regions_id", regionId);
-    query.bindValue(":x", facility.getX());
-    query.bindValue(":y", facility.getY());
+    const QPoint &mapOffset = facility.getMapOffset();
+    query.bindValue(":map_x_offset", mapOffset.x());
+    query.bindValue(":map_y_offset", mapOffset.y());
     query.bindValue(":number_of_acute_care_beds", facility.getNumberOfAcuteCareBeds());
     query.bindValue(":number_of_complex_continuing_care_beds", facility.getNumberOfComplexContinuingCareBeds());
     query.bindValue(":number_of_long_term_care_beds", facility.getNumberOfLongTermCareBeds());

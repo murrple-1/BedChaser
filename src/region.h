@@ -5,22 +5,21 @@
 
 #include <QList>
 #include <QVariant>
+#include <QPoint>
 
 class Region : public QObject
 {
     Q_OBJECT
 public:
-    Region(const QVariant &id, const QString &name, int x, int y, QObject *parent = 0);
+    Region(const QVariant &id, const QString &name, const QPoint &mapOffset, QObject *parent = 0);
 
     int getID(bool *ok = 0) const;
     const QString & getName() const;
-    int getX() const;
-    int getY() const;
+    const QPoint & getMapOffset() const;
 private:
     QVariant id;
     QString name;
-    int x;
-    int y;
+    QPoint mapOffset;
 };
 
 #endif // REGION_H

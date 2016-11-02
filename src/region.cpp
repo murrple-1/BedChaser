@@ -1,11 +1,10 @@
 #include "region.h"
 
-Region::Region(const QVariant &id, const QString &name, int x, int y, QObject *parent) :
+Region::Region(const QVariant &id, const QString &name, const QPoint &mapOffset, QObject *parent) :
     QObject(parent),
     id(id),
     name(name),
-    x(x),
-    y(y)
+    mapOffset(mapOffset)
 {
 
 }
@@ -20,12 +19,7 @@ const QString & Region::getName() const
     return name;
 }
 
-int Region::getX() const
+const QPoint & Region::getMapOffset() const
 {
-    return x;
-}
-
-int Region::getY() const
-{
-    return y;
+    return mapOffset;
 }

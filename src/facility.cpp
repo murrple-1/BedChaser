@@ -1,11 +1,10 @@
 #include "facility.h"
 
-Facility::Facility(const QVariant &id, const QString &name, int x, int y, int numberOfAcuteCareBeds, int numberOfComlexContinuingCareBeds, int numberOfLongTermCare, const QVariant &regionId, QObject *parent) :
+Facility::Facility(const QVariant &id, const QString &name, const QPoint &mapOffset, int numberOfAcuteCareBeds, int numberOfComlexContinuingCareBeds, int numberOfLongTermCare, const QVariant &regionId, QObject *parent) :
     QObject(parent),
     id(id),
     name(name),
-    x(x),
-    y(y),
+    mapOffset(mapOffset),
     numberOfAcuteCareBeds(numberOfAcuteCareBeds),
     numberOfComplexContinuingCareBeds(numberOfComlexContinuingCareBeds),
     numberOfLongTermCareBeds(numberOfLongTermCare),
@@ -29,24 +28,14 @@ void Facility::setName(const QString &n)
     name = n;
 }
 
-int Facility::getX() const
+const QPoint & Facility::getMapOffset() const
 {
-    return x;
+    return mapOffset;
 }
 
-void Facility::setX(const int x)
+void Facility::setMapOffset(const QPoint &mapOffset)
 {
-    this->x = x;
-}
-
-int Facility::getY() const
-{
-    return y;
-}
-
-void Facility::setY(const int y)
-{
-    this->y = y;
+    this->mapOffset = mapOffset;
 }
 
 int Facility::getNumberOfAcuteCareBeds() const

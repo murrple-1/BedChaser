@@ -8,16 +8,16 @@ CREATE TABLE "users" (
 CREATE TABLE "regions" (
 	`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`name` TEXT NOT NULL,
-	`x` INTEGER NOT NULL,
-	`y` INTEGER NOT NULL
+	`map_x_offset` INTEGER NOT NULL,
+	`map_y_offset` INTEGER NOT NULL
 );
 
 CREATE TABLE "facilities" (
 	`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`name` TEXT NOT NULL,
 	`regions_id` INTEGER NOT NULL,
-	`x` INTEGER NOT NULL,
-	`y` INTEGER NOT NULL,
+	`map_x_offset` INTEGER NOT NULL,
+	`map_y_offset` INTEGER NOT NULL,
 	`number_of_acute_care_beds` INTEGER NOT NULL,
 	`number_of_complex_continuing_care_beds` INTEGER NOT NULL,
 	`number_of_long_term_care_beds` INTEGER NOT NULL,
