@@ -5,18 +5,26 @@
 #include "datamanager.h"
 #include "passwordhasher.h"
 
-ChangePasswordDialog::ChangePasswordDialog(const QSharedPointer<User> &user, QWidget *parent) :
-    QDialog(parent),
+static const QString errorLabelStylesheet = "QLabel { color : red; }";
+
+static const int minPasswordLength = 6;
+static const int maxPasswordLength = 128;
+
+ChangePasswordDialog::ChangePasswordDialog(const QSharedPointer<User> &user, QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
     ui(new Ui::ChangePasswordDialog)
 {
     ui->setupUi(this);
 
     this->user = user;
 
+    ui->oldPasswordErrorLabel->setStyleSheet(errorLabelStylesheet);
+    ui->newPasswordErrorLabel->setStyleSheet(errorLabelStylesheet);
+
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &ChangePasswordDialog::updateUser);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &ChangePasswordDialog::close);
 
-    ui->name->setText(user->getUsername());
+    ui->usernameValueLabel->setText(user->getUsername());
 }
 
 ChangePasswordDialog::~ChangePasswordDialog()
@@ -26,14 +34,39 @@ ChangePasswordDialog::~ChangePasswordDialog()
 
 void ChangePasswordDialog::updateUser()
 {
-    if(PasswordHasher::sharedInstance().validatePassword(ui->passField->text(), user->getPasswordHash()))
+    ui->oldPasswordErrorLabel->setText(QString());
+    ui->newPasswordErrorLabel->setText(QString());
+
+    if(PasswordHasher::sharedInstance().validatePassword(ui->oldPasswordLineEdit->text(), user->getPasswordHash()))
     {
-        user->setPassword(ui->newpassField->text());
-        DataManager::sharedInstance().updateUser(*user);
-        close();
+        QString newPassword = ui->newPasswordLineEdit->text();
+
+        QString error = validateNewPassword(newPassword);
+
+        if(error.isNull())
+        {
+            user->setPassword(ui->newPasswordLineEdit->text());
+            DataManager::sharedInstance().updateUser(*user);
+            close();
+        }
+        else
+        {
+            ui->newPasswordErrorLabel->setText(error);
+        }
     }
     else
     {
-        // TODO show error
+        ui->oldPasswordErrorLabel->setText("Old password does not match");
     }
+}
+
+QString ChangePasswordDialog::validateNewPassword(const QString &password)
+{
+    int length = password.length();
+    if (length < minPasswordLength || length > maxPasswordLength)
+    {
+        return QString("Password must be between %1 and %2 characters").arg(minPasswordLength).arg(maxPasswordLength);
+    }
+
+    return QString();
 }

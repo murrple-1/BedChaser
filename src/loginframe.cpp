@@ -17,7 +17,9 @@ LoginFrame::LoginFrame(QWidget *parent) :
     ui->logoLabel->setPixmap(pixmap);
     ui->logoLabel->setFixedSize(pixmap.size());
 
-    connect(ui->loginButton, &QPushButton::clicked, this, &LoginFrame::checkLogin);
+    connect(ui->usernameLineEdit, &QLineEdit::returnPressed, this, &LoginFrame::checkLogin);
+    connect(ui->passwordLineEdit, &QLineEdit::returnPressed, this, &LoginFrame::checkLogin);
+    connect(ui->loginPushButton, &QPushButton::clicked, this, &LoginFrame::checkLogin);
 }
 
 LoginFrame::~LoginFrame()
@@ -27,8 +29,8 @@ LoginFrame::~LoginFrame()
 
 void LoginFrame::checkLogin()
 {
-    QString username = ui->usernameField->text();
-    QString password = ui->passwordField->text();
+    QString username = ui->usernameLineEdit->text();
+    QString password = ui->passwordLineEdit->text();
 
     QSharedPointer<User> user;
     {
@@ -37,7 +39,7 @@ void LoginFrame::checkLogin()
         QList<QSharedPointer<User> > _users = DataManager::sharedInstance().getUsers("`login` = :login", whereParams, QString(), 1, 0);
         if(_users.length() == 1)
         {
-            user = _users.at(0);
+            user = _users.first();
         }
     }
 
@@ -47,6 +49,6 @@ void LoginFrame::checkLogin()
     }
     else
     {
-        ui->errorLabel->setText("Error logging on, username incorrect");
+        ui->errorLabel->setText("Username or password not recognized");
     }
 }

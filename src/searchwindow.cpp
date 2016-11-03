@@ -5,15 +5,15 @@
 
 #include "datamanager.h"
 
-SearchWindow::SearchWindow(QWidget *parent) :
-    QDialog(parent),
+SearchWindow::SearchWindow(QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
     ui(new Ui::SearchWindow),
     chosenObject(NULL)
 {
     ui->setupUi(this);
 
-    connect(ui->searchField, &QLineEdit::textEdited, this, &SearchWindow::updateSearchResults);
-    connect(ui->searchField, &QLineEdit::returnPressed, this, &SearchWindow::updateSearchResults);
+    connect(ui->searchLineEdit, &QLineEdit::textEdited, this, &SearchWindow::updateSearchResults);
+    connect(ui->searchLineEdit, &QLineEdit::returnPressed, this, &SearchWindow::updateSearchResults);
 
     QStringList completerList;
 
@@ -23,10 +23,11 @@ SearchWindow::SearchWindow(QWidget *parent) :
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setCompletionMode(QCompleter::PopupCompletion);
     completer->setMaxVisibleItems(10);
-    ui->searchField->setCompleter(completer);
+    ui->searchLineEdit->setCompleter(completer);
 
     connect(completer, static_cast<void (QCompleter:: *)(const QString &)>(&QCompleter::activated), this, &SearchWindow::updateSearchResults);
     connect(ui->listView, &QListView::doubleClicked, this, &SearchWindow::choseObject);
+    connect(ui->donePushButton, &QPushButton::clicked, this, &SearchWindow::reject);
 }
 
 SearchWindow::~SearchWindow()
@@ -48,5 +49,5 @@ void SearchWindow::choseObject(const QModelIndex &i)
 
 void SearchWindow::updateSearchResults()
 {
-    ui->listView->setModel(ui->searchField->completer()->completionModel());
+    ui->listView->setModel(ui->searchLineEdit->completer()->completionModel());
 }

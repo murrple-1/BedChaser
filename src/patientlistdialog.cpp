@@ -4,8 +4,8 @@
 #include "searchwindow.h"
 #include "datamanager.h"
 
-PatientListDialog::PatientListDialog(const QSharedPointer<Facility> &facility, QWidget *parent) :
-    QDialog(parent),
+PatientListDialog::PatientListDialog(const QSharedPointer<Facility> &facility, QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
     ui(new Ui::PatientListDialog)
 {
     ui->setupUi(this);

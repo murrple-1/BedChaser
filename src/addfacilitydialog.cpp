@@ -4,8 +4,8 @@
 #include "datamanager.h"
 #include "facility.h"
 
-AddFacilityDialog::AddFacilityDialog(QWidget *parent) :
-    QDialog(parent),
+AddFacilityDialog::AddFacilityDialog(QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
     ui(new Ui::AddFacilityDialog)
 {
     ui->setupUi(this);

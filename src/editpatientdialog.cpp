@@ -4,8 +4,8 @@
 #include "patient.h"
 #include "datamanager.h"
 
-EditPatientDialog::EditPatientDialog(const QSharedPointer<Patient> &patient, QWidget *parent) :
-    QDialog(parent),
+EditPatientDialog::EditPatientDialog(const QSharedPointer<Patient> &patient, QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
     ui(new Ui::EditPatientDialog)
 {
     ui->setupUi(this);

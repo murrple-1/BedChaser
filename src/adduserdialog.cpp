@@ -8,8 +8,8 @@ static const QString StaffString = "Staff";
 static const QString AdminString = "Administator";
 static const QString SystemAdminString = "SysAdmin";
 
-AddUserDialog::AddUserDialog(QWidget *parent) :
-    QDialog(parent),
+AddUserDialog::AddUserDialog(QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
     ui(new Ui::AddUserDialog)
 {
     ui->setupUi(this);

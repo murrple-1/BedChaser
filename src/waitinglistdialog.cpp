@@ -6,8 +6,9 @@
 #include "region.h"
 #include "datamanager.h"
 
-WaitingListDialog::WaitingListDialog(const QSharedPointer<Region> &region, QWidget *parent) :
-    QDialog(parent), ui(new Ui::WaitingListDialog)
+WaitingListDialog::WaitingListDialog(const QSharedPointer<Region> &region, QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
+    ui(new Ui::WaitingListDialog)
 {
     ui->setupUi(this);
 

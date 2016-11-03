@@ -15,7 +15,7 @@ class SearchWindow : public QDialog
 {
     Q_OBJECT
 public:
-    SearchWindow(QWidget *parent = 0);
+    SearchWindow(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
     ~SearchWindow();
 
     const QSharedPointer<QObject> & getChosenObject() const;

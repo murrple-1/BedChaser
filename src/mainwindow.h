@@ -24,13 +24,13 @@ private:
 
     QSharedPointer<User> currentUser;
 private slots:
-    void changePassword();
-    void search();
-    void patientReport();
-    void facilityReport();
-    void addPatient();
-    void addFacility();
-    void addUser();
+    void showChangePasswordDialog();
+    void showSearchDialog();
+    void showPatientReportDialog();
+    void showFacilityReportDialog();
+    void showAddPatientDialog();
+    void showAddFacilityDialog();
+    void showAddUserDialog();
     void logout();
 
     void loginSuccess(const QSharedPointer<User> &);

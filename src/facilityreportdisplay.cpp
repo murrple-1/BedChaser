@@ -1,8 +1,8 @@
 #include "facilityreportdisplay.h"
 #include "ui_facilityreportdisplay.h"
 
-FacilityReportDisplay::FacilityReportDisplay(QWidget *parent) :
-    QDialog(parent),
+FacilityReportDisplay::FacilityReportDisplay(QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
     ui(new Ui::FacilityReportDisplay)
 {
     ui->setupUi(this);

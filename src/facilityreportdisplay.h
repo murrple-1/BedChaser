@@ -11,7 +11,7 @@ class FacilityReportDisplay : public QDialog
 {
     Q_OBJECT
 public:
-    FacilityReportDisplay(QWidget *parent = 0);
+    FacilityReportDisplay(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
     ~FacilityReportDisplay();
 private:
     Ui::FacilityReportDisplay *ui;

@@ -15,7 +15,7 @@ class EditPatientDialog : public QDialog
 {
     Q_OBJECT
 public:
-    EditPatientDialog(const QSharedPointer<Patient> &, QWidget *parent = 0);
+    EditPatientDialog(const QSharedPointer<Patient> &, QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
     ~EditPatientDialog();
 private:
     Ui::EditPatientDialog *ui;

@@ -6,8 +6,8 @@
 #include "datamanager.h"
 #include "exception.h"
 
-EditFacilityDialog::EditFacilityDialog(const QSharedPointer<Facility> &facility, QWidget *parent) :
-    QDialog(parent),
+EditFacilityDialog::EditFacilityDialog(const QSharedPointer<Facility> &facility, QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
     ui(new Ui::EditFacilityDialog)
 {
     ui->setupUi(this);

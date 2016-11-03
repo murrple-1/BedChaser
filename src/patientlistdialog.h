@@ -17,7 +17,7 @@ class PatientListDialog : public QDialog
 {
     Q_OBJECT
 public:
-    PatientListDialog(const QSharedPointer<Facility> &, QWidget *parent = 0);
+    PatientListDialog(const QSharedPointer<Facility> &, QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
     ~PatientListDialog();
 private:
     void updatePatientList();

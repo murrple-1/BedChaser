@@ -15,7 +15,7 @@ class EditFacilityDialog : public QDialog
 {
     Q_OBJECT
 public:
-    EditFacilityDialog(const QSharedPointer<Facility> &, QWidget *parent = 0);
+    EditFacilityDialog(const QSharedPointer<Facility> &, QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
     ~EditFacilityDialog();
 private:
     Ui::EditFacilityDialog *ui;

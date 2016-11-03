@@ -11,7 +11,7 @@ class AddFacilityDialog : public QDialog
 {
     Q_OBJECT
 public:
-    AddFacilityDialog(QWidget *parent = 0);
+    AddFacilityDialog(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
     ~AddFacilityDialog();
 private:
     Ui::AddFacilityDialog *ui;

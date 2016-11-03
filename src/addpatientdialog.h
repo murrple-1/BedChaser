@@ -11,7 +11,7 @@ class AddPatientDialog : public QDialog
 {
     Q_OBJECT
 public:
-    AddPatientDialog(QWidget *parent = 0);
+    AddPatientDialog(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
     ~AddPatientDialog();
 private:
     Ui::AddPatientDialog *ui;

@@ -29,6 +29,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(loginFrame, &LoginFrame::loginSuccess, this, &MainWindow::loginSuccess);
     setCentralWidget(loginFrame);
 
+    connect(ui->changePasswordAction, &QAction::triggered, this, &MainWindow::showChangePasswordDialog);
+    connect(ui->searchAction, &QAction::triggered, this, &MainWindow::showSearchDialog);
+    connect(ui->patientReportAction, &QAction::triggered, this, &MainWindow::showPatientReportDialog);
+    connect(ui->facilityReportAction, &QAction::triggered, this, &MainWindow::showFacilityReportDialog);
+    connect(ui->addPatientAction, &QAction::triggered, this, &MainWindow::showAddPatientDialog);
+    connect(ui->addFacilityAction, &QAction::triggered, this, &MainWindow::showAddFacilityDialog);
+    connect(ui->addUserAction, &QAction::triggered, this, &MainWindow::showAddUserDialog);
+    connect(ui->logoutAction, &QAction::triggered, this, &MainWindow::logout);
+
     setCurrentUser(QSharedPointer<User>());
 }
 
@@ -69,41 +78,42 @@ void MainWindow::loginSuccess(const QSharedPointer<User> &user)
     setCurrentUser(user);
 }
 
-void MainWindow::addFacility()
+void MainWindow::showAddFacilityDialog()
 {
-    AddFacilityDialog f(this);
-    f.exec();
+    AddFacilityDialog addFacilityDialog(this);
+    addFacilityDialog.exec();
 }
 
-void MainWindow::addPatient()
+void MainWindow::showAddPatientDialog()
 {
-    AddPatientDialog p(this);
-    p.exec();
+    AddPatientDialog addPatientDialog(this);
+    addPatientDialog.exec();
 }
 
-void MainWindow::addUser()
+void MainWindow::showAddUserDialog()
 {
-    AddUserDialog u(this);
-    u.exec();
+    AddUserDialog addUserDialog(this);
+    addUserDialog.exec();
 }
 
-void MainWindow::facilityReport()
+void MainWindow::showFacilityReportDialog()
 {
-    FacilityReportDialog fr(this);
-    fr.exec();
+    FacilityReportDialog facilityReportDialog(this);
+    facilityReportDialog.exec();
 }
 
-void MainWindow::patientReport()
+void MainWindow::showPatientReportDialog()
 {
-    PatientReportDialog pr(this);
-    pr.exec();
+    PatientReportDialog patientReportDialog(this);
+    patientReportDialog.exec();
 }
 
-void MainWindow::search()
+void MainWindow::showSearchDialog()
 {
-    SearchWindow s(this);
-    s.exec();
-    const QSharedPointer<QObject> &chosenObject = s.getChosenObject();
+    SearchWindow searchWindow(this);
+    searchWindow.exec();
+
+    const QSharedPointer<QObject> &chosenObject = searchWindow.getChosenObject();
     if(!chosenObject.isNull())
     {
         QSharedPointer<Region> region = chosenObject.dynamicCast<Region>();
@@ -115,26 +125,33 @@ void MainWindow::search()
                 oldCentralWidget->deleteLater();
             }
 
-            RegionFrame *regF = new RegionFrame(region, this);
-            setCentralWidget(regF);
+            RegionFrame *regionFrame = new RegionFrame(region, this);
+            setCentralWidget(regionFrame);
+            return;
         }
+
         QSharedPointer<Facility> facility = chosenObject.dynamicCast<Facility>();
         if(!facility.isNull())
         {
-            EditFacilityDialog editFac(facility, this);
-            editFac.exec();
+            EditFacilityDialog editFacilityDialog(facility, this);
+            editFacilityDialog.exec();
+            return;
         }
+
         QSharedPointer<Patient> patient = chosenObject.dynamicCast<Patient>();
         if(!patient.isNull())
         {
-            EditPatientDialog editPat(patient, this);
-            editPat.exec();
+            EditPatientDialog editPatientDialog(patient, this);
+            editPatientDialog.exec();
+            return;
         }
+
         QSharedPointer<User> user = chosenObject.dynamicCast<User>();
         if(!user.isNull())
         {
-            EditUserDialog editUser(user, this);
-            editUser.exec();
+            EditUserDialog editUserDialog(user, this);
+            editUserDialog.exec();
+            return;
         }
     }
 }
@@ -149,11 +166,12 @@ void MainWindow::logout()
     }
 
     LoginFrame *loginFrame = new LoginFrame(this);
+    connect(loginFrame, &LoginFrame::loginSuccess, this, &MainWindow::loginSuccess);
     setCentralWidget(loginFrame);
 }
 
-void MainWindow::changePassword()
+void MainWindow::showChangePasswordDialog()
 {
-    ChangePasswordDialog chP(currentUser, this);
-    chP.exec();
+    ChangePasswordDialog changePasswordDialog(currentUser, this);
+    changePasswordDialog.exec();
 }

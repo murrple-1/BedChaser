@@ -2,7 +2,8 @@ CREATE TABLE "users" (
     `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     `login` TEXT NOT NULL,
     `password_hash` TEXT NOT NULL,
-    `type` INTEGER NOT NULL
+    `type` INTEGER NOT NULL,
+    CONSTRAINT `uq_users_login` UNIQUE (`login`)
 );
 
 CREATE TABLE "regions" (

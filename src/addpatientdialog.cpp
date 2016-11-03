@@ -4,8 +4,8 @@
 #include "datamanager.h"
 #include "patient.h"
 
-AddPatientDialog::AddPatientDialog(QWidget *parent) :
-    QDialog(parent),
+AddPatientDialog::AddPatientDialog(QWidget *parent, Qt::WindowFlags f) :
+    QDialog(parent, f),
     ui(new Ui::AddPatientDialog)
 {
     ui->setupUi(this);
