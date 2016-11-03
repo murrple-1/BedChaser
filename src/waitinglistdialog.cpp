@@ -28,7 +28,7 @@ void WaitingListDialog::updateWaitingList()
     // TODO foreach patient in region, add to list
 }
 
-void WaitingListDialog::on_addPButton_clicked()
+void WaitingListDialog::addPatientButtonClicked()
 {
     SearchWindow sw;
     if(sw.exec() == SearchWindow::Accepted)
@@ -44,7 +44,7 @@ void WaitingListDialog::on_addPButton_clicked()
     }
 }
 
-void WaitingListDialog::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
+void WaitingListDialog::listItemDoubleClicked(QListWidgetItem *item)
 {
     Q_UNUSED(item)
 

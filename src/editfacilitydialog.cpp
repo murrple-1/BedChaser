@@ -50,7 +50,7 @@ void EditFacilityDialog::updateFacility()
     close();
 }
 
-void EditFacilityDialog::on_patientlist_clicked()
+void EditFacilityDialog::patientListClicked()
 {
     PatientListDialog wf(facility, this);
     wf.exec();

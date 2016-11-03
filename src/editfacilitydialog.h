@@ -24,7 +24,7 @@ private:
 public slots:
     void updateFacility();
 private slots:
-    void on_patientlist_clicked();
+    void patientListClicked();
 };
 
 #endif // EDITFACILITYDIALOG_H

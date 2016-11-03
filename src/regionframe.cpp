@@ -31,9 +31,9 @@ RegionFrame::~RegionFrame()
     delete ui;
 }
 
-void RegionFrame::on_back_clicked()
+void RegionFrame::backButtonClicked()
 {
-    emit backButtonPressed();
+    // TODO
 }
 
 void RegionFrame::updateFacilityList()
@@ -44,7 +44,7 @@ void RegionFrame::updateFacilityList()
     // TODO foreach facility in region, add a little label to the map
 }
 
-void RegionFrame::on_listoffacilities_itemDoubleClicked(QListWidgetItem *item)
+void RegionFrame::facilityListItemDoubleClicked(QListWidgetItem *item)
 {
     int i = ui->facilitiesListListWidget->row(item);
 
@@ -56,7 +56,7 @@ void RegionFrame::on_listoffacilities_itemDoubleClicked(QListWidgetItem *item)
     ef.exec();
 }
 
-void RegionFrame::on_waitinglist_clicked()
+void RegionFrame::waitingListClicked()
 {
     WaitingListDialog wf(region, this);
     wf.exec();

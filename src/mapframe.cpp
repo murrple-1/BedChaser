@@ -20,6 +20,7 @@ MapFrame::MapFrame(QWidget *parent) :
     {
         QPushButton *button = new QPushButton(region->getName(), this);
         button->setProperty("regionId", region->getID());
+        connect(button, &QPushButton::clicked, this, &MapFrame::regionButtonClicked);
         const QPoint &mapOffset = region->getMapOffset();
         button->move(xOffset + mapOffset.x(), yOffset + mapOffset.y());
     }

@@ -27,7 +27,7 @@ void PatientListDialog::updatePatientList()
     // TODO
 }
 
-void PatientListDialog::on_addPatient_clicked()
+void PatientListDialog::patientClicked()
 {
     SearchWindow sw;
     if(sw.exec() == SearchWindow::Accepted)
@@ -43,7 +43,7 @@ void PatientListDialog::on_addPatient_clicked()
     }
 }
 
-void PatientListDialog::on_patientList_itemDoubleClicked(QListWidgetItem *item)
+void PatientListDialog::patientListItemDoubleClicked(QListWidgetItem *item)
 {
     Q_UNUSED(item)
     // TODO

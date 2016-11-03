@@ -24,15 +24,14 @@ private:
 
     QSharedPointer<User> currentUser;
 private slots:
-    void on_actionChange_Password_triggered();
-    void on_actionSearch_triggered();
-    void on_actionPatient_Report_triggered();
-    void on_actionFacility_Report_triggered();
-    void on_actionAdd_Patient_triggered();
-    void on_actionAdd_Facility_triggered();
-    void on_actionAdd_User_triggered();
-    void on_actionExit_triggered();
-    void on_actionLogout_triggered();
+    void changePassword();
+    void search();
+    void patientReport();
+    void facilityReport();
+    void addPatient();
+    void addFacility();
+    void addUser();
+    void logout();
 
     void loginSuccess(const QSharedPointer<User> &);
 };

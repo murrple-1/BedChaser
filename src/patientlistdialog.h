@@ -26,8 +26,8 @@ private:
 
     QSharedPointer<Facility> facility;
 private slots:
-    void on_addPatient_clicked();
-    void on_patientList_itemDoubleClicked(QListWidgetItem *item);
+    void patientClicked();
+    void patientListItemDoubleClicked(QListWidgetItem *item);
 };
 
 #endif // PATIENTLISTDIALOG_H

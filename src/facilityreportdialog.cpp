@@ -17,7 +17,7 @@ FacilityReportDialog::~FacilityReportDialog()
     delete ui;
 }
 
-void FacilityReportDialog::on_genreport_button_clicked()
+void FacilityReportDialog::generateReport()
 {
     FacilityReportDisplay d(this);
     d.exec();

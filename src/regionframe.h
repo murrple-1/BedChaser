@@ -26,11 +26,9 @@ private:
 
     QSharedPointer<Region> region;
 private slots:
-    void on_waitinglist_clicked();
-    void on_back_clicked();
-    void on_listoffacilities_itemDoubleClicked(QListWidgetItem* item);
-signals:
-    void backButtonPressed();
+    void waitingListClicked();
+    void backButtonClicked();
+    void facilityListItemDoubleClicked(QListWidgetItem* item);
 };
 
 #endif // REGIONFRAME_H

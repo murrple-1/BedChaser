@@ -84,37 +84,37 @@ void MainWindow::loginSuccess(const QSharedPointer<User> &user)
     setCurrentUser(user);
 }
 
-void MainWindow::on_actionAdd_Facility_triggered()
+void MainWindow::addFacility()
 {
     AddFacilityDialog f(this);
     f.exec();
 }
 
-void MainWindow::on_actionAdd_Patient_triggered()
+void MainWindow::addPatient()
 {
     AddPatientDialog p(this);
     p.exec();
 }
 
-void MainWindow::on_actionAdd_User_triggered()
+void MainWindow::addUser()
 {
     AddUserDialog u(this);
     u.exec();
 }
 
-void MainWindow::on_actionFacility_Report_triggered()
+void MainWindow::facilityReport()
 {
     FacilityReportDialog fr(this);
     fr.exec();
 }
 
-void MainWindow::on_actionPatient_Report_triggered()
+void MainWindow::patientReport()
 {
     PatientReportDialog pr(this);
     pr.exec();
 }
 
-void MainWindow::on_actionSearch_triggered()
+void MainWindow::search()
 {
     SearchWindow s(this);
     s.exec();
@@ -154,12 +154,7 @@ void MainWindow::on_actionSearch_triggered()
     }
 }
 
-void MainWindow::on_actionExit_triggered()
-{
-    close();
-}
-
-void MainWindow::on_actionLogout_triggered()
+void MainWindow::logout()
 {
     MainWindow::setCurrentUser(QSharedPointer<User>());
     QWidget *oldCentralWidget = centralWidget();
@@ -172,7 +167,7 @@ void MainWindow::on_actionLogout_triggered()
     setCentralWidget(loginFrame);
 }
 
-void MainWindow::on_actionChange_Password_triggered()
+void MainWindow::changePassword()
 {
     ChangePasswordDialog chP(currentUser, this);
     chP.exec();

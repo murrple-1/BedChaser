@@ -16,7 +16,7 @@ public:
 private:
     Ui::FacilityReportDialog *ui;
 private slots:
-    void on_genreport_button_clicked();
+    void generateReport();
 };
 
 #endif // FACILITYREPORTDIALOG_H
