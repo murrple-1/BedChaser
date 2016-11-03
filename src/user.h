@@ -7,31 +7,31 @@
 
 typedef enum
 {
-    UserTypeStaff,
-    UserTypeAdmin,
-    UserTypeSystemAdmin
+    UserTypeStaff = 0,
+    UserTypeAdmin = 1,
+    UserTypeSystemAdmin = 2
 } UserType;
 
 class User : public QObject
 {
     Q_OBJECT
 public:
-    User(const QVariant &id, const QString &username, const QString &passwordHash, UserType userType, QObject *parent = 0);
+    User(const QVariant &id, const QString &username, const QString &passwordHash, UserType type, QObject *parent = 0);
     User(const User &);
 
     int getId(bool *success = 0) const;
     const QString & getUsername() const;
     const QString & getPasswordHash() const;
-    UserType getUserType() const;
+    UserType getType() const;
 
     void setPassword(const QString &);
     void setPasswordHash(const QString &);
-    void setUserType(UserType);
+    void setType(UserType);
 private:
     QVariant id;
     QString username;
     QString passwordHash;
-    UserType userType;
+    UserType type;
 };
 
 #endif // USER_H

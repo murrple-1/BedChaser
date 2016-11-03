@@ -18,11 +18,11 @@ EditUserDialog::EditUserDialog(const QSharedPointer<User> &user, QWidget *parent
 
     ui->name->setText(user->getUsername());
 
-    if(user->getUserType() == UserTypeSystemAdmin)
+    if(user->getType() == UserTypeSystemAdmin)
     {
         ui->typeCombo->setCurrentIndex(0);
     }
-    else if(user->getUserType() == UserTypeAdmin)
+    else if(user->getType() == UserTypeAdmin)
     {
         ui->typeCombo->setCurrentIndex(1);
     }
@@ -47,15 +47,15 @@ void EditUserDialog::updateUser()
 
         if(ui->typeCombo->currentText() == "Admin")
         {
-            user->setUserType(UserTypeAdmin);
+            user->setType(UserTypeAdmin);
         }
         else if (ui->typeCombo->currentText() == "SysAdmin")
         {
-            user->setUserType(UserTypeSystemAdmin);
+            user->setType(UserTypeSystemAdmin);
         }
         else
         {
-            user->setUserType(UserTypeStaff);
+            user->setType(UserTypeStaff);
         }
 
         DataManager::sharedInstance().updateUser(*user);

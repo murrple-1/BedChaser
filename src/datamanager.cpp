@@ -320,7 +320,7 @@ void DataManager::addUser(const User &user)
                   "(:login, :password_hash, :type)");
     query.bindValue(":login", user.getUsername());
     query.bindValue(":password_hash", user.getPasswordHash());
-    query.bindValue(":type", user.getUserType());
+    query.bindValue(":type", user.getType());
     if(query.exec())
     {
         database.commit();
@@ -443,7 +443,7 @@ void DataManager::updateUser(const User &user)
                   "SET `password_hash` = :password_hash, `type` = :type "
                   "WHERE `id` = :id");
     query.bindValue(":password_hash", user.getPasswordHash());
-    query.bindValue(":type", user.getUserType());
+    query.bindValue(":type", user.getType());
     query.bindValue(":id", user.getId(NULL));
 
     if(query.exec())

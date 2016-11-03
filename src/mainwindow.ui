@@ -77,96 +77,95 @@
   <property name="windowTitle">
    <string>LHIN</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>640</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="fileMenu">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionLogout"/>
+    <addaction name="logoutAction"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
+    <addaction name="exitAction"/>
    </widget>
-   <widget class="QMenu" name="menuTools">
+   <widget class="QMenu" name="toolsMenu">
     <property name="title">
      <string>Tools</string>
     </property>
-    <widget class="QMenu" name="menuReports">
+    <widget class="QMenu" name="reportsMenu">
      <property name="title">
       <string>Reports</string>
      </property>
-     <addaction name="actionFacility_Report"/>
-     <addaction name="actionPatient_Report"/>
+     <addaction name="facilityReportAction"/>
+     <addaction name="patientReportAction"/>
     </widget>
-    <widget class="QMenu" name="menuAdd">
+    <widget class="QMenu" name="addMenu">
      <property name="title">
       <string>Add</string>
      </property>
-     <addaction name="actionAdd_Facility"/>
-     <addaction name="actionAdd_Patient"/>
-     <addaction name="actionAdd_User"/>
+     <addaction name="addFacilityAction"/>
+     <addaction name="addPatientAction"/>
+     <addaction name="addUserAction"/>
     </widget>
-    <addaction name="menuAdd"/>
+    <addaction name="addMenu"/>
     <addaction name="separator"/>
-    <addaction name="menuReports"/>
+    <addaction name="reportsMenu"/>
     <addaction name="separator"/>
-    <addaction name="actionSearch"/>
+    <addaction name="searchAction"/>
     <addaction name="separator"/>
-    <addaction name="actionChange_Password"/>
+    <addaction name="changePasswordAction"/>
    </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuTools"/>
+   <addaction name="fileMenu"/>
+   <addaction name="toolsMenu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionExit">
+  <action name="exitAction">
    <property name="text">
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionAdd_Facility">
+  <action name="addFacilityAction">
    <property name="text">
     <string>Facility</string>
    </property>
   </action>
-  <action name="actionAdd_Patient">
+  <action name="addPatientAction">
    <property name="text">
     <string>Patient</string>
    </property>
   </action>
-  <action name="actionFacility_Report">
+  <action name="facilityReportAction">
    <property name="text">
     <string>Facility Report</string>
    </property>
   </action>
-  <action name="actionPatient_Report">
+  <action name="patientReportAction">
    <property name="text">
     <string>Patient Report</string>
    </property>
   </action>
-  <action name="actionSearch">
+  <action name="searchAction">
    <property name="text">
     <string>Search</string>
    </property>
   </action>
-  <action name="actionLogout">
+  <action name="logoutAction">
    <property name="text">
     <string>Logout</string>
    </property>
   </action>
-  <action name="actionAdd_User">
+  <action name="addUserAction">
    <property name="text">
     <string>User</string>
    </property>
   </action>
-  <action name="actionChange_Password">
+  <action name="changePasswordAction">
    <property name="text">
     <string>Change Password</string>
    </property>
@@ -175,7 +174,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>actionExit</sender>
+   <sender>exitAction</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>

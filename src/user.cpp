@@ -7,13 +7,13 @@ User::User(const QVariant &id, const QString &username, const QString &passwordH
     id(id),
     username(username),
     passwordHash(passwordHash),
-    userType(userType)
+    type(userType)
 {
 
 }
 
 User::User(const User &source) :
-    QObject(), username(source.username), passwordHash(source.passwordHash), userType(source.userType)
+    QObject(), username(source.username), passwordHash(source.passwordHash), type(source.type)
 {
 
 }
@@ -33,9 +33,9 @@ void User::setPasswordHash(const QString &passwordHash)
     this->passwordHash = passwordHash;
 }
 
-void User::setUserType(const UserType uT)
+void User::setType(const UserType type)
 {
-    userType = uT;
+    this->type = type;
 }
 
 const QString & User::getUsername() const
@@ -48,7 +48,7 @@ const QString & User::getPasswordHash() const
     return passwordHash;
 }
 
-UserType User::getUserType() const
+UserType User::getType() const
 {
-    return userType;
+    return type;
 }

@@ -43,34 +43,19 @@ void MainWindow::setCurrentUser(const QSharedPointer<User> &user)
 
     if(currentUser.isNull())
     {
-        ui->menuTools->setDisabled(true);
-        ui->actionLogout->setDisabled(true);
+        ui->toolsMenu->setDisabled(true);
+        ui->logoutAction->setDisabled(true);
     }
     else
     {
-        ui->menuTools->setEnabled(true);
-        ui->actionLogout->setEnabled(true);
+        ui->toolsMenu->setEnabled(true);
+        ui->logoutAction->setEnabled(true);
 
-        switch(currentUser->getUserType())
-        {
-        case(UserTypeStaff):
-            ui->actionAdd_User->setEnabled(false);
-            ui->menuReports->setEnabled(false);
-            ui->actionAdd_Facility->setEnabled(false);
-            break;
-        case(UserTypeAdmin):
-            ui->actionAdd_User->setEnabled(false);
-            ui->menuReports->setEnabled(true);
-            ui->actionAdd_Facility->setEnabled(false);
-            break;
-        case(UserTypeSystemAdmin):
-            ui->actionAdd_User->setEnabled(true);
-            ui->menuReports->setEnabled(true);
-            ui->actionAdd_Facility->setEnabled(true);
-            break;
-        default:
-            break;
-        }
+        UserType userType = currentUser->getType();
+
+        ui->addUserAction->setEnabled(userType >= UserTypeSystemAdmin);
+        ui->reportsMenu->setEnabled(userType >= UserTypeAdmin);
+        ui->addFacilityAction->setEnabled(userType >= UserTypeSystemAdmin);
     }
 }
 
