@@ -22,7 +22,7 @@ private:
     Ui::ChangePasswordDialog *ui;
 
     QSharedPointer<User> user;
-public slots:
+private slots:
     void updateUser();
 };
 

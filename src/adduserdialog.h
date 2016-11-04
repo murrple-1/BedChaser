@@ -15,7 +15,7 @@ public:
     ~AddUserDialog();
 private:
     Ui::AddUserDialog *ui;
-public slots:
+private slots:
     void addUser();
 };
 

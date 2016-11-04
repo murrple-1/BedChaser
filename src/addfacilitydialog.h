@@ -15,7 +15,7 @@ public:
     ~AddFacilityDialog();
 private:
     Ui::AddFacilityDialog *ui;
-public slots:
+private slots:
     void addFacility();
 };
 

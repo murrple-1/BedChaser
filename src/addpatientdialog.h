@@ -15,7 +15,7 @@ public:
     ~AddPatientDialog();
 private:
     Ui::AddPatientDialog *ui;
-public slots:
+private slots:
     void addPatient();
 };
 

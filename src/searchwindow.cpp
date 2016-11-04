@@ -1,31 +1,56 @@
 #include "searchwindow.h"
 #include "ui_searchwindow.h"
 
-#include <QCompleter>
+#include <QStringListModel>
 
 #include "datamanager.h"
 
-SearchWindow::SearchWindow(QWidget *parent, Qt::WindowFlags f) :
+#include "region.h"
+#include "facility.h"
+#include "patient.h"
+#include "user.h"
+
+SearchWindow::SearchWindow(UserType userType, QWidget *parent, Qt::WindowFlags f) :
     QDialog(parent, f),
     ui(new Ui::SearchWindow),
     chosenObject(NULL)
 {
     ui->setupUi(this);
 
-    connect(ui->searchLineEdit, &QLineEdit::textEdited, this, &SearchWindow::updateSearchResults);
-    connect(ui->searchLineEdit, &QLineEdit::returnPressed, this, &SearchWindow::updateSearchResults);
+    QList<QSharedPointer<Region> > regions = DataManager::sharedInstance().getRegions(QString(), QMap<QString, QVariant>(), "`id` DESC", 100, 0);
+    foreach(const QSharedPointer<Region> &region, regions)
+    {
+        QString completerString = region->getName();
+        addObject("Region", completerString, region);
+    }
 
-    QStringList completerList;
+    QList<QSharedPointer<Facility> > facilities = DataManager::sharedInstance().getFacilities(QString(), QMap<QString, QVariant>(), "`id` DESC", 100, 0);
+    foreach(const QSharedPointer<Facility> &facility, facilities)
+    {
+        QString completerString = facility->getName();
+        addObject("Facility", completerString, facility);
+    }
 
-    // TODO fill completer list
+    QList<QSharedPointer<Patient> > patients = DataManager::sharedInstance().getPatients(QString(), QMap<QString, QVariant>(), "`id` DESC", 100, 0);
+    foreach(const QSharedPointer<Patient> &patient, patients)
+    {
+        QString completerString = QString("%1: %2").arg(patient->getName()).arg(patient->getHealthCardNumber());
+        addObject("Patient", completerString, patient);
+    }
 
-    QCompleter *completer = new QCompleter(completerList, this);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    completer->setCompletionMode(QCompleter::PopupCompletion);
-    completer->setMaxVisibleItems(10);
-    ui->searchLineEdit->setCompleter(completer);
+    if(userType >= UserTypeSystemAdmin)
+    {
+        QList<QSharedPointer<User> > users = DataManager::sharedInstance().getUsers(QString(), QMap<QString, QVariant>(), "`id` DESC", 100, 0);
+        foreach(const QSharedPointer<User> &user, users)
+        {
+            QString completerString = user->getUsername();
+            addObject("User", completerString, user);
+        }
+    }
 
-    connect(completer, static_cast<void (QCompleter:: *)(const QString &)>(&QCompleter::activated), this, &SearchWindow::updateSearchResults);
+    searchLineEditChanged(QString());
+
+    connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &SearchWindow::searchLineEditChanged);
     connect(ui->listView, &QListView::doubleClicked, this, &SearchWindow::choseObject);
     connect(ui->donePushButton, &QPushButton::clicked, this, &SearchWindow::reject);
 }
@@ -33,6 +58,12 @@ SearchWindow::SearchWindow(QWidget *parent, Qt::WindowFlags f) :
 SearchWindow::~SearchWindow()
 {
     delete ui;
+}
+
+void SearchWindow::addObject(const QString &prefix, const QString &name, const QSharedPointer<QObject> &obj)
+{
+    QString fullName = QString("%1 - %2").arg(prefix).arg(name);
+    objects.insert(fullName, obj);
 }
 
 const QSharedPointer<QObject> & SearchWindow::getChosenObject() const
@@ -43,11 +74,25 @@ const QSharedPointer<QObject> & SearchWindow::getChosenObject() const
 void SearchWindow::choseObject(const QModelIndex &i)
 {
     chosenObject = objects.value(i.data().toString());
-
     accept();
 }
 
-void SearchWindow::updateSearchResults()
+void SearchWindow::searchLineEditChanged(const QString &text)
 {
-    ui->listView->setModel(ui->searchLineEdit->completer()->completionModel());
+    QStringList currentFullNames;
+    foreach(const QString &key, objects.keys())
+    {
+        if(key.contains(text, Qt::CaseInsensitive))
+        {
+            currentFullNames.append(key);
+        }
+    }
+
+    QAbstractItemModel *oldModel = ui->listView->model();
+    ui->listView->setModel(new QStringListModel(currentFullNames, this));
+
+    if(oldModel != NULL)
+    {
+        delete oldModel;
+    }
 }

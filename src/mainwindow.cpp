@@ -110,7 +110,7 @@ void MainWindow::showPatientReportDialog()
 
 void MainWindow::showSearchDialog()
 {
-    SearchWindow searchWindow(this);
+    SearchWindow searchWindow(currentUser->getType(), this);
     searchWindow.exec();
 
     const QSharedPointer<QObject> &chosenObject = searchWindow.getChosenObject();

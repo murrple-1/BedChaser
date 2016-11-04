@@ -21,7 +21,7 @@ private:
     Ui::EditUserDialog *ui;
 
     QSharedPointer<User> user;
-public slots:
+private slots:
     void updateUser();
 };
 

@@ -19,7 +19,7 @@ public:
     ~LoginFrame();
 private:
     Ui::LoginFrame *ui;
-public slots:
+private slots:
     void checkLogin();
 signals:
     void loginSuccess(const QSharedPointer<User> &);

@@ -21,7 +21,7 @@ private:
     Ui::EditPatientDialog *ui;
 
     QSharedPointer<Patient> patient;
-public slots:
+private slots:
     void updatePatient();
 };
 

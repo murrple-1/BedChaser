@@ -1,7 +1,6 @@
 #include "patientlistdialog.h"
 #include "ui_patientlistdialog.h"
 
-#include "searchwindow.h"
 #include "datamanager.h"
 
 PatientListDialog::PatientListDialog(const QSharedPointer<Facility> &facility, QWidget *parent, Qt::WindowFlags f) :
@@ -25,22 +24,6 @@ void PatientListDialog::updatePatientList()
     ui->patientList->clear();
 
     // TODO
-}
-
-void PatientListDialog::patientClicked()
-{
-    SearchWindow sw;
-    if(sw.exec() == SearchWindow::Accepted)
-    {
-        if(!sw.getChosenObject().isNull())
-        {
-            QSharedPointer<Patient> patient = sw.getChosenObject().dynamicCast<Patient>();
-            patient->setReceivingCareFacilityId(facility->getID());
-            DataManager::sharedInstance().updatePatient(*patient);
-
-            updatePatientList();
-        }
-    }
 }
 
 void PatientListDialog::patientListItemDoubleClicked(QListWidgetItem *item)

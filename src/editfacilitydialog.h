@@ -21,9 +21,8 @@ private:
     Ui::EditFacilityDialog *ui;
 
     QSharedPointer<Facility> facility;
-public slots:
-    void updateFacility();
 private slots:
+    void updateFacility();
     void patientListClicked();
 };
 
