@@ -10,12 +10,10 @@ LoginFrame::LoginFrame(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->verticalLayout->setContentsMargins(QMargins(0, 0, 0, 0));
-
     QPixmap pixmap;
     pixmap.load("images/Login_Banner.jpg");
     ui->logoLabel->setPixmap(pixmap);
-    ui->logoLabel->setFixedSize(pixmap.size());
+    ui->logoLabel->setAlignment(Qt::AlignCenter);
 
     connect(ui->usernameLineEdit, &QLineEdit::returnPressed, this, &LoginFrame::checkLogin);
     connect(ui->passwordLineEdit, &QLineEdit::returnPressed, this, &LoginFrame::checkLogin);

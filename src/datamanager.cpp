@@ -133,7 +133,7 @@ void DataManager::buildSelectQuery(QSqlQuery &query, const QString &selectClause
 
 QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)
 {
-    static QString selectClause = "SELECT `id`, `name`, `map_x_offset`, `map_y_offset` FROM \"regions\"";
+    static QString selectClause = "SELECT `id`, `name`, `map_x_offset`, `map_y_offset`, `sub_map_file_path` FROM \"regions\"";
 
     QSqlQuery query(database);
     buildSelectQuery(query, selectClause, whereClause, whereParams, sortClause, limit, offset);
@@ -147,7 +147,8 @@ QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClaus
             QString name = query.value(1).toString();
             int mapXOffset = query.value(2).toInt();
             int mapYOffset = query.value(3).toInt();
-            results.append(QSharedPointer<Region>(new Region(id, name, QPoint(mapXOffset, mapYOffset))));
+            QString subMapFileInfo = query.value(4).toString();
+            results.append(QSharedPointer<Region>(new Region(id, name, QFileInfo(subMapFileInfo), QPoint(mapXOffset, mapYOffset))));
         }
         return results;
     }

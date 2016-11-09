@@ -1,10 +1,10 @@
-INSERT INTO "regions" (`name`, `map_x_offset`, `map_y_offset`) VALUES
-	('Renfrew County', 150, 150),
-	('North Lanark/North Grenville', 275, 275),
-	('Ottawa West', 320, 200),
-	('Ottawa Center', 400, 220),
-	('Ottawa East', 415, 180),
-	('Eastern Counties', 490, 225);
+INSERT INTO "regions" (`name`, `map_x_offset`, `map_y_offset`, `sub_map_file_path`) VALUES
+	('Renfrew County', 150, 150, 'images/Renfrew_County.jpg'),
+	('North Lanark/North Grenville', 275, 275, 'images/North_Lanark_North_Grenville.jpg'),
+	('Ottawa West', 320, 200, 'images/Ottawa_West.jpg'),
+	('Ottawa Center', 400, 220, 'images/Ottawa_Center.jpg'),
+	('Ottawa East', 415, 180, 'images/Ottawa_East.jpg'),
+	('Eastern Counties', 490, 225, 'images/Eastern_Counties.jpg');
 
 INSERT INTO "facilities" (`name`, `map_x_offset`, `map_y_offset`, `number_of_acute_care_beds`, `number_of_complex_continuing_care_beds`, `number_of_long_term_care_beds`, `regions_id`) VALUES
 	('POgl9xd', 15, 40, 3, 6, 22, (SELECT `id` FROM "regions" WHERE `name` = 'Ottawa East')),

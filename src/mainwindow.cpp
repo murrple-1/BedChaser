@@ -70,12 +70,21 @@ void MainWindow::setCurrentUser(const QSharedPointer<User> &user)
 
 void MainWindow::loginSuccess(const QSharedPointer<User> &user)
 {
-    centralWidget()->deleteLater();
+    goToMap();
+    setCurrentUser(user);
+}
+
+void MainWindow::goToMap()
+{
+    QWidget *prevCentralWidget = centralWidget();
+    if(prevCentralWidget != NULL)
+    {
+        prevCentralWidget->deleteLater();
+    }
 
     MapFrame *mapFrame = new MapFrame(this);
+    connect(mapFrame, &MapFrame::regionSelected, this, &MainWindow::regionSelected);
     setCentralWidget(mapFrame);
-
-    setCurrentUser(user);
 }
 
 void MainWindow::showAddFacilityDialog()
@@ -174,4 +183,17 @@ void MainWindow::showChangePasswordDialog()
 {
     ChangePasswordDialog changePasswordDialog(currentUser, this);
     changePasswordDialog.exec();
+}
+
+void MainWindow::regionSelected(const QSharedPointer<Region> &region)
+{
+    QWidget *oldCentralWidget = centralWidget();
+    if(oldCentralWidget != NULL)
+    {
+        oldCentralWidget->deleteLater();
+    }
+
+    RegionFrame *regionFrame = new RegionFrame(region, this);
+    connect(regionFrame, &RegionFrame::goBack, this, &MainWindow::goToMap);
+    setCentralWidget(regionFrame);
 }

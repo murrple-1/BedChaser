@@ -74,7 +74,8 @@ FORMS    += \
     patientreportdialog.ui \
     regionframe.ui \
     searchwindow.ui \
-    waitinglistdialog.ui
+    waitinglistdialog.ui \
+    mapframe.ui
 
 # recommended: download the most recent precompiled library here: https://download.libsodium.org/libsodium/releases/
 LIBSODIUM32_DIR = $$(LIBSODIUM32_DIR)

@@ -7,11 +7,10 @@
 
 WaitingListDialog::WaitingListDialog(const QSharedPointer<Region> &region, QWidget *parent, Qt::WindowFlags f) :
     QDialog(parent, f),
-    ui(new Ui::WaitingListDialog)
+    ui(new Ui::WaitingListDialog),
+    region(region)
 {
     ui->setupUi(this);
-
-    this->region = region;
 
     updateWaitingList();
 }

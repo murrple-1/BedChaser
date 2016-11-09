@@ -9,6 +9,7 @@ class MainWindow;
 
 #include <QSharedPointer>
 
+class Region;
 class User;
 
 class MainWindow : public QMainWindow
@@ -32,6 +33,9 @@ private slots:
     void showAddFacilityDialog();
     void showAddUserDialog();
     void logout();
+    void goToMap();
+
+    void regionSelected(const QSharedPointer<Region> &);
 
     void loginSuccess(const QSharedPointer<User> &);
 };

@@ -29,6 +29,8 @@ private slots:
     void waitingListClicked();
     void backButtonClicked();
     void facilityListItemDoubleClicked(QListWidgetItem* item);
+signals:
+    void goBack();
 };
 
 #endif // REGIONFRAME_H

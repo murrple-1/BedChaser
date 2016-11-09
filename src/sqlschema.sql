@@ -10,7 +10,8 @@ CREATE TABLE "regions" (
 	`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`name` TEXT NOT NULL,
 	`map_x_offset` INTEGER NOT NULL,
-	`map_y_offset` INTEGER NOT NULL
+	`map_y_offset` INTEGER NOT NULL,
+	`sub_map_file_path` TEXT NOT NULL
 );
 
 CREATE TABLE "facilities" (
