@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QGridLayout>
+#include <QGraphicsProxyWidget>
 
 #include "datamanager.h"
 
@@ -14,7 +15,7 @@ MapFrame::MapFrame(QWidget *parent) :
     ui->setupUi(this);
 
     QPixmap bannerPixmap;
-    bannerPixmap.load("images/Map_Banner.jpg");
+    bannerPixmap.load("images/Banner.jpg");
     ui->bannerLabel->setPixmap(bannerPixmap);
     ui->bannerLabel->setAlignment(Qt::AlignCenter);
 
@@ -23,25 +24,21 @@ MapFrame::MapFrame(QWidget *parent) :
 
     QGraphicsScene *scene = new QGraphicsScene(this);
 
-    scene->setSceneRect(QRectF(mapPixmap.rect()));
     scene->addPixmap(mapPixmap);
+    scene->setSceneRect(QRectF(mapPixmap.rect()));
+
+    QList<QSharedPointer<Region> > regions = DataManager::sharedInstance().getRegions();
+    foreach(const QSharedPointer<Region> &region, regions)
+    {
+        QPushButton *button = new QPushButton(region->getName());
+        button->setProperty("regionId", region->getID());
+        connect(button, &QPushButton::clicked, this, &MapFrame::regionButtonClicked);
+        const QPoint &mapOffset = region->getMapOffset();
+        QGraphicsProxyWidget *proxyWidget = scene->addWidget(button);
+        proxyWidget->setPos(QPointF(mapOffset));
+    }
 
     ui->mapGraphicsView->setScene(scene);
-
-    // TODO add the regions?
-
-//    int xOffset = 0;
-//    int yOffset = bannerPixmap.height();
-
-//    QList<QSharedPointer<Region> > regions = DataManager::sharedInstance().getRegions();
-//    foreach(const QSharedPointer<Region> &region, regions)
-//    {
-//        QPushButton *button = new QPushButton(region->getName(), this);
-//        button->setProperty("regionId", region->getID());
-//        connect(button, &QPushButton::clicked, this, &MapFrame::regionButtonClicked);
-//        const QPoint &mapOffset = region->getMapOffset();
-//        button->move(xOffset + mapOffset.x(), yOffset + mapOffset.y());
-//    }
 }
 
 void MapFrame::regionButtonClicked()

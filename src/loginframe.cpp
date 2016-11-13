@@ -11,7 +11,7 @@ LoginFrame::LoginFrame(QWidget *parent) :
     ui->setupUi(this);
 
     QPixmap pixmap;
-    pixmap.load("images/Login_Banner.jpg");
+    pixmap.load("images/Banner.jpg");
     ui->logoLabel->setPixmap(pixmap);
     ui->logoLabel->setAlignment(Qt::AlignCenter);
 

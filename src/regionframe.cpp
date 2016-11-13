@@ -18,20 +18,24 @@ RegionFrame::RegionFrame(const QSharedPointer<Region> &region, QWidget *parent) 
     connect(ui->waitingListPushButton, &QPushButton::clicked, this, &RegionFrame::waitingListClicked);
 
     QPixmap bannerPixmap;
-    bannerPixmap.load("images/Map_Banner.jpg");
+    bannerPixmap.load("images/Banner.jpg");
     ui->logoLabel->setPixmap(bannerPixmap);
-    setFixedWidth(bannerPixmap.width());
+    ui->logoLabel->setAlignment(Qt::AlignCenter);
+
+    QGraphicsScene *scene = new QGraphicsScene(this);
 
     QPixmap subMapPixmap;
     bool success = subMapPixmap.load(region->getSubMapFileInfo().filePath());
     if(success)
     {
-        ui->mapGraphicsView->scene()->addPixmap(subMapPixmap);
+        scene->addPixmap(subMapPixmap);
+        scene->setSceneRect(QRectF(subMapPixmap.rect()));
     }
     else
     {
         qWarning() << "Unable to load region map image";
     }
+    ui->mapGraphicsView->setScene(scene);
 
     updateFacilityList();
 }

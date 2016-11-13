@@ -135,6 +135,7 @@ void MainWindow::showSearchDialog()
             }
 
             RegionFrame *regionFrame = new RegionFrame(region, this);
+            connect(regionFrame, &RegionFrame::goBack, this, &MainWindow::goToMap);
             setCentralWidget(regionFrame);
             return;
         }
