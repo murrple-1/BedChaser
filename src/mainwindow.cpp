@@ -8,8 +8,6 @@
 #include "addfacilitydialog.h"
 #include "addpatientdialog.h"
 #include "adduserdialog.h"
-#include "facilityreportdialog.h"
-#include "patientreportdialog.h"
 #include "searchwindow.h"
 #include "editfacilitydialog.h"
 #include "editpatientdialog.h"
@@ -107,14 +105,12 @@ void MainWindow::showAddUserDialog()
 
 void MainWindow::showFacilityReportDialog()
 {
-    FacilityReportDialog facilityReportDialog(this);
-    facilityReportDialog.exec();
+    // TODO
 }
 
 void MainWindow::showPatientReportDialog()
 {
-    PatientReportDialog patientReportDialog(this);
-    patientReportDialog.exec();
+    // TODO
 }
 
 void MainWindow::showSearchDialog()

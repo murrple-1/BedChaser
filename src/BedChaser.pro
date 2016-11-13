@@ -13,12 +13,9 @@ SOURCES += \
     editpatientdialog.cpp \
     edituserdialog.cpp \
     exception.cpp \
-    facilityreportdialog.cpp \
-    facilityreportdisplay.cpp \
     loginframe.cpp \
     mainwindow.cpp \
     mapframe.cpp \
-    patientreportdialog.cpp \
     regionframe.cpp \
     searchwindow.cpp \
     user.cpp \
@@ -40,12 +37,9 @@ HEADERS  += \
     editpatientdialog.h \
     edituserdialog.h \
     exception.h \
-    facilityreportdialog.h \
-    facilityreportdisplay.h \
     loginframe.h \
     mainwindow.h \
     mapframe.h \
-    patientreportdialog.h \
     regionframe.h \
     searchwindow.h \
     user.h \
@@ -64,11 +58,8 @@ FORMS    += \
     editfacilitydialog.ui \
     editpatientdialog.ui \
     edituserdialog.ui \
-    facilityreportdialog.ui \
-    facilityreportdisplay.ui \
     loginframe.ui \
     mainwindow.ui \
-    patientreportdialog.ui \
     regionframe.ui \
     searchwindow.ui \
     waitinglistdialog.ui \
