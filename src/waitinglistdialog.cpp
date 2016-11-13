@@ -17,8 +17,8 @@ WaitingListDialog::WaitingListDialog(const QSharedPointer<Region> &region, QWidg
 {
     ui->setupUi(this);
 
-    connect(ui->listWidget, &QListWidget::doubleClicked, this, &WaitingListDialog::listItemDoubleClicked);
-    connect(ui->addPButton, &QPushButton::clicked, this, &WaitingListDialog::addPatientButtonClicked);
+    connect(ui->patientsListWidget, &QListWidget::doubleClicked, this, &WaitingListDialog::listItemDoubleClicked);
+    connect(ui->addPatientPushButton, &QPushButton::clicked, this, &WaitingListDialog::addPatientButtonClicked);
 
     updateWaitingList();
 }
@@ -30,7 +30,7 @@ WaitingListDialog::~WaitingListDialog()
 
 void WaitingListDialog::updateWaitingList()
 {
-    ui->listWidget->clear();
+    ui->patientsListWidget->clear();
 
     QMap<QString, QVariant> whereParams;
     whereParams.insert(":regions_id", region->getID());
@@ -42,7 +42,7 @@ void WaitingListDialog::updateWaitingList()
         const QSharedPointer<Patient> &patient = DataManager::sharedInstance().getPatients("`id` = :id", _whereParams, QString(), 1).first();
         QListWidgetItem *item = new QListWidgetItem(QString("%1 - %2").arg(patient->getHealthCardNumber()).arg(patient->getName()));
         item->setData(PatientIdRole, patient->getID());
-        ui->listWidget->addItem(item);
+        ui->patientsListWidget->addItem(item);
     }
 }
 

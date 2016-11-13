@@ -22,7 +22,7 @@ AddUserDialog::AddUserDialog(QWidget *parent, Qt::WindowFlags f) :
     ls.append(AdminString);
     ls.append(SystemAdminString);
 
-    ui->typeCombo->addItems(ls);
+    ui->typeComboBox->addItems(ls);
 }
 
 AddUserDialog::~AddUserDialog()
@@ -33,7 +33,7 @@ AddUserDialog::~AddUserDialog()
 void AddUserDialog::addUser()
 {
     UserType userType;
-    QString text = ui->typeCombo->currentText();
+    QString text = ui->typeComboBox->currentText();
     if(text == AdminString)
     {
         userType = UserTypeAdmin;
@@ -47,6 +47,6 @@ void AddUserDialog::addUser()
         userType = UserTypeStaff;
     }
 
-    User u(QVariant(), ui->nameField->text(), ui->passField->text(), userType);
+    User u(QVariant(), ui->usernameLineEdit->text(), ui->passwordLineEdit->text(), userType);
     DataManager::sharedInstance().addUser(u);
 }

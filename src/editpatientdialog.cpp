@@ -16,18 +16,18 @@ EditPatientDialog::EditPatientDialog(const QSharedPointer<Patient> &patient, QWi
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditPatientDialog::close);
 
     ui->healthCardNumberValueLabel->setText(QString::number(patient->getHealthCardNumber()));
-    ui->nameField->setText(patient->getName());
+    ui->nameLineEdit->setText(patient->getName());
 
     switch(patient->getRequiredCareType())
     {
     case CareTypeAcuteCare:
-        ui->ACRadio->setChecked(true);
+        ui->acuteCareRadioButton->setChecked(true);
         break;
     case CareTypeComplexContinuingCare:
-        ui->CCCRadio->setChecked(true);
+        ui->complexContinuingCareRadioButton->setChecked(true);
         break;
     case CareTypeLongTermCare:
-        ui->LTCRadio->setChecked(true);
+        ui->longTermCareRadioButton->setChecked(true);
         break;
     default:
         break;
@@ -41,17 +41,17 @@ EditPatientDialog::~EditPatientDialog()
 
 void EditPatientDialog::updatePatient()
 {
-    patient->setName(ui->nameField->text());
+    patient->setName(ui->nameLineEdit->text());
 
-    if(ui->ACRadio->isChecked())
+    if(ui->acuteCareRadioButton->isChecked())
     {
         patient->setRequiredCareType(CareTypeAcuteCare);
     }
-    else if(ui->CCCRadio->isChecked())
+    else if(ui->complexContinuingCareRadioButton->isChecked())
     {
         patient->setRequiredCareType(CareTypeComplexContinuingCare);
     }
-    else if(ui->LTCRadio->isChecked())
+    else if(ui->longTermCareRadioButton->isChecked())
     {
         patient->setRequiredCareType(CareTypeLongTermCare);
     }

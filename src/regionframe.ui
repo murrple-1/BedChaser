@@ -59,7 +59,7 @@
      <item>
       <layout class="QVBoxLayout" name="facilitiesVerticalLayout">
        <item>
-        <widget class="QLabel" name="listOfFacilitiesLabel">
+        <widget class="QLabel" name="facilitiesListLabel">
          <property name="text">
           <string>List of facilities:</string>
          </property>

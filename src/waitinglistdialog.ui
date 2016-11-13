@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Waiting List</string>
   </property>
-  <widget class="QListWidget" name="listWidget">
+  <widget class="QListWidget" name="patientsListWidget">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="addPButton">
+  <widget class="QPushButton" name="addPatientPushButton">
    <property name="geometry">
     <rect>
      <x>270</x>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>382</width>
-    <height>292</height>
+    <width>412</width>
+    <height>311</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,142 +38,51 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="nameField"/>
+      <widget class="QLineEdit" name="nameLineEdit"/>
      </item>
-     <item row="2" column="0" colspan="2">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="careLabel">
-         <property name="text">
-          <string>Type of care:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="ACRadio">
-         <property name="text">
-          <string>AC</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="CCCRadio">
-         <property name="text">
-          <string>CCC</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="LTCRadio">
-         <property name="text">
-          <string>LTC</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="QLabel" name="waitingListLabel">
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="careTypeLabel">
        <property name="text">
-        <string>Waiting List</string>
+        <string>Type of care:</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0" colspan="2">
-      <widget class="QScrollArea" name="scrollArea">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <item>
+      <widget class="QRadioButton" name="acuteCareRadioButton">
+       <property name="text">
+        <string>AC</string>
        </property>
-       <property name="maximumSize">
-        <size>
-         <width>300</width>
-         <height>16777215</height>
-        </size>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="complexContinuingCareRadioButton">
+       <property name="text">
+        <string>CCC</string>
        </property>
-       <property name="widgetResizable">
-        <bool>true</bool>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="longTermCareRadioButton">
+       <property name="text">
+        <string>LTC</string>
        </property>
-       <widget class="QWidget" name="scrollAreaWidgetContents">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>298</width>
-          <height>69</height>
-         </rect>
-        </property>
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2"/>
-       </widget>
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="waitingListLabel">
+     <property name="text">
+      <string>Waiting List</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="waitingListListWidget"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
