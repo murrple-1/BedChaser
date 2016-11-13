@@ -18,7 +18,6 @@ SOURCES += \
     loginframe.cpp \
     mainwindow.cpp \
     mapframe.cpp \
-    patientlistdialog.cpp \
     patientreportdialog.cpp \
     regionframe.cpp \
     searchwindow.cpp \
@@ -46,7 +45,6 @@ HEADERS  += \
     loginframe.h \
     mainwindow.h \
     mapframe.h \
-    patientlistdialog.h \
     patientreportdialog.h \
     regionframe.h \
     searchwindow.h \
@@ -70,7 +68,6 @@ FORMS    += \
     facilityreportdisplay.ui \
     loginframe.ui \
     mainwindow.ui \
-    patientlistdialog.ui \
     patientreportdialog.ui \
     regionframe.ui \
     searchwindow.ui \

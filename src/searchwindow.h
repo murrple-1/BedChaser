@@ -22,13 +22,12 @@ public:
 
     const QSharedPointer<QObject> & getChosenObject() const;
 private:
-    void addObject(const QString &prefix, const QString &name, const QSharedPointer<QObject> &);
     Ui::SearchWindow *ui;
 
-    QMap<QString, QSharedPointer<QObject> > objects;
+    UserType userType;
     QSharedPointer<QObject> chosenObject;
 private slots:
-    void searchLineEditChanged(const QString &);
+    void searchLineEditReturnPressed();
     void choseObject(const QModelIndex &);
 };
 

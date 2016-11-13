@@ -13,6 +13,11 @@ Patient::Patient(const QVariant &id, int healthCardNumber, const QString &name, 
 
 }
 
+int Patient::getID(bool *success) const
+{
+    return id.toInt(success);
+}
+
 int Patient::getHealthCardNumber() const
 {
     return healthCardNumber;

@@ -3,15 +3,13 @@
 
 #include "user.h"
 #include "datamanager.h"
-#include "exception.h"
 
 EditUserDialog::EditUserDialog(const QSharedPointer<User> &user, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::EditUserDialog)
+    ui(new Ui::EditUserDialog),
+    user(user)
 {
     ui->setupUi(this);
-
-    this->user = user;
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditUserDialog::updateUser);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditUserDialog::close);
@@ -39,31 +37,25 @@ EditUserDialog::~EditUserDialog()
 
 void EditUserDialog::updateUser()
 {
-    try {
-        if(!ui->passField->text().trimmed().isEmpty())
-        {
-            user->setPassword(ui->passField->text());
-        }
-
-        if(ui->typeCombo->currentText() == "Admin")
-        {
-            user->setType(UserTypeAdmin);
-        }
-        else if (ui->typeCombo->currentText() == "SysAdmin")
-        {
-            user->setType(UserTypeSystemAdmin);
-        }
-        else
-        {
-            user->setType(UserTypeStaff);
-        }
-
-        DataManager::sharedInstance().updateUser(*user);
-    }
-    catch(Exception &e)
+    if(!ui->passField->text().trimmed().isEmpty())
     {
-        // TODO
+        user->setPassword(ui->passField->text());
     }
+
+    if(ui->typeCombo->currentIndex() == 1)
+    {
+        user->setType(UserTypeAdmin);
+    }
+    else if (ui->typeCombo->currentIndex() == 2)
+    {
+        user->setType(UserTypeSystemAdmin);
+    }
+    else
+    {
+        user->setType(UserTypeStaff);
+    }
+
+    DataManager::sharedInstance().updateUser(*user);
 
     close();
 }

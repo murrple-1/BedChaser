@@ -27,7 +27,6 @@ DataManager::DataManager()
 
     if(!database.open())
     {
-        // TODO better messages
         throw Exception("Database failed to open");
     }
 

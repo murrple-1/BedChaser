@@ -9,7 +9,7 @@ namespace Ui {
 
 #include <QSharedPointer>
 
-class QListWidgetItem;
+class QModelIndex;
 
 class Region;
 
@@ -20,15 +20,13 @@ public:
     RegionFrame(const QSharedPointer<Region> &, QWidget *parent = 0);
     ~RegionFrame();
 private:
-    void updateFacilityList();
-
     Ui::RegionFrame *ui;
 
     QSharedPointer<Region> region;
 private slots:
     void waitingListClicked();
     void backButtonClicked();
-    void facilityListItemDoubleClicked(QListWidgetItem* item);
+    void facilityListItemDoubleClicked(const QModelIndex &index);
 signals:
     void goBack();
 };

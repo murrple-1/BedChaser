@@ -23,7 +23,6 @@ private:
     QSharedPointer<Facility> facility;
 private slots:
     void updateFacility();
-    void patientListClicked();
 };
 
 #endif // EDITFACILITYDIALOG_H

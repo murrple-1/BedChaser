@@ -1,18 +1,15 @@
 #include "editfacilitydialog.h"
 #include "ui_editfacilitydialog.h"
 
-#include "patientlistdialog.h"
 #include "facility.h"
 #include "datamanager.h"
-#include "exception.h"
 
 EditFacilityDialog::EditFacilityDialog(const QSharedPointer<Facility> &facility, QWidget *parent, Qt::WindowFlags f) :
     QDialog(parent, f),
-    ui(new Ui::EditFacilityDialog)
+    ui(new Ui::EditFacilityDialog),
+    facility(facility)
 {
     ui->setupUi(this);
-
-    this->facility = facility;
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditFacilityDialog::updateFacility);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &EditFacilityDialog::close);
@@ -32,26 +29,13 @@ EditFacilityDialog::~EditFacilityDialog()
 
 void EditFacilityDialog::updateFacility()
 {
-    try
-    {
-        facility->setNumberOfAcuteCareBeds(ui->ACSpin->value());
-        facility->setNumberOfComplexContinuingCareBeds(ui->CCCSpin->value());
-        facility->setNumberOfLongTermCareBeds(ui->LTCSpin->value());
-        facility->setName(ui->name->text());\
-        facility->setMapOffset(QPoint(ui->x->text().toInt(), ui->y->text().toInt()));
+    facility->setNumberOfAcuteCareBeds(ui->ACSpin->value());
+    facility->setNumberOfComplexContinuingCareBeds(ui->CCCSpin->value());
+    facility->setNumberOfLongTermCareBeds(ui->LTCSpin->value());
+    facility->setName(ui->name->text());\
+    facility->setMapOffset(QPoint(ui->x->text().toInt(), ui->y->text().toInt()));
 
-        DataManager::sharedInstance().updateFacility(*facility);
-    }
-    catch(Exception &e)
-    {
-        // TODO
-    }
+    DataManager::sharedInstance().updateFacility(*facility);
 
     close();
-}
-
-void EditFacilityDialog::patientListClicked()
-{
-    PatientListDialog wf(facility, this);
-    wf.exec();
 }
