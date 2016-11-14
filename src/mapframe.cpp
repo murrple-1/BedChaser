@@ -32,7 +32,7 @@ MapFrame::MapFrame(QWidget *parent) :
     {
         QPushButton *button = new QPushButton(region->getName());
         button->setProperty("regionId", region->getID());
-        connect(button, &QPushButton::clicked, this, &MapFrame::regionButtonClicked);
+        connect(button, &QPushButton::clicked, this, &MapFrame::showRegionDialog);
         const QPoint &mapOffset = region->getMapOffset();
         QGraphicsProxyWidget *proxyWidget = scene->addWidget(button);
         proxyWidget->setPos(QPointF(mapOffset));
@@ -41,12 +41,12 @@ MapFrame::MapFrame(QWidget *parent) :
     ui->mapGraphicsView->setScene(scene);
 }
 
-void MapFrame::regionButtonClicked()
+void MapFrame::showRegionDialog()
 {
     QPushButton *button = qobject_cast<QPushButton *>(QObject::sender());
     QMap<QString, QVariant> whereParams;
     whereParams.insert(":id", button->property("regionId"));
-    QSharedPointer<Region> region = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1, 0).first();
+    QSharedPointer<Region> region = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1).first();
     emit regionSelected(region);
 }
 

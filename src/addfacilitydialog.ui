@@ -27,7 +27,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="nameField">
+      <widget class="QLineEdit" name="nameLineEdit">
        <property name="placeholderText">
         <string>Enter Facility Name...</string>
        </property>
@@ -113,38 +113,7 @@
       </widget>
      </item>
      <item row="7" column="1">
-      <widget class="QComboBox" name="regionComboBox">
-       <item>
-        <property name="text">
-         <string>Renfrew County</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>North Lanark/North Grenville</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Ottawa West</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Ottawa Center</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Ottawa East</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Eastern Counties</string>
-        </property>
-       </item>
-      </widget>
+      <widget class="QComboBox" name="regionComboBox"/>
      </item>
     </layout>
    </item>

@@ -19,7 +19,7 @@ public:
 private:
     Ui::MapFrame *ui;
 private slots:
-    void regionButtonClicked();
+    void showRegionDialog();
 signals:
     void regionSelected(const QSharedPointer<Region> &);
 };

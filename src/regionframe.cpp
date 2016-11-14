@@ -28,6 +28,7 @@ RegionFrame::RegionFrame(const QSharedPointer<Region> &region, QWidget *parent) 
     ui->logoLabel->setAlignment(Qt::AlignCenter);
 
     QGraphicsScene *scene = new QGraphicsScene(this);
+    ui->mapGraphicsView->setScene(scene);
 
     QPixmap subMapPixmap;
     bool success = subMapPixmap.load(region->getSubMapFileInfo().filePath());
@@ -41,27 +42,7 @@ RegionFrame::RegionFrame(const QSharedPointer<Region> &region, QWidget *parent) 
         qWarning() << "Unable to load region map image";
     }
 
-    QPixmap facilityIcon;
-    facilityIcon.load("images/FacilityIcon.jpg");
-
-    QMap<QString, QVariant> whereParams;
-    whereParams.insert(":regions_id", region->getID());
-    QList<QSharedPointer<Facility> > facilities = DataManager::sharedInstance().getFacilities("`regions_id` = :regions_id", whereParams);
-    foreach(const QSharedPointer<Facility> &facility, facilities)
-    {
-        QGraphicsPixmapItem *item = scene->addPixmap(facilityIcon);
-        const QPoint &mapOffset = facility->getMapOffset();
-        item->setPos(QPointF(mapOffset));
-    }
-
-    ui->mapGraphicsView->setScene(scene);
-
-    foreach(const QSharedPointer<Facility> &facility, facilities)
-    {
-        QListWidgetItem *listItem = new QListWidgetItem(facility->getName());
-        listItem->setData(RegionIdRole, facility->getID());
-        ui->facilitiesListListWidget->addItem(listItem);
-    }
+    updateFacilities();
 }
 
 RegionFrame::~RegionFrame()
@@ -84,10 +65,47 @@ void RegionFrame::facilityListItemDoubleClicked(const QModelIndex &index)
 
     EditFacilityDialog ef(facility, this);
     ef.exec();
+
+    updateFacilities();
 }
 
 void RegionFrame::waitingListClicked()
 {
     WaitingListDialog waitingListDialog(region, this);
     waitingListDialog.exec();
+}
+
+void RegionFrame::updateFacilities()
+{
+    QGraphicsScene *scene = ui->mapGraphicsView->scene();
+
+    foreach(QGraphicsItem * const facilityIcon, facilityIcons)
+    {
+        scene->removeItem(facilityIcon);
+        delete facilityIcon;
+    }
+    facilityIcons.clear();
+
+    ui->facilitiesListListWidget->clear();
+
+    QPixmap facilityIcon;
+    facilityIcon.load("images/FacilityIcon.jpg");
+
+    QMap<QString, QVariant> whereParams;
+    whereParams.insert(":regions_id", region->getID());
+    QList<QSharedPointer<Facility> > facilities = DataManager::sharedInstance().getFacilities("`regions_id` = :regions_id", whereParams);
+    foreach(const QSharedPointer<Facility> &facility, facilities)
+    {
+        QGraphicsPixmapItem *item = scene->addPixmap(facilityIcon);
+        const QPoint &mapOffset = facility->getMapOffset();
+        item->setPos(QPointF(mapOffset));
+        facilityIcons.append(item);
+    }
+
+    foreach(const QSharedPointer<Facility> &facility, facilities)
+    {
+        QListWidgetItem *listItem = new QListWidgetItem(facility->getName());
+        listItem->setData(RegionIdRole, facility->getID());
+        ui->facilitiesListListWidget->addItem(listItem);
+    }
 }

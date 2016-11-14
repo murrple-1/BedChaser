@@ -10,6 +10,7 @@ namespace Ui {
 #include <QSharedPointer>
 
 class QModelIndex;
+class QGraphicsItem;
 
 class Region;
 
@@ -20,9 +21,12 @@ public:
     RegionFrame(const QSharedPointer<Region> &, QWidget *parent = 0);
     ~RegionFrame();
 private:
+    void updateFacilities();
+
     Ui::RegionFrame *ui;
 
     QSharedPointer<Region> region;
+    QList<QGraphicsItem *> facilityIcons;
 private slots:
     void waitingListClicked();
     void backButtonClicked();

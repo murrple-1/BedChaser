@@ -17,7 +17,7 @@
    <item>
     <widget class="QLineEdit" name="searchLineEdit">
      <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
+      <enum>Qt::StrongFocus</enum>
      </property>
      <property name="placeholderText">
       <string>Search...</string>

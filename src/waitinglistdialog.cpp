@@ -18,7 +18,7 @@ WaitingListDialog::WaitingListDialog(const QSharedPointer<Region> &region, QWidg
     ui->setupUi(this);
 
     connect(ui->patientsListWidget, &QListWidget::doubleClicked, this, &WaitingListDialog::listItemDoubleClicked);
-    connect(ui->addPatientPushButton, &QPushButton::clicked, this, &WaitingListDialog::addPatientButtonClicked);
+    connect(ui->addPatientPushButton, &QPushButton::clicked, this, &WaitingListDialog::showAddPatientsDialog);
 
     updateWaitingList();
 }
@@ -39,8 +39,8 @@ void WaitingListDialog::updateWaitingList()
     {
         QMap<QString, QVariant> _whereParams;
         _whereParams.insert(":id", waitingListEntry->getPatientId());
-        const QSharedPointer<Patient> &patient = DataManager::sharedInstance().getPatients("`id` = :id", _whereParams, QString(), 1).first();
-        QListWidgetItem *item = new QListWidgetItem(QString("%1 - %2").arg(patient->getHealthCardNumber()).arg(patient->getName()));
+        QSharedPointer<Patient> patient = DataManager::sharedInstance().getPatients("`id` = :id", _whereParams, QString(), 1).first();
+        QListWidgetItem *item = new QListWidgetItem(QString("%1 - %2").arg(patient->getHealthCareNumber()).arg(patient->getName()));
         item->setData(PatientIdRole, patient->getID());
         ui->patientsListWidget->addItem(item);
     }
@@ -55,7 +55,7 @@ void WaitingListDialog::listItemDoubleClicked(const QModelIndex &index)
     {
         QMap<QString, QVariant> whereParams;
         whereParams.insert(":regions_id", region->getID());
-        whereParams.insert("", index.data(PatientIdRole));
+        whereParams.insert(":patients_id", index.data(PatientIdRole));
         QSharedPointer<WaitingListEntry> waitingListEntry = DataManager::sharedInstance().getWaitingListEntries("`regions_id` = :regions_id AND `patients_id` = :patients_id", whereParams, QString(), 1).first();
         DataManager::sharedInstance().deleteWaitingListEntry(*waitingListEntry);
     }
@@ -70,7 +70,7 @@ void WaitingListDialog::listItemDoubleClicked(const QModelIndex &index)
     updateWaitingList();
 }
 
-void WaitingListDialog::addPatientButtonClicked()
+void WaitingListDialog::showAddPatientsDialog()
 {
     // TODO
 }

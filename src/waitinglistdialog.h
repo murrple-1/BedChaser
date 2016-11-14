@@ -27,7 +27,7 @@ private:
     QSharedPointer<Region> region;
 private slots:
     void listItemDoubleClicked(const QModelIndex &index);
-    void addPatientButtonClicked();
+    void showAddPatientsDialog();
 };
 
 #endif // WAITINGLISTDIALOG_H

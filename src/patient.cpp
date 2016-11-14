@@ -1,9 +1,9 @@
 #include "patient.h"
 
-Patient::Patient(const QVariant &id, int healthCardNumber, const QString &name, CareType requiredCareType, CareType receivedCareType, const QVariant &careFacilityId, const QDateTime &dateAdmitted, QObject *parent) :
+Patient::Patient(const QVariant &id, int healthCareNumber, const QString &name, CareType requiredCareType, CareType receivedCareType, const QVariant &careFacilityId, const QDateTime &dateAdmitted, QObject *parent) :
     QObject(parent),
     id(id),
-    healthCardNumber(healthCardNumber),
+    healthCareNumber(healthCareNumber),
     name(name),
     requiredCareType(requiredCareType),
     receivingCareType(receivedCareType),
@@ -18,9 +18,9 @@ int Patient::getID(bool *success) const
     return id.toInt(success);
 }
 
-int Patient::getHealthCardNumber() const
+int Patient::getHealthCareNumber() const
 {
-    return healthCardNumber;
+    return healthCareNumber;
 }
 
 const QString & Patient::getName() const

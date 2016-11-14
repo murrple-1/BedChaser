@@ -74,7 +74,7 @@
      <item row="3" column="0" colspan="2">
       <widget class="QLabel" name="waitingListsLabel">
        <property name="text">
-        <string>Waiting Lists</string>
+        <string>Waiting Lists (Ctrl-Click to Select Multiple)</string>
        </property>
       </widget>
      </item>
@@ -83,36 +83,6 @@
        <property name="selectionMode">
         <enum>QAbstractItemView::MultiSelection</enum>
        </property>
-       <item>
-        <property name="text">
-         <string>Renfrew County</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>North Lanark/North Grenville</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Ottawa West</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Ottawa Center</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Ottawa East</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Eastern Counties</string>
-        </property>
-       </item>
       </widget>
      </item>
     </layout>

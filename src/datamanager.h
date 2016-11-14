@@ -25,9 +25,9 @@ public:
     QList<QSharedPointer<Patient> > getPatients(const QString &whereClause = QString(), const QMap<QString, QVariant> &whereParams = QMap<QString, QVariant>(), const QString &sortClause = QString(), int limit = -1, int offset = 0);
     QList<QSharedPointer<WaitingListEntry> > getWaitingListEntries(const QString &whereClause = QString(), const QMap<QString, QVariant> &whereParams = QMap<QString, QVariant>(), const QString &sortClause = QString(), int limit = -1, int offset = 0);
 
-    void addPatient(const Patient &);
-    void addUser(const User &);
-    void addFacility(const Facility &);
+    QVariant addPatient(const Patient &);
+    QVariant addUser(const User &);
+    QVariant addFacility(const Facility &);
     void addWaitingListEntry(const WaitingListEntry &);
 
     void updatePatient(const Patient &);

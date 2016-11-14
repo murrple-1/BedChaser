@@ -51,7 +51,6 @@ void SearchWindow::choseObject(const QModelIndex &index)
     switch(objectType)
     {
     case ObjectTypeRegion:
-
         chosenObject = DataManager::sharedInstance().getRegions("`id` = :id", whereParams, QString(), 1).first();
         break;
     case ObjectTypeFacility:
@@ -113,7 +112,7 @@ void SearchWindow::searchLineEditReturnPressed()
         QList<QSharedPointer<Patient> > patients = DataManager::sharedInstance().getPatients("`name` LIKE :name", whereParams, "`id` ASC");
         foreach(const QSharedPointer<Patient> &patient, patients)
         {
-            QString completerString = QString("Patient - %1: %2").arg(patient->getName()).arg(patient->getHealthCardNumber());
+            QString completerString = QString("Patient - %1: %2").arg(patient->getName()).arg(patient->getHealthCareNumber());
             QListWidgetItem *item = new QListWidgetItem(completerString);
             item->setData(ObjectTypeRole, ObjectTypePatient);
             item->setData(ObjectIdRole, patient->getID());

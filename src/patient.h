@@ -19,10 +19,10 @@ class Patient : public QObject
 {
     Q_OBJECT
 public:
-    Patient(const QVariant &id, int healthCardNumber, const QString &name, CareType requiredCareType, CareType receivingCareType, const QVariant &careFacilityId, const QDateTime &dateAdmitted, QObject *parent = 0);
+    Patient(const QVariant &id, int healthCareNumber, const QString &name, CareType requiredCareType, CareType receivingCareType, const QVariant &careFacilityId, const QDateTime &dateAdmitted, QObject *parent = 0);
 
     int getID(bool *success = 0) const;
-    int getHealthCardNumber() const;
+    int getHealthCareNumber() const;
     const QString & getName() const;
     CareType getRequiredCareType() const;
     CareType getReceivingCareType() const;
@@ -36,7 +36,7 @@ public:
     void setDateAdmitted(const QDateTime &);
 private:
     QVariant id;
-    int healthCardNumber;
+    int healthCareNumber;
     QString name;
     CareType requiredCareType;
     CareType receivingCareType;

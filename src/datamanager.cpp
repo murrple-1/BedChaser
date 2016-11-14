@@ -56,7 +56,7 @@ void DataManager::setupTables()
         {
             if(!query.exec(_statement))
             {
-                throw Exception(QString("SQL Schema execution failed: %1").arg(query.lastError().text()).toLatin1());
+                throw Exception(QString(query.lastError().text()).toLatin1());
             }
         }
     }
@@ -70,12 +70,12 @@ void DataManager::setupTables()
         query.bindValue(":password_hash", passwordHash);
         if(!query.exec())
         {
-            throw Exception("SQL Create User failed");
+            throw Exception(query.lastError().text().toLatin1());
         }
     }
     else
     {
-        throw Exception("SQL Create User failed to prepare");
+        throw Exception(query.lastError().text().toLatin1());
     }
 
     QFile sqlCreateFile("sqlcreate.sql");
@@ -92,7 +92,7 @@ void DataManager::setupTables()
         {
             if(!query.exec(statement))
             {
-                throw Exception(QString("SQL Create execution failed: %1").arg(query.lastError().text()).toLatin1());
+                throw Exception(QString(query.lastError().text()).toLatin1());
             }
         }
     }
@@ -153,7 +153,7 @@ QList<QSharedPointer<Region> > DataManager::getRegions(const QString &whereClaus
     }
     else
     {
-        throw Exception("SQL statement error");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
@@ -171,19 +171,19 @@ QList<QSharedPointer<Facility> > DataManager::getFacilities(const QString &where
         {
             int id = query.value(0).toInt();
             QString name = query.value(1).toString();
-            int mapXOffset = query.value(2).toInt();\
-            int mapYOffset = query.value(3).toInt();
-            int numberOfAcuteCareBeds = query.value(4).toInt();
-            int numberOfComplexContinuingCareBeds = query.value(5).toInt();
-            int numberOfLongTermCareBeds = query.value(6).toInt();
-            QVariant regionId = query.value(7);
+            QVariant regionId = query.value(2);
+            int mapXOffset = query.value(3).toInt();\
+            int mapYOffset = query.value(4).toInt();
+            int numberOfAcuteCareBeds = query.value(5).toInt();
+            int numberOfComplexContinuingCareBeds = query.value(6).toInt();
+            int numberOfLongTermCareBeds = query.value(7).toInt();
             results.append(QSharedPointer<Facility>(new Facility(id, name, QPoint(mapXOffset, mapYOffset), numberOfAcuteCareBeds, numberOfComplexContinuingCareBeds, numberOfLongTermCareBeds, regionId)));
         }
         return results;
     }
     else
     {
-        throw Exception("SQL statement error");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
@@ -220,7 +220,7 @@ QList<QSharedPointer<Patient> > DataManager::getPatients(const QString &whereCla
     }
     else
     {
-        throw Exception("SQL statement error");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
@@ -246,7 +246,7 @@ QList<QSharedPointer<User> > DataManager::getUsers(const QString &whereClause, c
     }
     else
     {
-        throw Exception("SQL statement error");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
@@ -271,11 +271,11 @@ QList<QSharedPointer<WaitingListEntry> > DataManager::getWaitingListEntries(cons
     }
     else
     {
-        throw Exception("SQL statement error");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
-void DataManager::addPatient(const Patient &patient)
+QVariant DataManager::addPatient(const Patient &patient)
 {
     QSqlQuery query(database);
 
@@ -284,7 +284,7 @@ void DataManager::addPatient(const Patient &patient)
     database.transaction();
     query.prepare("INSERT INTO \"patients\" (`health_care_number`, `name`, `required_care_type`, `receiving_care_type`, `receiving_care_facilities_id`, `receiving_care_date_admitted`) VALUES "
                   "(:health_care_number, :name, :required_care_type, :receiving_care_type, :receiving_care_facilities_id, :receiving_care_date_admitted)");
-    query.bindValue(":health_care_number", patient.getHealthCardNumber());
+    query.bindValue(":health_care_number", patient.getHealthCareNumber());
     query.bindValue(":name", patient.getName());
     query.bindValue(":required_care_type", patient.getRequiredCareType());
     query.bindValue(":receiving_care_type", patient.getReceivingCareType());bool success;
@@ -300,16 +300,17 @@ void DataManager::addPatient(const Patient &patient)
     {
         database.commit();
         mutex.unlock();
+        return query.lastInsertId();
     }
     else
     {
         database.rollback();
         mutex.unlock();
-        throw Exception("SQL query failed");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
-void DataManager::addUser(const User &user)
+QVariant DataManager::addUser(const User &user)
 {
     QSqlQuery query(database);
 
@@ -325,16 +326,17 @@ void DataManager::addUser(const User &user)
     {
         database.commit();
         mutex.unlock();
+        return query.lastInsertId();
     }
     else
     {
         database.rollback();
         mutex.unlock();
-        throw Exception("SQL query failed");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
-void DataManager::addFacility(const Facility &facility)
+QVariant DataManager::addFacility(const Facility &facility)
 {
     QSqlQuery query(database);
 
@@ -362,12 +364,13 @@ void DataManager::addFacility(const Facility &facility)
     {
         database.commit();
         mutex.unlock();
+        return query.lastInsertId();
     }
     else
     {
         database.rollback();
         mutex.unlock();
-        throw Exception("SQL query failed");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
@@ -392,7 +395,7 @@ void DataManager::addWaitingListEntry(const WaitingListEntry &waitingListEntry)
     {
         database.rollback();
         mutex.unlock();
-        throw Exception("SQL query failed");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
@@ -404,7 +407,7 @@ void DataManager::updatePatient(const Patient &patient)
 
     database.transaction();
     query.prepare("UPDATE \"patients\" "
-                  "SET `name` = :name, `required_care_type` = :required_care_type, `receiving_care_type` = :receiving_care_type, `receiving_care_facilities_id` = :receiving_care_facilities_id, `receiving_care_date_admitted` = :receiving_care_date_admitted"
+                  "SET `name` = :name, `required_care_type` = :required_care_type, `receiving_care_type` = :receiving_care_type, `receiving_care_facilities_id` = :receiving_care_facilities_id, `receiving_care_date_admitted` = :receiving_care_date_admitted "
                   "WHERE `id` = :id");
     query.bindValue(":name", patient.getName());
     query.bindValue(":required_care_type", patient.getRequiredCareType());
@@ -416,8 +419,8 @@ void DataManager::updatePatient(const Patient &patient)
         facilityId = QVariant();
     }
     query.bindValue(":receiving_care_facilities_id", facilityId);
-    query.bindValue(":receiving_care_date_admitted", patient.getReceivingCareDateAdmitted());
-
+    query.bindValue(":receiving_care_date_admitted", patient.getReceivingCareDateAdmitted().toMSecsSinceEpoch());
+    query.bindValue(":id", patient.getID());
 
     if(query.exec())
     {
@@ -428,7 +431,7 @@ void DataManager::updatePatient(const Patient &patient)
     {
         database.rollback();
         mutex.unlock();
-        throw Exception("updating the patient failed");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
@@ -455,7 +458,7 @@ void DataManager::updateUser(const User &user)
     {
         database.rollback();
         mutex.unlock();
-        throw Exception("updating the user failed");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
@@ -494,7 +497,7 @@ void DataManager::updateFacility(const Facility &facility)
     {
         database.rollback();
         mutex.unlock();
-        throw Exception("updating the facility failed");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }
 
@@ -505,7 +508,7 @@ void DataManager::deleteWaitingListEntry(const WaitingListEntry &waitingListEntr
     mutex.lock();
 
     database.transaction();
-    query.prepare("DELETE FROM \"users\" "
+    query.prepare("DELETE FROM \"waiting_list_regions_patients_mappings\" "
                   "WHERE `regions_id` = :regions_id AND `patients_id` = :patients_id");
     query.bindValue(":regions_id", waitingListEntry.getRegionId());
     query.bindValue(":patients_id", waitingListEntry.getPatientId());
@@ -519,6 +522,6 @@ void DataManager::deleteWaitingListEntry(const WaitingListEntry &waitingListEntr
     {
         database.rollback();
         mutex.unlock();
-        throw Exception("updating the user failed");
+        throw Exception(query.lastError().text().toLatin1());
     }
 }

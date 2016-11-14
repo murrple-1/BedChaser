@@ -33,7 +33,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Add Patient </string>
+    <string>Add Patient(s)</string>
    </property>
   </widget>
  </widget>

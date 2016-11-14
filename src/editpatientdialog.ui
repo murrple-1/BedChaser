@@ -17,16 +17,16 @@
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
-      <widget class="QLabel" name="healthCardNumberLabel">
+      <widget class="QLabel" name="healthCareNumberLabel">
        <property name="text">
         <string>Health Care Number</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="healthCardNumberValueLabel">
+      <widget class="QLabel" name="healthCareNumberValueLabel">
        <property name="text">
-        <string>1010101</string>
+        <string>TextLabel</string>
        </property>
       </widget>
      </item>
@@ -77,12 +77,16 @@
    <item>
     <widget class="QLabel" name="waitingListLabel">
      <property name="text">
-      <string>Waiting List</string>
+      <string>Waiting Lists (Ctrl-Click to Select Multiple)</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="waitingListListWidget"/>
+    <widget class="QListWidget" name="waitingListListWidget">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::MultiSelection</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
