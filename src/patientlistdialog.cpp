@@ -4,8 +4,8 @@
 #include <QMessageBox>
 #include <QDebug>
 
-#include "patient.h"
 #include "datamanager.h"
+#include "addpatientsdialog.h"
 
 static const int PatientIdRole = Qt::UserRole + 1;
 
@@ -17,7 +17,9 @@ PatientListDialog::PatientListDialog(const QSharedPointer<Facility> &facility, Q
     ui->setupUi(this);
 
     connect(ui->patientsListWidget, &QListWidget::doubleClicked, this, &PatientListDialog::listItemDoubleClicked);
-    connect(ui->addPatientsPushButton, &QPushButton::clicked, this, &PatientListDialog::showAddPatientsDialog);
+    connect(ui->addAcuteCarePatientsPushButton, &QPushButton::clicked, this, &PatientListDialog::showAddPatientsDialog_acuteCare);
+    connect(ui->addComplexContinuingCarePatientsPushButton, &QPushButton::clicked, this, &PatientListDialog::showAddPatientsDialog_complexContinuingCare);
+    connect(ui->addLongTermCarePatientsPushButton, &QPushButton::clicked, this, &PatientListDialog::showAddPatientsDialog_longTermCare);
 
     updatePatientsList();
 }
@@ -59,6 +61,8 @@ void PatientListDialog::listItemDoubleClicked(const QModelIndex &index)
         patient->setDateAdmitted(QDateTime());
 
         DataManager::sharedInstance().updatePatient(*patient);
+
+        updatePatientsList();
     }
         break;
     case QMessageBox::No:
@@ -71,7 +75,51 @@ void PatientListDialog::listItemDoubleClicked(const QModelIndex &index)
     updatePatientsList();
 }
 
-void PatientListDialog::showAddPatientsDialog()
+void PatientListDialog::addPatients(CareType careType)
 {
-    // TODO
+    QMap<QString, QVariant> whereParams;
+    whereParams.insert(":receiving_care_facilities_id", facility->getID());
+    QList<QSharedPointer<Patient> > patients = DataManager::sharedInstance().getPatients("`receiving_care_facilities_id` = :receiving_care_facilities_id", whereParams);
+
+    AddPatientsDialog addPatientsDialog(patients);
+    int result = addPatientsDialog.exec();
+    switch(result)
+    {
+    case AddPatientsDialog::Accepted:
+    {
+        QDateTime now = QDateTime::currentDateTimeUtc();
+        QList<QSharedPointer<Patient> > patients = addPatientsDialog.selectedPatients();
+        foreach(const QSharedPointer<Patient> &patient, patients)
+        {
+            patient->setReceivingCareType(careType);
+            patient->setReceivingCareFacilityId(facility->getID());
+            patient->setDateAdmitted(now);
+
+            DataManager::sharedInstance().updatePatient(*patient);
+        }
+
+        updatePatientsList();
+    }
+        break;
+    case AddPatientsDialog::Rejected:
+        break;
+    default:
+        qWarning() << "Unknown response to Add Patients Dialog";
+        break;
+    }
+}
+
+void PatientListDialog::showAddPatientsDialog_acuteCare()
+{
+    addPatients(CareTypeAcuteCare);
+}
+
+void PatientListDialog::showAddPatientsDialog_complexContinuingCare()
+{
+    addPatients(CareTypeComplexContinuingCare);
+}
+
+void PatientListDialog::showAddPatientsDialog_longTermCare()
+{
+    addPatients(CareTypeLongTermCare);
 }

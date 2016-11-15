@@ -21,7 +21,6 @@ public:
     int getNumberOfLongTermCareBeds() const;
     int getRegionId(bool *ok = 0) const;
 
-    void setId(const QVariant &);
     void setName(const QString &);
     void setMapOffset(const QPoint &);
     void setNumberOfAcuteCareBeds(int);

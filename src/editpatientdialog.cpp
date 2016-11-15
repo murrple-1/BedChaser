@@ -106,19 +106,19 @@ void EditPatientDialog::updatePatient()
         }
     }
 
-    QStringList listStrings;
+    QStringList regionIdIdentifiers;
     QMap<QString, QVariant> whereParams;
     for(int i = 0; i < regionIds.count(); i++)
     {
         QString identifier = QString(":regions_id_%1").arg(i);
-        listStrings.append(identifier);
+        regionIdIdentifiers.append(identifier);
         whereParams.insert(identifier, regionIds.at(i));
     }
 
     whereParams.insert(":patients_id", patient->getID());
 
-    QString queryString = QString("`patients_id` = :patients_id AND `regions_id` NOT IN (%1)").arg(listStrings.join(','));
-    QList<QSharedPointer<WaitingListEntry> > toDeleteWaitingListEntries = DataManager::sharedInstance().getWaitingListEntries(queryString, whereParams);
+    QString whereClause = QString("`patients_id` = :patients_id AND `regions_id` NOT IN (%1)").arg(regionIdIdentifiers.join(','));
+    QList<QSharedPointer<WaitingListEntry> > toDeleteWaitingListEntries = DataManager::sharedInstance().getWaitingListEntries(whereClause, whereParams);
     foreach(const QSharedPointer<WaitingListEntry> &waitingListEntry, toDeleteWaitingListEntries)
     {
         DataManager::sharedInstance().deleteWaitingListEntry(*waitingListEntry);

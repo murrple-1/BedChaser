@@ -26,7 +26,8 @@ SOURCES += \
     facility.cpp \
     waitinglistentry.cpp \
     passwordhasher.cpp \
-    patientlistdialog.cpp
+    patientlistdialog.cpp \
+    addpatientsdialog.cpp
 
 HEADERS  += \
     addfacilitydialog.h \
@@ -50,7 +51,8 @@ HEADERS  += \
     facility.h \
     waitinglistentry.h \
     passwordhasher.h \
-    patientlistdialog.h
+    patientlistdialog.h \
+    addpatientsdialog.h
 
 FORMS    += \
     addfacilitydialog.ui \
@@ -66,7 +68,8 @@ FORMS    += \
     searchwindow.ui \
     waitinglistdialog.ui \
     mapframe.ui \
-    patientlistdialog.ui
+    patientlistdialog.ui \
+    addpatientsdialog.ui
 
 # recommended: download the most recent precompiled library here: https://download.libsodium.org/libsodium/releases/
 LIBSODIUM32_DIR = $$(LIBSODIUM32_DIR)
