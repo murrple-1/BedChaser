@@ -12,14 +12,16 @@ static const int maxPasswordLength = 128;
 
 ChangePasswordDialog::ChangePasswordDialog(const QSharedPointer<User> &user, QWidget *parent, Qt::WindowFlags f) :
     QDialog(parent, f),
-    ui(new Ui::ChangePasswordDialog)
+    ui(new Ui::ChangePasswordDialog),
+    user(user)
 {
     ui->setupUi(this);
 
-    this->user = user;
-
     ui->oldPasswordErrorLabel->setStyleSheet(errorLabelStylesheet);
+    ui->oldPasswordErrorLabel->setText(QString());
+
     ui->newPasswordErrorLabel->setStyleSheet(errorLabelStylesheet);
+    ui->newPasswordErrorLabel->setText(QString());
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &ChangePasswordDialog::updateUser);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &ChangePasswordDialog::close);

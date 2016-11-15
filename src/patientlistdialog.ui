@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WaitingListDialog</class>
- <widget class="QDialog" name="WaitingListDialog">
+ <class>PatientListDialog</class>
+ <widget class="QDialog" name="PatientListDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>460</width>
-    <height>375</height>
+    <width>400</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Waiting List</string>
+   <string>Dialog</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>

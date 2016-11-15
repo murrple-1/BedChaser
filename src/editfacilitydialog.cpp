@@ -5,6 +5,7 @@
 
 #include "facility.h"
 #include "datamanager.h"
+#include "patientlistdialog.h"
 
 EditFacilityDialog::EditFacilityDialog(const QSharedPointer<Facility> &facility, QWidget *parent, Qt::WindowFlags f) :
     QDialog(parent, f),
@@ -49,5 +50,6 @@ void EditFacilityDialog::updateFacility()
 
 void EditFacilityDialog::showPatientList()
 {
-    // TODO
+    PatientListDialog patientListDialog(facility, this);
+    patientListDialog.exec();
 }

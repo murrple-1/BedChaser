@@ -18,7 +18,7 @@ WaitingListDialog::WaitingListDialog(const QSharedPointer<Region> &region, QWidg
     ui->setupUi(this);
 
     connect(ui->patientsListWidget, &QListWidget::doubleClicked, this, &WaitingListDialog::listItemDoubleClicked);
-    connect(ui->addPatientPushButton, &QPushButton::clicked, this, &WaitingListDialog::showAddPatientsDialog);
+    connect(ui->addPatientsPushButton, &QPushButton::clicked, this, &WaitingListDialog::showAddPatientsDialog);
 
     updateWaitingList();
 }

@@ -61,7 +61,7 @@
        <item>
         <widget class="QLabel" name="facilitiesListLabel">
          <property name="text">
-          <string>List of facilities:</string>
+          <string>List of Facilities:</string>
          </property>
         </widget>
        </item>
