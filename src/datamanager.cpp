@@ -78,7 +78,11 @@ void DataManager::setupTables()
         throw Exception(query.lastError().text().toLatin1());
     }
 
+#ifdef QT_DEBUG
+    QFile sqlCreateFile("sqlcreate.dev.sql");
+#else
     QFile sqlCreateFile("sqlcreate.sql");
+#endif
     if(!sqlCreateFile.open(QFile::ReadOnly | QFile::Text))
     {
         throw Exception("SQL Create file failed to open");
@@ -96,6 +100,65 @@ void DataManager::setupTables()
             }
         }
     }
+
+#ifdef QT_DEBUG
+    qsrand(QDateTime::currentMSecsSinceEpoch());
+
+    QList<QSharedPointer<Patient> > patients = getPatients();
+
+    QList<QSharedPointer<Region> > regions = getRegions();
+
+    QDateTime now = QDateTime::currentDateTimeUtc();
+    for(int i = 0; i < 30; i++)
+    {
+        int patientsIndex = qrand() % patients.count();
+        int regionsIndex = qrand() % regions.count();
+
+        QSharedPointer<Patient> patient = patients.at(patientsIndex);
+        QSharedPointer<Region> region = regions.at(regionsIndex);
+
+        WaitingListEntry waitingListEntry(region->getID(), patient->getID(), now);
+        try
+        {
+            addWaitingListEntry(waitingListEntry);
+        }
+        catch(Exception &)
+        {
+            //  do nothing
+        }
+    }
+
+    QList<QSharedPointer<Facility> > facilities = getFacilities();
+    for(int i = 0; i < 15; i++)
+    {
+        int patientsIndex = qrand() % patients.count();
+        int facilitiesIndex = qrand() % facilities.count();
+
+        QSharedPointer<Patient> patient = patients.at(patientsIndex);
+        QSharedPointer<Facility> facility = facilities.at(facilitiesIndex);
+
+        CareType requiredCareType = CareTypeNone;
+        int _requiredCareType = qrand() % 3;
+        switch(_requiredCareType)
+        {
+        case 0:
+            requiredCareType = CareTypeAcuteCare;
+            break;
+        case 1:
+            requiredCareType = CareTypeComplexContinuingCare;
+            break;
+        case 2:
+            requiredCareType = CareTypeLongTermCare;
+            break;
+        }
+
+        patient->setReceivingCareType(requiredCareType);
+        patient->setReceivingCareFacilityId(facility->getID());
+        patient->setDateAdmitted(now);
+
+        updatePatient(*patient);
+    }
+#endif
 }
 
 void DataManager::buildSelectQuery(QSqlQuery &query, const QString &selectClause, const QString &whereClause, const QMap<QString, QVariant> &whereParams, const QString &sortClause, int limit, int offset)

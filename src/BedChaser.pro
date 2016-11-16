@@ -95,7 +95,7 @@ imageFiles.files = $$PWD/images/*
 sqlFiles.path = $$OUT_PWD
 sqlFiles.files = \
     $$PWD/sqlschema.sql \
-    $$PWD/sqlcreate.sql
+    $$PWD/sqlcreate.dev.sql
 
 INSTALLS += \
     imageFiles \

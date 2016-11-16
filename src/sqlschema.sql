@@ -42,5 +42,6 @@ CREATE TABLE "waiting_list_regions_patients_mappings" (
 	`patients_id` INTEGER NOT NULL,
 	`date_added` INTEGER NOT NULL,
 	PRIMARY KEY (`regions_id`, `patients_id`),
-	FOREIGN KEY (`regions_id`) REFERENCES "regions" (`id`)
+	FOREIGN KEY (`regions_id`) REFERENCES "regions" (`id`),
+	FOREIGN KEY (`patients_id`) REFERENCES "patients" (`id`)
 );

@@ -10,9 +10,9 @@
 typedef enum
 {
     CareTypeNone,
+    CareTypeAcuteCare,
     CareTypeComplexContinuingCare,
-    CareTypeLongTermCare,
-    CareTypeAcuteCare
+    CareTypeLongTermCare
 } CareType;
 
 class Patient : public QObject
